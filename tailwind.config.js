@@ -1,19 +1,33 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      sm: "570px",
+      md: "570px",
+      lg: "570px",
+      xl: "570px",
+      "2xl": "570px",
+    },
+    container: {
+      center: true,
+    },
     extend: {
-      extend: {
-        backgroundImage: (theme) => ({
-          logo: "url('svg/Tata-gluco-logo.svg')",
-          ss: "url('/svg/star.svg')",
-        }),
+      backgroundImage: {
+        quiz_bg: "url('/images/bg_quiz_screen.png')",
       },
       fontFamily: {
-        Inter: ["Inter", "sans-serif"],
-        LtEnergy: ["LT Energy", "sans-serif"],
-        Heebo:["Heebo","sans-serif"],
-        DarkerGrotesque:["DarkerGrotesque","sans-serif"],
+        Barlow: ["Barlow", "sans-serif"],
+        RiftSoft: ["Rift Soft", "sans-serif"],
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        fadeIn: "fadeIn 0.5s ease-in",
       },
     },
   },
