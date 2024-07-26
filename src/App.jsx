@@ -1,4 +1,5 @@
 import Home from "./pages/Home";
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import Interaction from "./pages/Interaction";
@@ -16,6 +17,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+
   );
 }
 
