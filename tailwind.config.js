@@ -19,6 +19,7 @@ export default {
       fontFamily: {
         Barlow: ["Barlow", "sans-serif"],
         RiftSoft: ["Rift Soft", "sans-serif"],
+        Montserrat:["Montserrat","sans-serif"]
       },
       keyframes: {
         fadeIn: {

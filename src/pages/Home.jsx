@@ -1,9 +1,8 @@
-import React from "react";
 
 function Home() {
   return (
     <div
-      className={`bg-[url('/gif/bg-gif.gif')] bg-cover bg-no-repeat h-full md:rounded-2xl p-6 `}
+      className={` md:rounded-2xl p-6 `}
     >
       <div className="flex flex-col h-full">
         <div className="flex flex-1 flex-col justify-center items-center ">

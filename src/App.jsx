@@ -1,11 +1,22 @@
-import React from "react";
 import Home from "./pages/Home";
-import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout";
+import Interaction from "./pages/Interaction";
+import NoPage from "./components/NoPage";
 
 function App() {
   return (
-    <div className="md:w-[360px] w-screen md:h-[800px] h-screen  md:mt-20  md:rounded-2xl">
-      <Home />
+    <div className="">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/interaction" element={<Interaction />} />
+            {/* <Route path="contact" element={<Contact />} /> */}
+            <Route path="*" element={<NoPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
