@@ -6,18 +6,16 @@ import NoPage from "./components/NoPage";
 
 function App() {
   return (
-    <div className="">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/interaction" element={<Interaction />} />
-            {/* <Route path="contact" element={<Contact />} /> */}
-            <Route path="*" element={<NoPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/interaction" element={<Interaction />} />
+          {/* <Route path="contact" element={<Contact />} /> */}
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
