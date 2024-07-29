@@ -16,15 +16,12 @@
   font-weight: 300;
   src: url("/fonts/Rift Soft Demi.otf");
 }
-/* 
-body {
-  width: 100%;
-  margin: 0;
-  padding: 0%;
-  display: flex;
-  justify-content: center;
 
-} */
+body {
+  background-color: #000;
+  color:#1E1E1E
+
+} 
 .montserrat {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
