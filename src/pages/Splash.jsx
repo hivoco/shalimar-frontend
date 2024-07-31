@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const Splash = () => {
   const [isAnimating, setIsAnimating] = useState(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const items = [
     {
       title: "Explore",
@@ -23,9 +24,11 @@ const Splash = () => {
     {
       title: "Find Trusted Painter",
       icon: "/svgs/paint.svg",
-      path: "#",
+      path: "/get-your-nearest-painters",
     },
   ];
+
+ 
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -65,14 +68,14 @@ const Splash = () => {
             <img
               className="group-hover:animate-bounceLR"
               src="/svgs/arrow.svg"
-              alt=""
+              alt="arrow"
             />
           </div>
         ))}
       </div>
 
       <img
-        className="absolute bottom-[70px] right-0 m-auto left-0"
+        className=" pb-[70px] pt-20 right-0 m-auto left-0"
         src="/images/powered.png"
         alt="Powered"
       />

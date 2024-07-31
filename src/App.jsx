@@ -7,6 +7,8 @@ import NoPage from "./components/NoPage";
 import Splash from "./pages/Splash";
 import Location from "./pages/Location";
 import DelearDetails from "./pages/DelearDetails";
+import PainterLocation from "./pages/PainterLocation";
+import PainterDetails from "./pages/PainterDetails";
 
 function App() {
   return (
@@ -17,6 +19,14 @@ function App() {
           <Route path="/interaction" element={<Interaction />} />
           <Route path="/explore-your-experience" element={<Splash />} />
           <Route path="/enter-your-location" element={<Location />} />
+          <Route
+            path="/get-painter-using-location"
+            element={<PainterLocation />}
+          />
+          <Route
+            path="/get-your-nearest-painters"
+            element={<PainterDetails />}
+          />
           <Route path="/get-your-nearest-dealers" element={<DelearDetails />} />
           <Route path="*" element={<NoPage />} />
         </Route>
