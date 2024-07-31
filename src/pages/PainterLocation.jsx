@@ -11,6 +11,7 @@ function PainterLocation() {
     // console.log("getaddress", info.address_line2);
     setCurrectaddress(info.address_line2);
   };
+
   return (
     <div className=" pt-10 w-full h-full">
       {/* <div className="bg-white px-[10px] py-[6px] text-[#E30713] rounded-full text-base font-semibold montserrat w-fit mt-9 mx-auto">
@@ -25,7 +26,8 @@ function PainterLocation() {
         </h6>
         <div className="border-4  border-[#E6F3FF80] rounded-xl p-3 flex items-center mt-4 gap-[3px]">
           <input
-            type="number"
+            inputMode="numeric"
+            max={6}
             className="flex flex-1 bg-transparent placeholder:text-white outline-none montserrat text-base font-semibold"
             placeholder="Enter Pincode"
           />
@@ -44,7 +46,7 @@ function PainterLocation() {
       <img
         className="w-full object-fit "
         src="/images/paint-box-collage.png"
-        alt=""
+        alt="paint-box-collage"
       />
     </div>
   );

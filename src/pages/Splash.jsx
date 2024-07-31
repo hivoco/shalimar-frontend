@@ -24,7 +24,7 @@ const Splash = () => {
     {
       title: "Find Trusted Painter",
       icon: "/svgs/paint.svg",
-      path: "/get-your-nearest-painters",
+      path: "/get-painter-using-location",
     },
   ];
 

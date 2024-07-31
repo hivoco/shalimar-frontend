@@ -23,7 +23,7 @@ function Header({ isarrow, isexit }) {
         />
       </div>
       {isexit && (
-        <small className="montserrat font-semibold text-lg underline text-white">
+        <small className="font-Montserrat font-semibold text-lg underline text-white">
           Exit
         </small>
       )}
