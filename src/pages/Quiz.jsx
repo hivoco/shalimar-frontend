@@ -42,7 +42,7 @@ function Quiz() {
 
   function handleClick() {
     setTimeout(() => {
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex((prev) =>prev===quizData.length-1 ? prev:prev+1);
       setSelectedOption(null);
     }, 1 * 1000);
   }
@@ -78,7 +78,9 @@ function Quiz() {
 
       <div className="flex w-full">
         <div className="py-5  w-5/6 shadow-[0_2px_16px_#00000059]    bg-white rounded-xl mx-auto">
-          <button className="mx-[15px] py-[2px]  px-[10px] rounded-3xl text-white font-Montserrat text-xs font-semibold leading-[16.8px] text-center bg-[#E30713]"></button>
+          <button className="mx-[15px] py-[2px]  px-[10px] rounded-3xl text-white font-Montserrat text-xs font-semibold leading-[16.8px] text-center bg-[#E30713]">
+            {currentIndex+1}/10
+          </button>
 
           <h1 className=" px-[15px]  font-Montserrat text-lg font-semibold  text-left text-[#1E1E1E] mt-4">
             {currentQuestion.ques}

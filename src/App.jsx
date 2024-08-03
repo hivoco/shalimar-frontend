@@ -1,4 +1,5 @@
 import Home from "./pages/Home";
+// import Test from "./components/Test";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
@@ -23,6 +24,9 @@ function App() {
           <Route path="/explore-your-experience" element={<Splash />} />
           <Route path="/enter-your-location" element={<Location />} />
           <Route path="/get-your-nearest-dealers" element={<DelearDetails />} />
+
+          {/* <Route path="/test" element={<Test/>} /> */}
+
 
 
           <Route

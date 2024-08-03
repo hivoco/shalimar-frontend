@@ -1,20 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
+import { useNavigate } from "react-router-dom";
 
 const Splash = () => {
   const [isAnimating, setIsAnimating] = useState(true);
   const navigate = useNavigate();
+  const uniqueId = uuidv4();
+  useEffect(() => {
+    sessionStorage.setItem("uuId", uniqueId);
+  }, []);
+
+  const handleClick = (path) => {
+    if (path === "/interaction") {
+      navigate(path, { state: uniqueId });
+    } else {
+      navigate(path);
+    }
+  };
+
   const items = [
     {
       title: "Explore",
       icon: "/svgs/search.svg",
-      path: "#",
+      path: "/interaction",
     },
     {
       title: "Play to Win",
       icon: "/svgs/parcel.svg",
-      path: "#",
+      path: "/quiz",
     },
     {
       title: "Find nearest Dealer",
@@ -27,8 +41,6 @@ const Splash = () => {
       path: "/get-painter-using-location",
     },
   ];
-
- 
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -51,7 +63,7 @@ const Splash = () => {
       <div className={`mt-[5.25rem] md:mt:[2rem] `}>
         {items?.map((e, index) => (
           <div
-            onClick={() => navigate(e.path)}
+            onClick={() => handleClick(e.path)}
             key={index}
             className={`group rounded-[9rem] w-full bg-white montserrat text-xl font-semibold text-center py-3 px-3 border-[3px] mb-3 border-[#FFD076] flex items-center cursor-pointer hover:shadow-xl ${
               !isAnimating

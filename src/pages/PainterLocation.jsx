@@ -13,7 +13,7 @@ function PainterLocation() {
   };
 
   return (
-    <div className=" pt-10 w-full h-full">
+    <div className=" pt-10 w-full ">
       {/* <div className="bg-white px-[10px] py-[6px] text-[#E30713] rounded-full text-base font-semibold montserrat w-fit mt-9 mx-auto">
         00:30
       </div> */}
@@ -44,7 +44,7 @@ function PainterLocation() {
         </div>
       </section>
       <img
-        className="w-full object-fit "
+        className="mx-auto w-screen mt-2"
         src="/images/paint-box-collage.png"
         alt="paint-box-collage"
       />
