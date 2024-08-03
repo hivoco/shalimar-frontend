@@ -81,9 +81,16 @@ const Splash = () => {
           >
             <div className="flex flex-1 gap-2 items-center">
               <img src={e.icon} alt="" />
-              <strong className="montserrat text-base font-semibold">
-                {e.title}
-              </strong>
+              <div className="flex flex-col items-start">
+                <strong className="montserrat text-base font-semibold">
+                  {e.title}
+                </strong>
+                {["Find Trusted Painter", "Play to Win"].includes(e.title) && (
+                  <span className="montserrat text-xs font-semibold ">
+                    Coming Soon...{" "}
+                  </span>
+                )}
+              </div>
             </div>
             <img
               className="group-hover:animate-bounceLR"
