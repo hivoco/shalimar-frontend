@@ -63,9 +63,17 @@ const Splash = () => {
       <div className={`mt-[5.25rem] md:mt:[2rem] `}>
         {items?.map((e, index) => (
           <div
-            onClick={() => handleClick(e.path)}
+            onClick={() =>
+              ["Find Trusted Painter", "Play to Win"].includes(e.title)
+                ? {}
+                : handleClick(e.path)
+            }
             key={index}
-            className={`group rounded-[9rem] w-full bg-white montserrat text-xl font-semibold text-center py-3 px-3 border-[3px] mb-3 border-[#FFD076] flex items-center cursor-pointer hover:shadow-xl ${
+            className={`${
+              ["Find Trusted Painter", "Play to Win"].includes(e.title)
+                ? "bg-[#D6D6D6] border-[#D6D6D6] cursor-not-allowed"
+                : "bg-white border-[#FFD076]"
+            } group rounded-[9rem] w-full  montserrat text-xl font-semibold text-center py-3 px-3 border-[3px] mb-3  flex items-center cursor-pointer hover:shadow-xl ${
               !isAnimating
                 ? "opacity-100 scale-100 transition-all duration-700 delay-200"
                 : "opacity-0 scale-50"
