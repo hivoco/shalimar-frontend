@@ -64,9 +64,10 @@ const Splash = () => {
         {items?.map((e, index) => (
           <div
             onClick={() =>
-              ["Find Trusted Painter", "Play to Win"].includes(e.title)
-                ? {}
-                : handleClick(e.path)
+              // ["Find Trusted Painter", "Play to Win"].includes(e.title)
+              //   ? {}
+              //   :
+              handleClick(e.path)
             }
             key={index}
             className={`${

@@ -3,8 +3,6 @@ import useSpeechRecognition from "../hooks/useSpeechRecognition";
 import HivocoPowered from "../components/HivocoPowered";
 import { useLocation } from "react-router-dom";
 
-
-
 function Interaction() {
   const {
     startSpeechRecognition,
@@ -16,9 +14,8 @@ function Interaction() {
     setSpeechText,
   } = useSpeechRecognition();
 
-
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
-  const [isVideoRendering,setIsVideoRendering]=useState(false)
+  const [isVideoRendering, setIsVideoRendering] = useState(false);
 
   const [startClicked, setStartClicked] = useState(false);
   const audioRef = useRef(null);
@@ -26,7 +23,6 @@ function Interaction() {
 
   const location = useLocation();
   const uuId = location.state;
-
 
   // const [userText, setUserText]  = useState("start interactivedemos")
 
@@ -55,6 +51,7 @@ function Interaction() {
     }
   }
 
+  
   const playAudio = (audioBase64) => {
     const audioSrc = `data:audio/mp3;base64,${audioBase64}`;
     if (audioRef.current) {
@@ -64,7 +61,7 @@ function Interaction() {
   };
 
   const displayVideo = (videoSrc) => {
-    setIsVideoRendering(true)
+    setIsVideoRendering(true);
     console.log(videoSrc);
     if (videoRef.current) {
       videoRef.current.src = videoSrc;
@@ -96,7 +93,7 @@ function Interaction() {
 
   function handleAudioEnd() {
     startSpeechRecognition();
-    setIsVideoRendering(false)
+    setIsVideoRendering(false);
     setIsUserSpeaking(true);
   }
 
