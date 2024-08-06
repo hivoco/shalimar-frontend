@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import useSpeechRecognition from "../hooks/useSpeechRecognition";
 import HivocoPowered from "../components/HivocoPowered";
 import { useLocation } from "react-router-dom";
+import PopUp from "../components/PopUp";
+import SelectLanguage from "../components/SelectLanguage";
 
 function Interaction() {
   const {
@@ -14,6 +16,7 @@ function Interaction() {
     setSpeechText,
   } = useSpeechRecognition();
 
+  const [language, setLanguage] = useState('');
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
   const [isVideoRendering, setIsVideoRendering] = useState(false);
 
@@ -23,13 +26,17 @@ function Interaction() {
 
   const location = useLocation();
   const uuId = location.state;
-
+  
   // const [userText, setUserText]  = useState("start interactivedemos")
+
+  console.log(language);
+  
 
   async function sendTextToBackend(text) {
     try {
       let response = await fetch(
-        "https://shalimar.interactivedemos.io/api/interactivedemos/process",
+        "http://192.168.1.22:8502/api/interactivedemos/process",
+        // "https://shalimar.interactivedemos.io/api/interactivedemos/process",
         {
           method: "POST",
           headers: {
@@ -37,6 +44,7 @@ function Interaction() {
           },
           body: JSON.stringify({
             data: text,
+            language:language,
             session_id: uuId,
           }),
         }
@@ -70,7 +78,6 @@ function Interaction() {
   };
 
   const enter = async () => {
-    console.log("object");
     let value = speechText.trim();
     console.log("value", value);
 
@@ -102,21 +109,27 @@ function Interaction() {
     enter();
   }
 
-  console.log(hasRecognitionEnded);
+  // console.log(hasRecognitionEnded);
 
   return (
     <div
-      className={`${isVideoRendering ? "min-h-screen flex items-center" : ""}`}
+      className={`${
+        isVideoRendering ? "h-screen flex items-center" : ""
+      } w-full relative`}
     >
-      <audio
-        ref={audioRef}
-        onEnded={handleAudioEnd}
-        // onEnded={startSpeechRecognition}
-        className="hidden"
-      ></audio>
+      {!language && (
+        <PopUp bg={"transparent"}>
+          <SelectLanguage setLanguage={setLanguage} />
+        </PopUp>
+      )}
+
+      <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
 
       <video
-        className={`${isVideoRendering ? "" : "hidden"} animate-fadeIn  `}
+        className={`${
+          isVideoRendering ? "h-full md:h-auto w-full" : "hidden"
+        } animate-fadeIn object-cover  `}
+        // onEnded={}
         ref={videoRef}
         loop
       >
@@ -125,11 +138,15 @@ function Interaction() {
 
       {!isVideoRendering && (
         <div
-          className={`w-full   pt-20 pb-[4.375rem] z-40  ${
+          className={`w-full pt-20 pb-[4.375rem] z-40 ${
             !isUserSpeaking ? "" : ""
           } `}
         >
-          <div className="w-full flex flex-col gap-3">
+          <div
+            className={`w-full flex flex-col gap-3  ${
+              isUserSpeaking ? "md:m-0" : "md:mt-20"
+            }`}
+          >
             <div className=" flex flex-col gap-1 px-9 md:w-full">
               <div className="w-full flex gap-[1.5px] items-center justify-center ">
                 <img
@@ -154,8 +171,9 @@ function Interaction() {
               {/* no gap  since the mic img it seen somehwere else , and on dom present somehwere else so  */}
 
               {isUserSpeaking ? (
-                <div className="flex flex-col items-center justify-center my-[4.57rem]">
+                <div className="flex flex-col items-center justify-center my-[4.57rem] md:m-0 md:mb-2">
                   <img src="/svgs/listening.svg" alt="listening" />
+                  {/* <img src="/public/gif/listening-gif.gif" alt="listening" /> */}
                   <p className="text-white text-lg font-semibold leading-[25px] text-center">
                     Listening...
                   </p>
@@ -164,12 +182,13 @@ function Interaction() {
                 !isVideoRendering && (
                   <div className="w-full ">
                     <img
-                      className="w-full h-[16.55rem] "
+                      className="w-full h-[16.55rem] md:h-auto md:aspect-[1.36]"
                       src="/images/shalimar-paints.png"
                       alt=""
                     />
+
                     <img
-                      className="w-24   mx-auto  -translate-y-1/2"
+                      className="w-[100px] mx-auto -translate-y-1/2"
                       src="/svgs/rounded-mic.svg"
                       alt="rounded-mic image"
                     />
@@ -181,7 +200,7 @@ function Interaction() {
                 <div
                   className={`${
                     isUserSpeaking ? "opacity-70" : ""
-                  } relative w-[82vw]  mx-auto flex justify-center items-center`}
+                  } relative w-[82vw]  md:w-auto mx-auto flex justify-center items-center `}
                 >
                   {/* <audio
          ref={audioRef}
@@ -193,19 +212,19 @@ function Interaction() {
                   {!startClicked ? (
                     <button
                       onClick={handleClick}
-                      className={`  py-4  px-6  rounded-xl border-[4px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none`}
+                      className={`py-3 px-[18px] rounded-[52px] border-[2px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none`}
                     >
                       Start
                     </button>
                   ) : (
                     <>
                       <input
-                        className={` w-full py-4 pl-6 pr-12  rounded-xl border-[4px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none `}
+                        className={` w-full py-4 px-12  rounded-xl border-[4px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none `}
                         placeholder="Speak or Type to interact..."
                         type="text"
                       />
 
-                      <svg
+                      {/* <svg
                         className="absolute top-1/2  -translate-y-1/2 left-3"
                         width="2"
                         height="23"
@@ -219,7 +238,7 @@ function Interaction() {
                           d="M0 22.3933L0 0.393311L2 0.393311L2 22.3933H0Z"
                           fill="#1E1E1E"
                         />
-                      </svg>
+                      </svg> */}
 
                       <svg
                         className="absolute top-1/2  -translate-y-1/2 right-4"

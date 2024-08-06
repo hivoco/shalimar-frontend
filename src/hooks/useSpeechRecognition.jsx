@@ -7,8 +7,7 @@ const useSpeechRecognition = () => {
   const [hasRecognitionEnded, setHasRecognitionEnded] = useState(false);
   //   const [userText, setUserText]  = useState("")
 
-
-  console.log(speechText);
+  // console.log(speechText);
   //   const imageRef = useRef();
 
   const handleSpeechResult = (e) => {
@@ -21,14 +20,12 @@ const useSpeechRecognition = () => {
 
   const handleSpeechEnd = (e) => {
     e.stopImmediatePropagation();
-    setHasRecognitionEnded(true)
+    setHasRecognitionEnded(true);
 
     // if (imageRef.current) {
     //   imageRef.current.click();
     // }
     // setIsSpeechRecognitionActive(false);
-
-
   };
 
   const startSpeechRecognition = () => {
@@ -76,7 +73,7 @@ const useSpeechRecognition = () => {
     stopSpeechRecognition,
     handleSpeechEnd,
     hasRecognitionEnded,
-    setHasRecognitionEnded
+    setHasRecognitionEnded,
   };
 };
 

@@ -11,7 +11,6 @@ import Location from "./pages/Location";
 import DelearDetails from "./pages/DelearDetails";
 import PainterLocation from "./pages/PainterLocation";
 import PainterDetails from "./pages/PainterDetails";
-
 import Quiz from "./pages/Quiz";
 
 function App() {
@@ -25,7 +24,7 @@ function App() {
           <Route path="/enter-your-location" element={<Location />} />
           <Route path="/get-your-nearest-dealers" element={<DelearDetails />} />
 
-          {/* <Route path="/test" element={<Test/>} /> */}
+          {/* <Route path="/lang" element={<SelectLang/>} /> */}
 
 
 

@@ -1,14 +1,16 @@
 import Header from "../components/Header";
-import DelearCard from "../components/DelearCard";
-
 import { Link, useLocation } from "react-router-dom";
 
 function DelearDetails() {
+  const location = useLocation();
+  const data = location.state.result.data;
 
-  const location=useLocation()
-  const data =location.state.result.data
+  // console.log(location);
 
-  console.log(location);
+  if (data.length === 0) {
+    return <h3> no location found or returned </h3>;
+  }
+
   return (
     <div className=" pt-10 w-full h-full">
       <div className="px-6">
@@ -17,7 +19,7 @@ function DelearDetails() {
       <section className=" text-white px-6 mt-4 mb-5 ">
         <div className="flex items-center border-b-[0.5px] border-[#FFFFFF80] pb-2">
           <img src="/svgs/location-pin.svg" alt="Location-Pin" />
-          <h6 className="montserrat text-base font-medium">203022</h6>
+          <h6 className="font-Montserrat text-base font-medium">203022</h6>
         </div>
       </section>
       <section className="px-6">
@@ -35,7 +37,7 @@ function DelearDetails() {
                   srcSet=""
                 />
                 <div className="flex flex-col gap-1">
-                  <small className="text-sm font-semibold montserrat">
+                  <small className="text-sm font-semibold font-Montserrat">
                     {dealer.name}
                   </small>
                   <small className="text-xs font-semibold ">location</small>
@@ -49,22 +51,14 @@ function DelearDetails() {
                 </div>
               </div>
               <Link to={"#"}>
-                <strong className="underline font-normal montserrat  text-base">
+                <strong className="underline font-normal font-Montserrat  text-base">
                   Connect
                 </strong>
               </Link>
             </div>
           );
         })}
-        {/* <DelearCard />
-        <DelearCard />
-        <DelearCard />
-        <DelearCard />
-        <DelearCard />
-        <DelearCard />
-        <DelearCard />
-        <DelearCard />
-        <DelearCard /> */}
+
       </section>
     </div>
   );

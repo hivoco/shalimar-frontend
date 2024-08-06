@@ -53,7 +53,7 @@ const Splash = () => {
   return (
     <div className="relative h-full w-full text-center p-[34px] md:p-6">
       <img
-        className={`mt-[8.75rem] md:mt-[3rem] mx-auto ${
+        className={`mt-[8.75rem] md:mt-[1rem] mx-auto ${
           isAnimating ? "animate-positionToCenter" : "animate-centerToPosition"
         }`}
         src="/images/logo-col.png"
@@ -64,11 +64,10 @@ const Splash = () => {
         {items?.map((e, index) => (
           <div
             onClick={() =>
-              // ["Find Trusted Painter", "Play to Win"].includes(e.title)
-              //   ? {}
-              //   :
-              handleClick(e.path)
+              ["Find Trusted Painter", "Play to Win"].includes(e.title)
+                ? {}: handleClick(e.path)
             }
+
             key={index}
             className={`${
               ["Find Trusted Painter", "Play to Win"].includes(e.title)
