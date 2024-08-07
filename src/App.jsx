@@ -12,6 +12,7 @@ import DelearDetails from "./pages/DelearDetails";
 import PainterLocation from "./pages/PainterLocation";
 import PainterDetails from "./pages/PainterDetails";
 import Quiz from "./pages/Quiz";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
@@ -24,9 +25,7 @@ function App() {
           <Route path="/enter-your-location" element={<Location />} />
           <Route path="/get-your-nearest-dealers" element={<DelearDetails />} />
 
-          {/* <Route path="/lang" element={<SelectLang/>} /> */}
-
-
+          <Route path="/sign-up" element={<SignUp />} />
 
           <Route
             path="/get-painter-using-location"
