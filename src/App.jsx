@@ -13,8 +13,45 @@ import PainterLocation from "./pages/PainterLocation";
 import PainterDetails from "./pages/PainterDetails";
 import Quiz from "./pages/Quiz";
 import SignUp from "./components/SignUp";
+import { useEffect } from "react";
 
 function App() {
+  const postData = async (uuId="empty uuid") => {
+    console.log("sending backend", uuId);
+    try {
+      const res = await fetch(
+        // "https://shalimar.interactivedemos.io/api/interactivedemos/save_date",
+        "http://192.168.1.22:8502/api/interactivedemos/save_date",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ session_id: uuId }),
+        }
+      );
+      
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      const uuId = sessionStorage.getItem("uuId");
+      postData(uuId);
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>

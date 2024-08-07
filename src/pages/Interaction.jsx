@@ -30,6 +30,8 @@ function Interaction() {
 
   const [sentence, setSentence] = useState("");
   const [currentSubtitle, setCurrentSubtitle] = useState("");
+
+
   useEffect(() => {
     if (!audioRef?.current || !sentence) return;
 
@@ -38,17 +40,19 @@ function Interaction() {
     let timeoutId;
 
     const displayWord = () => {
-      setCurrentSubtitle((prev) => {
-        const updatedSubtitle = [...prev.split(" "), words[wordIndex]]
-          .slice(-10)
-          .join(" ");
+      setCurrentSubtitle(() => {
+        const updatedSubtitle = words.slice(wordIndex, wordIndex + 5).join(' ');
+        wordIndex += 5;
         return updatedSubtitle;
       });
-      wordIndex += 1;
+
+      // wordIndex += 8;
       if (wordIndex < words.length) {
-        timeoutId = setTimeout(displayWord, 470); // Adjust timing as needed
+        timeoutId = setTimeout(displayWord,2000); // Adjust timing as needed
       }
     };
+
+    
     displayWord();
 
     return () => clearTimeout(timeoutId); // Cleanup function to clear timeout
@@ -64,8 +68,8 @@ function Interaction() {
   async function sendTextToBackend(text) {
     try {
       let response = await fetch(
-        // "http://192.168.1.22:8502/api/interactivedemos/process",
-        "https://shalimar.interactivedemos.io/api/interactivedemos/process",
+        "http://192.168.1.22:8502/api/interactivedemos/process",
+        // "https://shalimar.interactivedemos.io/api/interactivedemos/process",
         {
           method: "POST",
           headers: {
@@ -169,7 +173,7 @@ function Interaction() {
         Your browser does not support the video tag.
       </video>
 
-      { isVideoRendering && <div className="subtitle full md:w-80">{currentSubtitle}</div>}
+      { isVideoRendering && <div className="subtitle w-full md:w-80">{currentSubtitle}</div>}
 
       {/* {!isVideoRendering && ( */}
       <div

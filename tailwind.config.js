@@ -20,7 +20,8 @@ export default {
         Barlow: ["Barlow", "sans-serif"],
         RiftSoft: ["Rift Soft", "sans-serif"],
         Montserrat:["Montserrat","sans-serif"],
-        Inter:["Inter","sans-serif"]
+        Inter:["Inter","sans-serif"],
+        Eczar:["Eczar","sans-serif"]
 
       },
       keyframes: {

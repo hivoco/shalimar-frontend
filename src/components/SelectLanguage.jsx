@@ -9,14 +9,14 @@ function SelectLanguage({ setLanguage }) {
         className="absolute inset-0 blur-md "
       ></div> */}
 
-      <div className="px-5 py-11 flex flex-col gap-2 items-center ">
+      <div className="px-5 py-11 flex flex-col gap-2 items-center border-b border-[#9A9A9ACC]">
         <img
           className=""
           src="/images/SelectLang.svg"
           alt="image hindi english "
         />
 
-        <p className=" font-Montserrat text-[13px] font-normal leading-[18px] text-center text-[#1E1E1E]">
+        <p className=" font-Montserrat text-[15px] font-normal leading-[20.4px] text-center text-[#1E1E1E]">
           Select your preferred mode of language
         </p>
       </div>
@@ -24,7 +24,7 @@ function SelectLanguage({ setLanguage }) {
       <div className="flex p-1 items-center">
         <button
           onClick={() => setLanguage("English")}
-          className="w-1/2  font-Montserrat text-sm leading-[19.6px] text-center text-[#161616] py-2  "
+          className="w-1/2 font-medium font-Montserrat text-sm leading-[19.6px] text-center text-[#161616] py-2  "
         >
           English
         </button>
@@ -33,9 +33,10 @@ function SelectLanguage({ setLanguage }) {
 
         <button
           onClick={() => setLanguage("Hindi")}
-          className="w-1/2  font-Montserrat text-sm leading-[19.6px] text-center text-[#161616] py-2"
+          className="w-1/2 font-normal  font-Eczar text-sm leading-[19.6px] text-center text-[#161616] py-2"
         >
-          Hindi
+          {/* Hindi */}
+          हिन्दी
         </button>
       </div>
     </div>
