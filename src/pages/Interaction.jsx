@@ -24,8 +24,17 @@ function Interaction() {
   const audioRef = useRef(null);
   const videoRef = useRef(null);
 
-  const location = useLocation();
-  const uuId = location.state;
+
+  const [uuId, setUuId] = useState(null);
+  useEffect(() => {
+    const uniqueId = sessionStorage.getItem("uuId");
+    console.log('interaction effect',uniqueId);
+    uniqueId && setUuId(uniqueId);
+  }, []);
+
+  console.log('interaction',uuId);
+  
+
 
 
   const [sentence, setSentence] = useState("");
@@ -68,8 +77,8 @@ function Interaction() {
   async function sendTextToBackend(text) {
     try {
       let response = await fetch(
-        "http://192.168.1.22:8502/api/interactivedemos/process",
-        // "https://shalimar.interactivedemos.io/api/interactivedemos/process",
+        // "http://192.168.1.22:8502/api/interactivedemos/process",
+        "https://shalimar.interactivedemos.io/api/interactivedemos/process",
         {
           method: "POST",
           headers: {

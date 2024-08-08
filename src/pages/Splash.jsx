@@ -6,14 +6,16 @@ import { useNavigate } from "react-router-dom";
 const Splash = () => {
   const [isAnimating, setIsAnimating] = useState(true);
   const navigate = useNavigate();
-  const uniqueId = uuidv4();
+
   useEffect(() => {
-    sessionStorage.setItem("uuId", uniqueId);
+    sessionStorage.setItem("uuId", uuidv4());
+    console.log(sessionStorage.getItem("uuId"));
   }, []);
 
+  
   const handleClick = (path) => {
     if (path === "/interaction") {
-      navigate(path, { state: uniqueId });
+      navigate(path);
     } else {
       navigate(path);
     }

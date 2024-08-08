@@ -13,15 +13,17 @@ import PainterLocation from "./pages/PainterLocation";
 import PainterDetails from "./pages/PainterDetails";
 import Quiz from "./pages/Quiz";
 import SignUp from "./components/SignUp";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [lastUuId,setLastUuId]=useState(null)
+  
   const postData = async (uuId="empty uuid") => {
     console.log("sending backend", uuId);
     try {
       const res = await fetch(
-        // "https://shalimar.interactivedemos.io/api/interactivedemos/save_date",
-        "http://192.168.1.22:8502/api/interactivedemos/save_date",
+        "https://shalimar.interactivedemos.io/api/interactivedemos/save_date",
+        // "http://192.168.1.22:8502/api/interactivedemos/save_date",
         {
           method: "POST",
           headers: {
@@ -40,7 +42,10 @@ function App() {
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       const uuId = sessionStorage.getItem("uuId");
-      postData(uuId);
+      if (uuId && uuId !== lastUuId) {
+        postData(uuId);
+        setLastUuId(uuId)
+      }
       event.preventDefault();
       event.returnValue = "";
     };

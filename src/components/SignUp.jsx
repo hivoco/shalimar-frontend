@@ -5,7 +5,7 @@ const SignUp = () => {
       <div className="flex flex-col gap-y-[34px] px-[60px] pt-[60px]">
         <img className="max-w-full object-cover " src="/images/logo-col.png" alt="" />
 
-        <p className="text-white text-lg font-medium leading-[25.2px] text-center">
+        <p className= "font-Montserrat text-white text-lg font-semibold leading-[25.2px] text-center">
           Register to continue...
         </p>
       </div>
@@ -23,6 +23,8 @@ const SignUp = () => {
           placeholder="Enter Mobile number"
         />
       </form>
+
+      
 
     </div>
   );
