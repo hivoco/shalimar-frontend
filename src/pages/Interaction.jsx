@@ -20,6 +20,7 @@ function Interaction() {
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
   const [isVideoRendering, setIsVideoRendering] = useState(false);
 
+
   const [startClicked, setStartClicked] = useState(false);
   const audioRef = useRef(null);
   const videoRef = useRef(null);
@@ -142,6 +143,11 @@ function Interaction() {
     enter();
   };
 
+  
+
+
+
+
   function handleAudioEnd() {
     startSpeechRecognition();
     setIsVideoRendering(false);
@@ -153,6 +159,13 @@ function Interaction() {
     enter();
   }
 
+
+  useEffect(() => {
+    if (language) {
+      handleClick();
+    }
+  }, [language]);
+
   // console.log(hasRecognitionEnded);
 
   return (
@@ -163,7 +176,7 @@ function Interaction() {
     >
       {!language && (
         <PopUp bg={"transparent"}>
-          <SelectLanguage  language={language} setLanguage={setLanguage} />
+          <SelectLanguage  language={language} setLanguage={setLanguage} initialise={handleClick} />
         </PopUp>
       )}
 
@@ -263,14 +276,15 @@ function Interaction() {
          className="hidden"
        ></audio> */}
 
-                {!startClicked ? (
-                  <button
-                    onClick={handleClick}
-                    className={` inset-0 transition-opacity duration-1000 ease-in-out   py-3 px-8 rounded-[52px] border-[2px] border-[#E6F3FF80] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none`}
-                  >
-                    Start
-                  </button>
-                ) : (
+                {
+                // !startClicked ? (
+                //   <button
+                //     onClick={handleClick}
+                //     className={` inset-0 transition-opacity duration-1000 ease-in-out   py-3 px-8 rounded-[52px] border-[2px] border-[#E6F3FF80] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none`}
+                //   >
+                //     Start
+                //   </button>
+                // ) : (
                   !isUserSpeaking && (
                     <>
                       <input
@@ -293,8 +307,9 @@ function Interaction() {
                         />
                       </svg>
                     </>
-                  )
-                )}
+                  // )
+                )
+                }
               </div>
               {<HivocoPowered />}
             </div>
