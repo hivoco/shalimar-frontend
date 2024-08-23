@@ -77,7 +77,7 @@ function Interaction() {
   async function sendTextToBackend(text) {
     try {
       let response = await fetch(
-        // "http://192.168.1.22:8502/api/interactivedemos/process",
+        // "http://192.168.1.9:8502/api/interactivedemos/process",
         "https://shalimar.interactivedemos.io/api/interactivedemos/process",
         {
           method: "POST",
@@ -86,7 +86,7 @@ function Interaction() {
           },
           body: JSON.stringify({
             data: text,
-            language:language,
+            language:language.toLocaleLowerCase(),
             session_id: uuId,
           }),
         }
@@ -163,7 +163,7 @@ function Interaction() {
     >
       {!language && (
         <PopUp bg={"transparent"}>
-          <SelectLanguage setLanguage={setLanguage} />
+          <SelectLanguage  language={language} setLanguage={setLanguage} />
         </PopUp>
       )}
 

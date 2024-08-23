@@ -23,7 +23,7 @@ function App() {
     try {
       const res = await fetch(
         "https://shalimar.interactivedemos.io/api/interactivedemos/save_date",
-        // "http://192.168.1.22:8502/api/interactivedemos/save_date",
+        // "http://192.168.1.9:8502/api/interactivedemos/save_date",
         {
           method: "POST",
           headers: {
