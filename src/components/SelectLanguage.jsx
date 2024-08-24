@@ -20,7 +20,7 @@ function SelectLanguage({ setLanguage, language }) {
 
     setTimeout(() => {
       setLanguage(languages[index].name);
-    }, 1 * 1000); // 1 sec lag so that the tag appears
+    }, 1*2000); // 2 sec lag so that the tick appears
   };
 
   return (

@@ -17,7 +17,7 @@ function Interaction() {
   } = useSpeechRecognition();
 
   const [language, setLanguage] = useState('');
-  const [isUserSpeaking, setIsUserSpeaking] = useState(true);
+  const [isUserSpeaking, setIsUserSpeaking] = useState(false);
   const [isVideoRendering, setIsVideoRendering] = useState(false);
 
 
@@ -183,10 +183,9 @@ function Interaction() {
     enter();
   }
 
-
   useEffect(() => {
     if (language) {
-      // handleClick();
+      handleClick();
     }
   }, [language]);
 
@@ -257,7 +256,7 @@ function Interaction() {
           </div>
 
           <div
-            className={`flex flex-col ${isUserSpeaking ? "gap-y-12" : "gap-0"}`}
+            className={`flex flex-col ${isUserSpeaking ? "gap-y-12" : "gap-y-16"}`}
           >
             {/* no gap  since the mic img it seen somehwere else , and on dom present somehwere else so  */}
 
@@ -280,7 +279,8 @@ function Interaction() {
             {isUserSpeaking ? (
               <div className="botIsListening flex flex-col gap-y-8">
                 <h1 className="px-6 font-Montserrat text-[19px] font-semibold leading-[22.8px] text-center text-white">
-                  {message ||" Hey, I'm Shalimar AI Let me know how I can help" }
+                  {message ||
+                    " Hey, I'm Shalimar AI Let me know how I can help"}
                 </h1>
 
                 <div className="flex flex-col gap-5">
@@ -298,15 +298,16 @@ function Interaction() {
                 </div>
               </div>
             ) : (
-              <div className="w-full ">
+              <div className="w-full relative ">
                 <img
-                  className="w-full h-[16.55rem] md:h-auto md:aspect-[1.36]"
+                  className="w-full h-[16rem] md:h-auto md:aspect-[1.36]"
                   src="/images/shalimar-paints.png"
                   alt=""
                 />
 
                 <img
-                  className={`  w-[100px] mx-auto -translate-y-1/2`}
+                  onClick={() => !isUserSpeaking && handleAudioEnd()}
+                  className={`absolute w-[6.25rem] -translate-y-1/2 left-1/2 -translate-x-1/2`}
                   src={"/svgs/rounded-mic.svg"}
                   alt={"rounded-mic image"}
                 />
@@ -319,7 +320,7 @@ function Interaction() {
               <div
                 className={`${
                   isUserSpeaking ? "opacity-70" : ""
-                } relative w-[82vw]  md:w-auto mx-auto flex justify-center items-center `}
+                }   md:w-auto mx-auto flex justify-center items-center `}
               >
                 {/* <audio
          ref={audioRef}
@@ -340,16 +341,17 @@ function Interaction() {
                   // !isUserSpeaking && (
                   <>
                     <input
-                      className={`inset-0 transition-opacity duration-1000 ease-in-out w-full py-4 px-12  rounded-xl border-[4px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none `}
-                      placeholder="Speak or Type to interact..."
+                      className={`pointer-events-none inset-0 transition-opacity mx-auto duration-1000 ease-in-out py-4 px-12  rounded-xl border-[4px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none `}
+                      placeholder="Tap on mic to interact"
+                      // placeholder="Tap on mic or type to interact"
                       type="text"
                     />
 
-                    <img
+                    {/* <img
                       className="absolute top-1/2  -translate-y-1/2 right-4"
                       src="/svgs/aeroplane.svg"
                       alt=""
-                    />
+                    /> */}
                   </>
                   // )
                   // )
