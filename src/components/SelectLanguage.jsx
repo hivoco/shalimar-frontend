@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-function SelectLanguage({ setLanguage, language,initialise }) {
-  
+function SelectLanguage({ setLanguage, language }) {
   const languages = [
     { icon: "/svgs/english.svg", name: "English" },
     { icon: "/svgs/hindi.svg", name: "Hindi" },
@@ -13,26 +12,15 @@ function SelectLanguage({ setLanguage, language,initialise }) {
     { icon: "/svgs/malayalam.svg", name: "Malayalam" },
   ];
 
-
-  // 'hindi': 'hindi.txt',
-  // 'tamil': 'tamil.txt',
-  // 'marathi': 'marathi.txt',
-  // 'bengali': 'bengali.txt',
-  // 'telugu': 'telugu.txt',
-  // 'kannada': 'kannda.txt',
-  // 'malayalam' : 'malayalam.txt'
-
-
   const [clickedDivIndex, setClickedDivIndex] = useState(null);
 
   const handleClick = (index) => {
     setClickedDivIndex(index);
     // console.log(languages[index].name);
 
-
     setTimeout(() => {
       setLanguage(languages[index].name);
-    }, 1 *1000); // 1 sec lag so that the tag appears
+    }, 1 * 1000); // 1 sec lag so that the tag appears
   };
 
   return (
@@ -55,7 +43,11 @@ function SelectLanguage({ setLanguage, language,initialise }) {
               <img src={language?.icon} alt="language icon" />
 
               <div className="flex w-full justify-between items-center">
-                <span className={`flex flex-col items-start font-Montserrat text-[11.22px] font-medium leading-[15.71px] text-center  ${index>1?"text-[#16161680]":"text-[#161616]"}`}>
+                <span
+                  className={`flex flex-col items-start font-Montserrat text-[11.22px] font-medium leading-[15.71px] text-center  ${
+                    index > 1 ? "text-[#16161680]" : "text-[#161616]"
+                  }`}
+                >
                   {language?.name}
 
                   {index > 1 && (
