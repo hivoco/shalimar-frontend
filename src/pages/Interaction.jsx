@@ -17,7 +17,7 @@ function Interaction() {
   } = useSpeechRecognition();
 
   const [language, setLanguage] = useState('');
-  const [isUserSpeaking, setIsUserSpeaking] = useState(false);
+  const [isUserSpeaking, setIsUserSpeaking] = useState(true);
   const [isVideoRendering, setIsVideoRendering] = useState(false);
 
 
@@ -186,7 +186,7 @@ function Interaction() {
 
   useEffect(() => {
     if (language) {
-      handleClick();
+      // handleClick();
     }
   }, [language]);
 
@@ -284,7 +284,7 @@ function Interaction() {
                 </h1>
 
                 <div className="flex flex-col gap-5">
-                  <div className="w-[108%] max-w-96  h-44 flex  items-center  ">
+                  <div className="w-full max-w-96  h-44 flex  items-center  ">
                     <img
                       className="w-full"
                       src="/gif/waves.gif"
