@@ -16,25 +16,23 @@ function Interaction() {
     setSpeechText,
   } = useSpeechRecognition();
 
-  const [language, setLanguage] = useState('');
+  const [language, setLanguage] = useState("");
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
   const [isVideoRendering, setIsVideoRendering] = useState(false);
-
 
   const [startClicked, setStartClicked] = useState(false);
   const audioRef = useRef(null);
   const videoRef = useRef(null);
 
-
   const [uuId, setUuId] = useState(null);
   useEffect(() => {
     const uniqueId = sessionStorage.getItem("uuId");
-    console.log('interaction effect',uniqueId);
+    console.log("interaction effect", uniqueId);
     uniqueId && setUuId(uniqueId);
   }, []);
 
-  console.log('interaction',uuId);
-  
+  console.log("interaction", uuId);
+
   const messages = [
     "Hey, I'm Shalimar AI",
     "Hope I was able to assist you. How can I help you further?",
@@ -47,21 +45,19 @@ function Interaction() {
     "What else can I do for you? Your questions are welcome!",
     "I'm ready for your next question. Let's keep going!",
   ];
-  
-  const [message,setMessage] =useState(messages[0])
-  const [msgIndex,setMsgIndex]=useState(0)
 
+  const [message, setMessage] = useState(messages[0]);
+  const [msgIndex, setMsgIndex] = useState(0);
 
-  useEffect(()=>{
-    if(isUserSpeaking){
+  useEffect(() => {
+    if (isUserSpeaking) {
       setMessage(messages[msgIndex]);
       setMsgIndex(msgIndex + 1);
     }
-  },[isUserSpeaking])
+  }, [isUserSpeaking]);
 
   const [sentence, setSentence] = useState("");
   const [currentSubtitle, setCurrentSubtitle] = useState("");
-
 
   useEffect(() => {
     if (!audioRef?.current || !sentence) return;
@@ -72,29 +68,25 @@ function Interaction() {
 
     const displayWord = () => {
       setCurrentSubtitle(() => {
-        const updatedSubtitle = words.slice(wordIndex, wordIndex + 5).join(' ');
+        const updatedSubtitle = words.slice(wordIndex, wordIndex + 5).join(" ");
         wordIndex += 5;
         return updatedSubtitle;
       });
 
       // wordIndex += 8;
       if (wordIndex < words.length) {
-        timeoutId = setTimeout(displayWord,2000); // Adjust timing as needed
+        timeoutId = setTimeout(displayWord, 2000); // Adjust timing as needed
       }
     };
 
-    
     displayWord();
 
     return () => clearTimeout(timeoutId); // Cleanup function to clear timeout
   }, [sentence]);
 
-
-  
   // const [userText, setUserText]  = useState("start interactivedemos")
 
   // console.log(language);
-  
 
   async function sendTextToBackend(text) {
     try {
@@ -108,7 +100,7 @@ function Interaction() {
           },
           body: JSON.stringify({
             data: text,
-            language:language.toLocaleLowerCase(),
+            language: language.toLocaleLowerCase(),
             session_id: uuId,
           }),
         }
@@ -117,7 +109,7 @@ function Interaction() {
 
       console.log("Response from backend:", data);
       playAudio(data?.audio);
-      setCurrentSubtitle('')
+      setCurrentSubtitle("");
       displayVideo(data?.video_link);
       setSentence(data.answer);
     } catch (error) {
@@ -125,7 +117,6 @@ function Interaction() {
     }
   }
 
-  
   const playAudio = (audioBase64) => {
     const audioSrc = `data:audio/mp3;base64,${audioBase64}`;
     if (audioRef.current) {
@@ -163,11 +154,6 @@ function Interaction() {
     setStartClicked(true);
     enter();
   };
-
-  
-
-
-
 
   function handleAudioEnd() {
     startSpeechRecognition();
@@ -224,25 +210,25 @@ function Interaction() {
 
       {/* {!isVideoRendering && ( */}
       <div
-        className={`w-full pt-20 pb-[4.375rem]   inset-0 transition-opacity duration-500 ease-in-out  ${
+        className={`w-full h-svh md:h-auto pt-10 pb-[4.375rem]   inset-0 transition-opacity duration-500 ease-in-out  ${
           isVideoRendering ? "opacity-0 pointer-events-none" : "opacity-100"
         } `}
       >
         <div
           className={`w-full flex flex-col   ${
-            isUserSpeaking ? "md:m-0 gap-12" : "md:mt-20 gap-3"
+            isUserSpeaking ? "md:m-0 gap-12" : " md:mt-20 gap-3"
           }`}
         >
-          <div className=" flex flex-col gap-1 px-9 md:w-full">
+          <div className=" flex flex-col gap-1 px-9 md:w-full md:mt-8">
             <div className="w-full flex gap-[1.5px] items-center justify-center ">
               <img
-                className="h-auto  max-h-[5.63rem] w-auto object-contain"
+                className="h-auto  max-h-[5.63rem] md:max-h-16 w-auto object-contain"
                 src="/svgs/logo.svg"
                 alt="logo"
               />
 
               <img
-                className="h-auto w-auto  max-h-[4.5rem] object-contain"
+                className="h-auto w-auto  max-h-[4.5rem] md:max-h-14 object-contain"
                 src="/images/logo-text.png"
                 alt="logo-text"
               />
@@ -256,7 +242,9 @@ function Interaction() {
           </div>
 
           <div
-            className={`flex flex-col ${isUserSpeaking ? "gap-y-12" : "gap-y-16"}`}
+            className={`flex flex-col ${
+              isUserSpeaking ? "gap-y-12" : "gap-y-16"
+            }`}
           >
             {/* no gap  since the mic img it seen somehwere else , and on dom present somehwere else so  */}
 
@@ -341,7 +329,7 @@ function Interaction() {
                   // !isUserSpeaking && (
                   <>
                     <input
-                      className={`pointer-events-none inset-0 transition-opacity mx-auto duration-1000 ease-in-out py-4 px-12  rounded-xl border-[4px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none `}
+                      className={`${isUserSpeaking?"hidden":""} pointer-events-none inset-0 transition-opacity mx-auto duration-1000 ease-in-out py-4 px-12  rounded-xl border-[4px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none `}
                       placeholder="Tap on mic to interact"
                       // placeholder="Tap on mic or type to interact"
                       type="text"
