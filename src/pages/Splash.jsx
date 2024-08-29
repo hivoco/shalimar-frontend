@@ -84,7 +84,7 @@ const Splash = () => {
             <div className="flex flex-1 gap-2 items-center">
               <img src={e.icon} alt="" />
               <div className="flex flex-col items-start">
-                <strong className={`${ (index ===1 || index===3) && "text-[#969696]"} textno font-Poppins text-base font-semibold`}>
+                <strong className={`${ (index ===1 || index===3) && "text-[#969696]"}  text-left  font-Poppins text-base font-semibold`}>
                   {e.title}
                 </strong>
                 {["Find Trusted Painter", "Play to Win"].includes(e.title) && (
