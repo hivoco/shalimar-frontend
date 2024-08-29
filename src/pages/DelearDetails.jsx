@@ -1,14 +1,27 @@
 import Header from "../components/Header";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function DelearDetails() {
   const location = useLocation();
   const data = location.state.result.data;
 
+  const navigate=useNavigate()
+
   // console.log(location);
 
-  if (data.length === 0) {
-    return <h3> no location found or returned </h3>;
+  if (data?.length === 0) {
+    
+    return (
+      <div className="flex flex-col justify-center items-center gap-2">
+        <h3 className="text-xl font-medium text-white"> Delaler not found </h3>;
+        <button
+          onClick={() => navigate(-1)}
+          className="rounded-[1rem] px-5  mx-6 bg-white font-Poppins text-xl font-semibold text-center py-4  border-2 border-[#F7F7F7]/50  mb-16 hover:shadow-md"
+        >
+          Go Back
+        </button>
+      </div>
+    );
   }
 
   return (

@@ -54,7 +54,7 @@ function Interaction() {
   const superTextArray= superText.split(",")
 
   const displaySuperTextBullets = superTextArray.map((text, index) => {
-    return index < 4 && <li className="capitalize font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white" key={index}>{text}</li>;
+    return index < 4 && <li className="first-letter:uppercase font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white" key={index}>{text}</li>;
   });
   
   
