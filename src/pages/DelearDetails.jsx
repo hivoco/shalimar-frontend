@@ -9,7 +9,10 @@ function DelearDetails() {
 
   // console.log(location);
 
-  if (data?.length === 0) {
+  console.log("data",data);
+  
+
+  if (!data || data.length===0) {
     
     return (
       <div className="flex flex-col justify-center items-center gap-2">

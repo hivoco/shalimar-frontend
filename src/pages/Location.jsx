@@ -43,6 +43,7 @@ function Location() {
        }
 
        const result = await response.json();
+       console.log("object>>", result)
        goToNearestDealersPage(result)
 
        console.log("Location sent successfully:", result);
@@ -52,6 +53,7 @@ function Location() {
    };
 
   const goToNearestDealersPage = (result) => {
+  
     navigate("/get-your-nearest-dealers", { state: { result } });
   };
 
