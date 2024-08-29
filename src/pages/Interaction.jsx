@@ -48,6 +48,8 @@ function Interaction() {
   const [msgIndex, setMsgIndex] = useState(0);
   const [superText,setSuperText]=useState("")
 
+  const [convoNumber, setConvoNumber] = useState(0);
+
 
 
 
@@ -123,6 +125,7 @@ function Interaction() {
       setSentence(data.answer);
       data?.video_link && displayVideo(data?.video_link)
       setSuperText(data?.key_word?data?.key_word:"")
+      setConvoNumber(data?.key_word ? convoNumber + 1 : convoNumber);
 
     } catch (error) {
       console.error("Error:", error);
@@ -251,8 +254,8 @@ function Interaction() {
             )}
 
 
-             {superText && superText.includes("Hello") ? (
-              <h2 className="font-Poppins min-h-56  flex items-center  text-white text-[34.3px] leading-[41.15px] font-bold text-left">
+             {superText && convoNumber===1 ? (
+              <h2 className="font-Poppins min-h-56  mx-auto flex items-center  text-white text-2xl leading-[28.8px] font-semibold text-left">
                 {superText}
               </h2>
             ) : (superText && 
