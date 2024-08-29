@@ -74,8 +74,8 @@ const Splash = () => {
             className={`${
               ["Find Trusted Painter", "Play to Win"].includes(e.title)
                 ? "bg-[#D6D6D6] border-[#D6D6D6] cursor-not-allowed"
-                : "bg-white border-[#FFD076]"
-            } group rounded-[9rem] w-full  montserrat text-xl font-semibold text-center py-3 px-3 border-[3px] mb-3  flex items-center cursor-pointer hover:shadow-xl ${
+                : "bg-white border-[#F7F7F7]/50"
+            } group rounded-[9rem] w-full  font-Poppins text-xl font-semibold text-center py-3 px-3 border-2 mb-3  flex items-center cursor-pointer hover:shadow-xl ${
               !isAnimating
                 ? "opacity-100 scale-100 transition-all duration-700 delay-200"
                 : "opacity-0 scale-50"
@@ -84,18 +84,18 @@ const Splash = () => {
             <div className="flex flex-1 gap-2 items-center">
               <img src={e.icon} alt="" />
               <div className="flex flex-col items-start">
-                <strong className="montserrat text-base font-semibold">
+                <strong className={`${ (index ===1 || index===3) && "text-[#969696]"} font-Poppins text-base font-semibold`}>
                   {e.title}
                 </strong>
                 {["Find Trusted Painter", "Play to Win"].includes(e.title) && (
-                  <span className="montserrat text-xs font-semibold ">
+                  <span className="font-Poppins text-xs font-semibold ">
                     Coming Soon...{" "}
                   </span>
                 )}
               </div>
             </div>
             <img
-              className="group-hover:animate-bounceLR"
+              className={`group-hover:animate-bounceLR ${ (index ===1 || index===3) && "opacity-50"}`}
               src="/svgs/arrow.svg"
               alt="arrow"
             />

@@ -20,8 +20,8 @@ function Home() {
           />
         </div>
         <button
-          onClick={() => navigate("/explore-your-experience")}
-          className="rounded-[9rem]  mx-6 bg-white font-Montserrat text-xl font-semibold text-center py-4 border-4 border-[#FFD076]  mb-16 hover:shadow-md"
+          onClick={() => navigate("/explore-your-experience")}                                                      
+          className="rounded-[9rem]  mx-6 bg-white font-Poppins text-xl font-semibold text-center py-4  border-2 border-[#F7F7F7]/50  mb-16 hover:shadow-md"
         >
           Get Started
         </button>

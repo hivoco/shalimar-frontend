@@ -6,6 +6,7 @@ import Layout from "./components/Layout";
 import Interaction from "./pages/Interaction";
 import NoPage from "./components/NoPage";
 
+import Test from "./pages/Test";
 import Splash from "./pages/Splash";
 import Location from "./pages/Location";
 import DelearDetails from "./pages/DelearDetails";
@@ -63,9 +64,13 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/interaction" element={<Interaction />} />
+
           <Route path="/explore-your-experience" element={<Splash />} />
           <Route path="/enter-your-location" element={<Location />} />
           <Route path="/get-your-nearest-dealers" element={<DelearDetails />} />
+
+          <Route path="/test" element={<Test/>}/>
+
 
           <Route path="/sign-up" element={<SignUp />} />
 

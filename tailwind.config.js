@@ -21,8 +21,8 @@ export default {
         RiftSoft: ["Rift Soft", "sans-serif"],
         Montserrat:["Montserrat","sans-serif"],
         Inter:["Inter","sans-serif"],
-        Eczar:["Eczar","sans-serif"]
-
+        Eczar:["Eczar","sans-serif"],
+        Poppins:["Poppins","sans-serif"]
       },
       keyframes: {
         fadeIn: {

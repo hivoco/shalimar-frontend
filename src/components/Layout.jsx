@@ -31,7 +31,7 @@ function Layout() {
       }}
       className={`${
         isScrollRequired ? "overflow-y-scroll bg-cover" : "overflow-y-hidden"
-      }  box-border md:w-80 md:my-1 md:rounded-2xl bg-[url('/gif/bg-gif.gif')] w-full overflow-x-hidden scrollbar-hide md:h-[98vh] bg-[length:102vw_100vh] md:bg-cover  bg-center bg-no-repeat flex justify-center items-center md:mx-auto`}
+      }  box-border md:w-80 md:my-1 md:rounded-2xl bg-[url('/bgs/1.png')] w-full overflow-x-hidden scrollbar-hide md:h-[98vh] bg-cover  md:bg-cover  bg-center bg-no-repeat flex justify-center items-center md:mx-auto`}
     >
       {/* <p>{windowHeight}</p> */}
       <Outlet />

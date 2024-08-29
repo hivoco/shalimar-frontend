@@ -27,14 +27,12 @@ function Interaction() {
   const [uuId, setUuId] = useState(null);
   useEffect(() => {
     const uniqueId = sessionStorage.getItem("uuId");
-    console.log("interaction effect", uniqueId);
     uniqueId && setUuId(uniqueId);
   }, []);
 
-  console.log("interaction", uuId);
 
   const messages = [
-    "Hey, I'm Shalimar AI",
+    "Hey, I’m Shalimar AI. Let me know how I can help.",
     "Hope I was able to assist you. How can I help you further?",
     "Yeah, you are doing good! You can ask me anything.",
     "Go ahead with your questions, I'm all tuned in.",
@@ -48,9 +46,22 @@ function Interaction() {
 
   const [message, setMessage] = useState(messages[0]);
   const [msgIndex, setMsgIndex] = useState(0);
+  const [superText,setSuperText]=useState("")
+
+
+
+
+  const superTextArray= superText.split(",")
+
+  const displaySuperTextBullets = superTextArray.map((text, index) => {
+    return index < 4 && <li className="normal-case font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white" key={index}>{text}</li>;
+  });
+  
+  
 
   useEffect(() => {
     if (isUserSpeaking) {
+
       setMessage(messages[msgIndex]);
       setMsgIndex(msgIndex + 1);
     }
@@ -85,7 +96,6 @@ function Interaction() {
   }, [sentence]);
 
   // const [userText, setUserText]  = useState("start interactivedemos")
-
   // console.log(language);
 
   async function sendTextToBackend(text) {
@@ -110,8 +120,10 @@ function Interaction() {
       console.log("Response from backend:", data);
       playAudio(data?.audio);
       setCurrentSubtitle("");
-      displayVideo(data?.video_link);
       setSentence(data.answer);
+      data?.video_link && displayVideo(data?.video_link)
+      setSuperText(data?.key_word?data?.key_word:"")
+
     } catch (error) {
       console.error("Error:", error);
     }
@@ -138,8 +150,6 @@ function Interaction() {
     let value = speechText.trim();
     console.log("value", value);
 
-    // setMicOnTime(micOnTime + 1);
-
     // stopSpeechRecognition();
 
     if (value) {
@@ -159,12 +169,13 @@ function Interaction() {
     startSpeechRecognition();
     setIsVideoRendering(false);
     setIsUserSpeaking(true);
+    setSuperText("")
   }
 
   if (hasRecognitionEnded) {
     setTimeout(() => {
       setIsUserSpeaking(false);
-    }, 3 * 1000);
+    }, 1* 1000);
 
     enter();
   }
@@ -175,7 +186,6 @@ function Interaction() {
     }
   }, [language]);
 
-  // console.log(hasRecognitionEnded);
 
   return (
     <div
@@ -208,19 +218,19 @@ function Interaction() {
         <div className="subtitle w-full md:w-80">{currentSubtitle}</div>
       )}
 
-      {/* {!isVideoRendering && ( */}
+      {/* major ui starts here  */}
       <div
         className={`w-full h-svh md:h-auto pt-10 pb-[4.375rem]   inset-0 transition-opacity duration-500 ease-in-out  ${
           isVideoRendering ? "opacity-0 pointer-events-none" : "opacity-100"
         } `}
       >
         <div
-          className={`w-full flex flex-col   ${
-            isUserSpeaking ? "md:m-0 gap-12" : " md:mt-20 gap-3"
+          className={`parent  w-full flex flex-col   ${
+            isUserSpeaking ? "md:m-0 gap-8" : " md:mt-20 gap-y-12"
           }`}
         >
-          <div className=" flex flex-col gap-1 px-9 md:w-full md:mt-8">
-            <div className="w-full flex gap-[1.5px] items-center justify-center ">
+          <div className=" flex flex-col gap-14 px-9 md:w-full md:mt-8">
+            <div className="flex items-center justify-center ">
               <img
                 className="h-auto  max-h-[5.63rem] md:max-h-16 w-auto object-contain"
                 src="/svgs/logo.svg"
@@ -234,123 +244,75 @@ function Interaction() {
               />
             </div>
 
-            {!isUserSpeaking && (
-              <p className="text-white  font-Montserrat text-sm font-semibold text-center md:w-full">
-                Find answers to your questions with <br /> our Voice AI model...
+            {(!isUserSpeaking && !superText) && (
+              <p className="text-white  font-Poppins text-sm font-semibold text-center md:w-full">
+                Find answers to your questions <br /> with our Voice AI model...{" "}
               </p>
             )}
-          </div>
 
+
+             {superText && superText.includes("Hello") ? (
+              <h2 className="font-Poppins min-h-56  flex items-center  text-white text-[34.3px] leading-[41.15px] font-bold text-left">
+                {superText}
+              </h2>
+            ) : (superText && 
+              <ul className="min-h-56 font-Poppins flex flex-col gap-6 px-10 list-disc">
+                {displaySuperTextBullets}
+              </ul>
+            )}
+          </div>
           <div
             className={`flex flex-col ${
-              isUserSpeaking ? "gap-y-12" : "gap-y-16"
+              isUserSpeaking ? "gap-y-4" : "gap-y-4"
             }`}
           >
-            {/* no gap  since the mic img it seen somehwere else , and on dom present somehwere else so  */}
-
-            {/* {isUserSpeaking ? (
-                <div className="flex flex-col items-center justify-center my-[4.57rem] md:m-0 md:mb-2">
-
-                  <img src="/svgs/listening-red.svg" alt="listening" />  image
-
-                  <img className="h-48" src="/gif/listening-gif.gif" alt="listening" /> gif
-                  <p className="text-white text-lg font-semibold leading-[25px] text-center">
-                    Listening...
-                  </p>
-                </div>
-              ) : ( */}
-
-            {/* {!isVideoRendering && ( */}
-
-            {/* // this should be conditional */}
-
             {isUserSpeaking ? (
               <div className="botIsListening flex flex-col gap-y-8">
-                <h1 className="px-6 font-Montserrat text-[19px] font-semibold leading-[22.8px] text-center text-white">
+                <h1 className="px-6 font-Poppins text-[19px] font-semibold leading-[22.8px] text-center text-white">
                   {message ||
                     " Hey, I'm Shalimar AI Let me know how I can help"}
                 </h1>
 
-                <div className="flex flex-col gap-5">
-                  <div className="w-full max-w-96  h-44 flex  items-center  ">
+                <div className="flex flex-col gap-5 w-full">
+                  <div className="w-full mx-auto   h-36 flex  items-center  ">
                     <img
-                      className="w-full"
+                      className="w-full "
                       src="/gif/waves.gif"
                       alt="bot listening wave"
                     />
                   </div>
 
-                  <h2 className="font-Montserrat text-[19px] font-semibold leading-[26.6px] text-center text-white">
+                  <h2 className="font-Poppins text-[19px] font-semibold leading-[26.6px] text-center text-white">
                     I'm listening ...
                   </h2>
                 </div>
               </div>
             ) : (
-              <div className="w-full relative ">
-                <img
-                  className="w-full h-[16rem] md:h-auto md:aspect-[1.36]"
-                  src="/images/shalimar-paints.png"
-                  alt=""
-                />
-
+               !superText &&
+                <div className="w-full flex flex-col gap-12 items-center">
                 <img
                   onClick={() => !isUserSpeaking && handleAudioEnd()}
-                  className={`absolute w-[6.25rem] -translate-y-1/2 left-1/2 -translate-x-1/2`}
-                  src={"/svgs/rounded-mic.svg"}
-                  alt={"rounded-mic image"}
+                  className="max-h-[100px]"
+                  src="/gif/mic icon.gif"
+                  alt="mic gif"
                 />
+                <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
+                  Tap on mic to interact
+                </p>
               </div>
             )}
 
-            {/* )} */}
-
-            <div className="flex flex-col gap-[3.18rem]">
-              <div
-                className={`${
-                  isUserSpeaking ? "opacity-70" : ""
-                }   md:w-auto mx-auto flex justify-center items-center `}
-              >
-                {/* <audio
-         ref={audioRef}
-         onEnded={handleAudioEnd}
-         // onEnded={startSpeechRecognition}
-         className="hidden"
-       ></audio> */}
-
-                {
-                  // !startClicked ? (
-                  //   <button
-                  //     onClick={handleClick}
-                  //     className={` inset-0 transition-opacity duration-1000 ease-in-out   py-3 px-8 rounded-[52px] border-[2px] border-[#E6F3FF80] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none`}
-                  //   >
-                  //     Start
-                  //   </button>
-                  // ) : (
-                  // !isUserSpeaking && (
-                  <>
-                    <input
-                      className={`${isUserSpeaking?"hidden":""} pointer-events-none inset-0 transition-opacity mx-auto duration-1000 ease-in-out py-4 px-12  rounded-xl border-[4px] border-[#FFD076] bg-white font-Montserrat text-xs font-semibold text-center text-[#1E1E1E] placeholder:text-[#1E1E1E] outline-none `}
-                      placeholder="Tap on mic to interact"
-                      // placeholder="Tap on mic or type to interact"
-                      type="text"
-                    />
-
-                    {/* <img
-                      className="absolute top-1/2  -translate-y-1/2 right-4"
-                      src="/svgs/aeroplane.svg"
-                      alt=""
-                    /> */}
-                  </>
-                  // )
-                  // )
-                }
-              </div>
+            <div className="flex flex-col gap-y-6">
+              <img
+                className="max-w-[294px] w-[87%] mx-auto"
+                src="/images/paint-box-collage.png"
+                alt=""
+              />
               {<HivocoPowered />}
             </div>
           </div>
         </div>
       </div>
-      {/* )}  */}
     </div>
   );
 }
