@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useSpeechRecognition from "../hooks/useSpeechRecognition";
 import HivocoPowered from "../components/HivocoPowered";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PopUp from "../components/PopUp";
 import SelectLanguage from "../components/SelectLanguage";
 
@@ -16,12 +16,20 @@ function Interaction() {
     setSpeechText,
   } = useSpeechRecognition();
 
+
+  const navigate = useNavigate();
+
   const [language, setLanguage] = useState("");
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
   const [isVideoRendering, setIsVideoRendering] = useState(false);
 
+  const [isStopImgVisible,setIsStopImgVisible] =useState(true)
+
   const [startClicked, setStartClicked] = useState(false);
+
+
   const audioRef = useRef(null);
+  
   const videoRef = useRef(null);
 
   const [uuId, setUuId] = useState(null);
@@ -55,9 +63,22 @@ function Interaction() {
 
   const superTextArray= superText.split(",")
 
-  const displaySuperTextBullets = superTextArray.map((text, index) => {
-    return index < 4 && <li className="first-letter:uppercase font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white" key={index}>{text}</li>;
-  });
+  const displaySuperTextBullets =
+    convoNumber === 0 || convoNumber === 1
+      ? []
+      : superTextArray.map((text, index) => {
+          // fot this conditon return nothing in the array
+          return (
+            index < 4 && (
+              <li
+                className="first-letter:uppercase font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white"
+                key={index}
+              >
+                {text}
+              </li>
+            )
+          );
+        });
   
   
 
@@ -125,7 +146,7 @@ function Interaction() {
       setSentence(data.answer);
       data?.video_link && displayVideo(data?.video_link)
       setSuperText(data?.key_word?data?.key_word:"")
-      setConvoNumber(data?.key_word ? convoNumber + 1 : convoNumber);
+      setConvoNumber(data?.audio ? convoNumber + 1 : convoNumber);
 
     } catch (error) {
       console.error("Error:", error);
@@ -137,6 +158,7 @@ function Interaction() {
     if (audioRef.current) {
       audioRef.current.src = audioSrc;
       audioRef.current.play();
+      // audioRef.current.playbackRate=2;
     }
   };
 
@@ -172,6 +194,7 @@ function Interaction() {
     startSpeechRecognition();
     setIsVideoRendering(false);
     setIsUserSpeaking(true);
+    setIsStopImgVisible(true)
     setSuperText("")
   }
 
@@ -185,10 +208,13 @@ function Interaction() {
 
   useEffect(() => {
     if (language) {
-      handleClick();
+      handleClick()
     }
   }, [language]);
 
+  if(!language){
+    return  <SelectLanguage language={language} setLanguage={setLanguage}/>
+  }
 
   return (
     <div
@@ -196,11 +222,11 @@ function Interaction() {
         isVideoRendering ? "h-screen flex items-center" : ""
       } w-full `}
     >
-      {!language && (
+      {/* {!language && (
         <PopUp bg={"transparent"}>
           <SelectLanguage language={language} setLanguage={setLanguage} />
         </PopUp>
-      )}
+      )} */}
 
       <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
 
@@ -223,16 +249,16 @@ function Interaction() {
 
       {/* major ui starts here  */}
       <div
-        className={`w-full h-svh md:h-auto pt-10 pb-[4.375rem]   inset-0 transition-opacity duration-500 ease-in-out  ${
+        className={`w-full h-svh md:h-auto pt-5 pb-[4.375rem]   inset-0 transition-opacity duration-500 ${
           isVideoRendering ? "opacity-0 pointer-events-none" : "opacity-100"
         } `}
       >
         <div
           className={`parent  w-full flex flex-col   ${
-            isUserSpeaking ? "md:m-0 gap-8" : " md:mt-20 gap-y-12"
+            isUserSpeaking ? "md:m-0 gap-20" : " md:mt-3 gap-y-12"
           }`}
         >
-          <div className=" flex flex-col gap-14 px-9 md:w-full md:mt-8">
+          <div className=" flex flex-col gap-10 px-9 md:w-full md:mt-8">
             <div className="flex items-center justify-center ">
               <img
                 className="h-auto  max-h-[5.63rem] md:max-h-16 w-auto object-contain"
@@ -247,26 +273,55 @@ function Interaction() {
               />
             </div>
 
-            {(!isUserSpeaking && !superText) && (
-              <p className="text-white  font-Poppins text-sm font-semibold text-center md:w-full">
+            {!isUserSpeaking && !superText && (
+              <p className="text-white  font-Poppins text-base font-semibold text-center md:w-full">
                 Find answers to your questions <br /> with our Voice AI model...{" "}
               </p>
             )}
 
-
-             {superText && convoNumber===1 ? (
+            {superText && convoNumber === 1 ? (
               <h2 className="font-Poppins min-h-56  mx-auto flex items-center  text-white text-2xl leading-[28.8px] font-semibold text-left">
                 {superText}
               </h2>
-            ) : (superText && 
-              <ul className="min-h-56 font-Poppins flex flex-col gap-6 px-10 list-disc">
-                {displaySuperTextBullets}
-              </ul>
+            ) : (
+              superText && (
+                <ul className="min-h-56 font-Poppins flex flex-col gap-6 px-10 list-disc">
+                  {displaySuperTextBullets}
+                </ul>
+              )
+            )}
+
+            {!isUserSpeaking && superText && convoNumber !== 1 && (
+              <div className="flex flex-col items-center justify-center gap-8">
+                {/* <img  className="w-16 h-16" src= alt="stop image" /> */}
+
+                <img
+                  onClick={() => {
+                    setIsStopImgVisible(false);
+                    audioRef.current && audioRef.current.pause();
+                    setTimeout(() => {
+                      !isUserSpeaking && handleAudioEnd();
+                    }, 500);
+                  }}
+                  className="h-[84px]"
+                  src={
+                    isStopImgVisible ? "/images/stop.png" : "/images/mic.png"
+                  }
+                  alt="mic image"
+                />
+
+                <img
+                  onClick={() => navigate("/explore-your-experience")}
+                  className="h-11"
+                  src="/svgs/close.svg"
+                  alt="close image"
+                />
+              </div>
             )}
           </div>
           <div
             className={`flex flex-col ${
-              isUserSpeaking ? "gap-y-4" : "gap-y-4"
+              isUserSpeaking ? "gap-y-28" : "gap-y-4"
             }`}
           >
             {isUserSpeaking ? (
@@ -276,7 +331,7 @@ function Interaction() {
                     " Hey, I'm Shalimar AI Let me know how I can help"}
                 </h1>
 
-                <div className="flex flex-col gap-5 w-full">
+                <div className="flex flex-col gap-8 w-full">
                   <div className="w-full mx-auto   h-36 flex  items-center  ">
                     <img
                       className="w-full "
@@ -291,26 +346,32 @@ function Interaction() {
                 </div>
               </div>
             ) : (
-               !superText &&
-                <div className="w-full flex flex-col gap-12 items-center">
-                <img
-                  onClick={() => !isUserSpeaking && handleAudioEnd()}
-                  className="max-h-[100px]"
-                  src="/gif/mic icon.gif"
-                  alt="mic gif"
-                />
-                <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
-                  Tap on mic to interact
-                </p>
-              </div>
+              !superText && (
+                <div className="w-full flex flex-col gap-y-12 items-center">
+                  <img
+                    onClick={() => !isUserSpeaking && handleAudioEnd()}
+                    className="max-h-[7.5rem]"
+                    src="/gif/mic icon.gif"
+                    alt="mic gif"
+                  />
+                  <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
+                    Tap on mic to interact
+                  </p>
+                </div>
+              )
             )}
 
             <div className="flex flex-col gap-y-6">
-              <img
-                className="max-w-[294px] w-[87%] mx-auto"
-                src="/images/paint-box-collage.png"
-                alt=""
-              />
+              {!isUserSpeaking &&  (
+                <img
+                  className={`
+                    ${superText && (convoNumber !== 1) === true ? "hidden" : ""}
+                   max-w-[294px] w-[87%] mx-auto`}
+                  src="/images/paint-box-collage.png"
+                  alt=""
+                />
+              )}
+
               {<HivocoPowered />}
             </div>
           </div>

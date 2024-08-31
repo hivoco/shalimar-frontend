@@ -12,85 +12,48 @@ function SelectLanguage({ setLanguage, language }) {
     { icon: "/svgs/malayalam.svg", name: "Malayalam" },
   ];
 
-  const [clickedDivIndex, setClickedDivIndex] = useState(null);
+  // const [clickedDivIndex, setClickedDivIndex] = useState(null);
 
-  const handleClick = (index) => {
-    setClickedDivIndex(index);
-    // console.log(languages[index].name);
+  // const handleClick = (index) => {
+  //   setClickedDivIndex(index);
+  //   // console.log(languages[index].name);
 
-    setTimeout(() => {
-      setLanguage(languages[index].name);
-    }, 1*2000); // 2 sec lag so that the tick appears
-  };
+  //   setTimeout(() => {
+  //     setLanguage(languages[index].name);
+  //   }, 1 * 2000); // 2 sec lag so that the tick appears
+  // };
+
+
+
+  const languagesUI = languages.map((lang, index) => {
+    return (
+      <div
+        onClick={() => {
+          setTimeout(()=>setLanguage(lang?.name),500);
+        }}
+        key={index}
+        className={`bg-white/35
+        hover:bg-[#494949]/60 hover:border-[3px] hover:border-white    max-w-[136px] md:max-w-32 w-[136px] max-h-[116px]  flex flex-col gap-y-3 items-center justify-center  shadow-[0px_2px_6px_0px_#0000001A] rounded-[10px] py-[14px] px-8
+        `}
+      >
+        <img className="h-12" src={lang.icon} alt="language icon" />
+
+        <span className="text-white font-Poppins text-xl font-medium text-center select-none">
+          {lang.name}
+        </span>
+      </div>
+    );
+  });
 
   return (
-    <div className="min-w-72 rounded-xl flex flex-col gap-[11px]  p-[17.5px] opacity-100  shadow-[0_2px_6px_0px_#00000040]  bg-white absolute top-1/2   md:translate-x-[1%]  -translate-y-1/2  z-50">
-      <div className="py-[4.5px] flex  gap-[4.5px] items-center ">
-        <img src="/svgs/globe.svg" alt="globe" />
-        <p className=" font-Poppins text-xs leading-[16.25px] font-normal  text-left text-[#1E1E1E]">
-          Select your preferred <br /> mode of language
-        </p>
+    <div className="flex flex-col gap-11 py-8 h-svh justify-center transition-all duration-500 opacity-100 ease-in-out">
+      <h1 className="font-Poppins text-[28.1px] font-semibold leading-[38.2px] text-center text-white select-none">
+        Choose Language
+      </h1>
+
+      <div className="flex flex-wrap gap-5 items-center justify-center">
+        {languagesUI}
       </div>
-
-      <div className="flex flex-col gap-1 ">
-        {languages.map((language, index) => {
-          return (
-            <div
-              key={index}
-              className="flex items-center py-[6px] gap-1  cursor-pointer"
-              onClick={() => handleClick(index)}
-            >
-              <img src={language?.icon} alt="language icon" />
-
-              <div className="flex w-full justify-between items-center">
-                <span
-                  className={`flex flex-col items-start font-Poppins text-[11.22px] font-medium leading-[15.71px] text-center  ${
-                    index > 1 ? "text-[#16161680]" : "text-[#161616]"
-                  }`}
-                >
-                  {language?.name}
-
-                  {index > 1 && (
-                    <span className="text-[#161616] text-[8.4px] font-medium leading-3 text-center">
-                      {" "}
-                      Beta
-                    </span>
-                  )}
-                </span>
-
-                <div
-                  className={`self- w-4 h-4 border rounded-sm flex items-center justify-center ${
-                    clickedDivIndex === index
-                      ? "bg- border-black"
-                      : "border-black/50"
-                  }`}
-                >
-                  {clickedDivIndex === index && (
-                    <img src="/svgs/check.svg" alt="check" />
-                  )}
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* <div className="flex p-1 items-center">
-        <button
-          onClick={() => setLanguage("English")}
-          className="w-1/2 font-medium font-Montserrat text-sm leading-[19.6px] text-center text-[#161616] py-2  "
-        >
-          English
-        </button>
-
-
-        <button
-          onClick={() => setLanguage("Hindi")}
-          className="w-1/2 font-normal  font-Eczar text-sm leading-[19.6px] text-center text-[#161616] py-2"
-        >
-          हिन्दी
-        </button>
-      </div> */}
     </div>
   );
 }

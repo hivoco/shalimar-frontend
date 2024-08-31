@@ -5,10 +5,6 @@ const useSpeechRecognition = () => {
   const [speechText, setSpeechText] = useState("start interactivedemos");
 
   const [hasRecognitionEnded, setHasRecognitionEnded] = useState(false);
-  //   const [userText, setUserText]  = useState("")
-
-  // console.log(speechText);
-  //   const imageRef = useRef();
 
   const handleSpeechResult = (e) => {
     const transcript = Array.from(e.results)
@@ -21,11 +17,6 @@ const useSpeechRecognition = () => {
   const handleSpeechEnd = (e) => {
     e.stopImmediatePropagation();
     setHasRecognitionEnded(true);
-
-    // if (imageRef.current) {
-    //   imageRef.current.click();
-    // }
-    // setIsSpeechRecognitionActive(false);
   };
 
   const startSpeechRecognition = () => {
