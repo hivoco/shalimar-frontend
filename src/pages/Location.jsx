@@ -8,6 +8,8 @@ function Location() {
   const [currectaddress, setCurrectaddress] = useState("");
 
   const [response,setResponse]=useState(null)
+
+  const [postcode,setPostcode]=useState(null)
   // const [currentAddress, setCurrentAddress] = useState("");
 
   // console.log(latAndLan);
@@ -17,11 +19,15 @@ function Location() {
   const navigate = useNavigate();
   const getAddress = async () => {
     const info = await getFullAddress();
+    setPostcode(info.postcode)
 
     setLatAndLan({ latitude: info?.lat, longitude: info?.lon });
     // {"latitude" : 1122 , "longitude" : 1233}
     setCurrectaddress(info.address_line2);
   };
+
+
+
 
 
    const sendLocationToBackend = async (url, data) => {
@@ -53,8 +59,7 @@ function Location() {
    };
 
   const goToNearestDealersPage = (result) => {
-  
-    navigate("/get-your-nearest-dealers", { state: { result } });
+    navigate("/get-your-nearest-dealers", { state: { result,postcode,pinCode } });
   };
 
   const handleClick=()=>{
@@ -71,16 +76,20 @@ function Location() {
   }
 
   return (
-    <div className=" pt-10 w-full h-full">
-      <div className="px-6">
+    <div className=" pt-6 px-6 w-full h-full">
+      <div className="">
         <Header isarrow={false} isexit={false} />
       </div>
 
-      <section className="mt-5 text-white p-6 ">
-        <h6 className="montserrat text-xl font-semibold">
-          Find your Nearest Dealer with HiVoco’s AI
+      <section className=" text-white py-9  pb-0">
+        <h6 className="font-Poppins text-xl leading-6 font-semibold">
+          Find your Nearest Dealer with <br /> HiVoco’s AI
         </h6>
-        <div className="border-4  border-[#E6F3FF80] rounded-xl p-3 flex items-center mt-4 gap-[3px]">
+        <div
+          className={`${
+            pinCode ? "bg-white text-[#1E1E1E]" : "bg-transparent"
+          }  border-2 w-full max-h-12 border-[#F7F7F7]/50 rounded-xl p-3   flex  items-center mt-4 `}
+        >
           <input
             value={pinCode}
             onChange={(e) =>
@@ -88,58 +97,67 @@ function Location() {
             }
             maxLength={6}
             inputMode="numeric"
-            className=" flex flex-1 bg-transparent placeholder:text-white outline-none montserrat text-base font-semibold appearance-none"
+            className={`  flex  w-full flex-1 bg-transparent placeholder:text-white outline-none font-Poppins text-base leading-5 font-semibold appearance-none `}
             placeholder="Enter Pincode"
           />
-          <img src="/svgs/mic.svg" alt="Mic" srcSet="" />
-        </div>
 
-        <small className="montserrat text-xs font-semibold">
+          <img
+            onClick={(e) => {
+              e.stopPropagation();
+              setPinCode(pinCode && "");
+            }}
+            className=""
+            src={`${pinCode ? "/svgs/cross.svg" : " /svgs/mic.svg"}`}
+            alt="svg icon"
+            srcSet=""
+          />
+        </div>
+        <small className="font-Poppins text-xs font-normal">
           *Tap on mic to speak your full address.
         </small>
-
-        <small className="montserrat text-xs font-semibold py-4 block text-center">
+        <small className="uppercase font-Poppins text-xs font-normal py-4 block text-center">
           or
         </small>
 
         <div
           onClick={() => getAddress()}
-          className={`border-4  border-[#E6F3FF80] rounded-xl  py-[10.5px] px-3 flex flex-row-reverse items-center gap-[10px] ${
+          className={`border-2 max-h-12 border-[#E6F3FF]/50 rounded-xl  p-3 flex flex-row items-center gap-[10px] ${
             currectaddress ? "bg-white text-black" : "bg-transparent"
           }`}
         >
-          {currectaddress && (
-            <img
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrectaddress("");
-              }}
-              className="h-8 "
-              src="/svgs/cross.svg"
-              alt="clear"
-            />
-          )}
-
           <input
             readOnly
-            className={` overflow-x-scroll flex flex-1 bg-transparent placeholder:text-white outline-none montserrat text-base font-semibold ${currectaddress}`}
+            className={` overflow-x-scroll flex flex-1 bg-transparent placeholder:text-white outline-none font-Poppins text-base leading-5 font-semibold ${currectaddress}`}
             placeholder="Your Current Location"
             value={currectaddress}
           />
-          <img className="" src="/svgs/location.svg" alt="Mic" />
+
+          <img
+            onClick={(e) => {
+              currectaddress && e.stopPropagation();
+              setCurrectaddress(currectaddress && "");
+            }}
+            className=""
+            src={`${
+              currectaddress ? "/svgs/cross.svg" : " /svgs/location.svg"
+            }`}
+            alt="svg icon"
+            srcSet=""
+          />
         </div>
 
-        <div
-          onClick={handleClick}
-          className="flex justify-center"
-        >
-          <button className="text-base font-semibold px-3 py-[13px] border-4  border-[#E6F3FF80] rounded-xl mx-auto min-w-min mt-20 text-center">
-            Get Dealer Details
-          </button>
-        </div>
+
+            <button
+              onClick={handleClick}
+              disabled={ !(pinCode || currectaddress) ? true : false}
+              className="font-Poppins disabled:opacity-70    opacity-100  transition-opacity text-[#1E1E1E] text-base font-medium leading-5  flex justify-center  px-4 py-3 border-2 border-[#E6F3FF]/50  max-h-12 max-w-[182px] bg-white  rounded-[52px]   my-10 mx-auto text-center"
+            >
+              Get Dealer Details
+            </button>
+
       </section>
       <img
-        className=" object-contain mx-auto "
+        className="mx-auto max-w-full max-h-full h-48"
         src="/images/paint-box-collage.png"
         alt="paint-box-collage"
       />

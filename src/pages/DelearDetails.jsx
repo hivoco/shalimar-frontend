@@ -5,17 +5,19 @@ function DelearDetails() {
   const location = useLocation();
   const data = location.state.result.data;
 
+  console.log(location);
+  
+
   const navigate=useNavigate()
 
   // console.log(location);
 
-  console.log("data",data);
   
 
   if (!data || data.length===0) {
     
     return (
-      <div className="flex flex-col justify-center items-center gap-2">
+      <div className="flex h-full flex-col justify-center items-center gap-2">
         <h3 className="text-xl font-medium text-white"> Delaler not found </h3>;
         <button
           onClick={() => navigate(-1)}
@@ -28,14 +30,14 @@ function DelearDetails() {
   }
 
   return (
-    <div className=" pt-10 w-full h-full">
+    <div className=" pt-6 w-full h-full self-start">
       <div className="px-6">
         <Header isarrow={true} />
       </div>
       <section className=" text-white px-6 mt-4 mb-5 ">
         <div className="flex items-center border-b-[0.5px] border-[#FFFFFF80] pb-2">
           <img src="/svgs/location-pin.svg" alt="Location-Pin" />
-          <h6 className="font-Montserrat text-base font-medium">203022</h6>
+          <h6 className="font-Montserrat text-base font-medium">{location?.state?.postcode || location?.state?.pinCode ||""}</h6>
         </div>
       </section>
       <section className="px-6">
@@ -61,12 +63,17 @@ function DelearDetails() {
                     {dealer?.location}
                     {/* Address: A-35, First Floor, Karol Bagh, New Delhi - 110011 */}
                   </p>
-                  <small className="text-xs font-normal ">
-                    Contact: {dealer?.contact}
+                  <small className="text-xs font-normal">
+                    {/* <a href={"tel:+91"+ dealer?.contact}>Contact: {dealer?.contact} </a> */}
+
+                    {dealer?.contact}
+
+
+                    {/* Contact: {dealer?.contact} */}
                   </small>
                 </div>
               </div>
-              <Link to={"#"}>
+              <Link to={"tel:+91"+ dealer.contact}>
                 <strong className="underline font-normal font-Montserrat  text-base">
                   Connect
                 </strong>

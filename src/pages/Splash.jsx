@@ -53,16 +53,16 @@ const Splash = () => {
   }, []);
 
   return (
-    <div className="relative h-full w-full text-center p-[34px] md:p-6">
+    <div className="relative h-full w-full text-center px-8 py-12 md:p-6">
       <img
-        className={`mt-[8.75rem] md:mt-[1rem] mx-auto ${
+        className={`mt-20 md:mt-[1rem] mx-auto max-h-24 ${
           isAnimating ? "animate-positionToCenter" : "animate-centerToPosition"
         }`}
         src="/images/logo-col.png"
         alt="Powered"
       />
 
-      <div className={`mt-[5.25rem] md:mt:[2rem] `}>
+      <div className={`mt-24 md:mt:[2rem] `}>
         {items?.map((e, index) => (
           <div
             onClick={() =>
@@ -75,7 +75,7 @@ const Splash = () => {
               ["Find Trusted Painter", "Play to Win"].includes(e.title)
                 ? "bg-[#D6D6D6] border-[#D6D6D6] cursor-not-allowed"
                 : "bg-white border-[#F7F7F7]/50"
-            } group rounded-[9rem] w-full  font-Poppins text-xl font-semibold text-center py-3 px-3 border-2 mb-3  flex items-center cursor-pointer hover:shadow-xl ${
+            } group rounded-[9rem] w-full max-h-  font-Poppins text-xl font-semibold text-center py-3 px-3 border-2 mb-3  flex items-center cursor-pointer hover:shadow-xl ${
               !isAnimating
                 ? "opacity-100 scale-100 transition-all duration-700 delay-200"
                 : "opacity-0 scale-50"
@@ -104,7 +104,7 @@ const Splash = () => {
       </div>
 
       <img
-        className=" pb-[70px] pt-20 right-0 m-auto left-0"
+        className=" pb-[] mx-auto mt-12  h-12"
         src="/images/powered.png"
         alt="Powered"
       />
