@@ -53,7 +53,7 @@ const Splash = () => {
   }, []);
 
   return (
-    <div className="relative h-full w-full text-center px-8 py-12 md:p-6">
+    <div className="relative h-svh w-full text-center px-8 py-12 md:p-6">
       <img
         className={`mt-20 md:mt-[1rem] mx-auto max-h-24 ${
           isAnimating ? "animate-positionToCenter" : "animate-centerToPosition"

@@ -99,7 +99,10 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
       return;
     }
     try {
-      const res = await fetch("http://192.168.1.9:8701/api/next_question", {
+      const res = await fetch(
+        // "http://192.168.1.9:8701/api/next_question"
+        "https://shalimar.interactivedemos.io/api/next_question"
+        , {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
