@@ -4,6 +4,8 @@ import HivocoPowered from "../components/HivocoPowered";
 import { useLocation, useNavigate } from "react-router-dom";
 import PopUp from "../components/PopUp";
 import SelectLanguage from "../components/SelectLanguage";
+import SmoothTextReveal from "../components/TextReveal";
+import Survey from "./Survey";
 
 function Interaction() {
   const {
@@ -16,28 +18,23 @@ function Interaction() {
     setSpeechText,
   } = useSpeechRecognition();
 
-
   const navigate = useNavigate();
-
   const [language, setLanguage] = useState("");
+  const [questionId, setQuestionId] = useState(1);
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
   const [isVideoRendering, setIsVideoRendering] = useState(false);
-
-  const [isStopImgVisible,setIsStopImgVisible] =useState(true)
-
+  const [isStopImgVisible, setIsStopImgVisible] = useState(true);
   const [startClicked, setStartClicked] = useState(false);
-
-
+  const [selectedOption, setSelectedOption] = useState("");
+  const [quizData,setQuizData] = useState([])
   const audioRef = useRef(null);
-  
   const videoRef = useRef(null);
-
   const [uuId, setUuId] = useState(null);
+
   useEffect(() => {
     const uniqueId = sessionStorage.getItem("uuId");
     uniqueId && setUuId(uniqueId);
   }, []);
-
 
   const messages = [
     "Hey, I’m Shalimar AI. Let me know how I can help.",
@@ -54,37 +51,31 @@ function Interaction() {
 
   const [message, setMessage] = useState(messages[0]);
   const [msgIndex, setMsgIndex] = useState(0);
-  const [superText,setSuperText]=useState("")
-
+  const [superText, setSuperText] = useState("");
   const [convoNumber, setConvoNumber] = useState(0);
-
-
-
-
-  const superTextArray= superText.split(",")
-
-  const displaySuperTextBullets =
-    convoNumber === 0 || convoNumber === 1
-      ? []
-      : superTextArray.map((text, index) => {
-          // fot this conditon return nothing in the array
-          return (
-            index < 4 && (
-              <li
-                className="first-letter:uppercase font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white"
-                key={index}
-              >
-                {text}
-              </li>
-            )
-          );
-        });
   
-  
+
+  // const superTextArray= superText.split(",")
+
+  // const displaySuperTextBullets =
+  //   convoNumber === 0 || convoNumber === 1
+  //     ? []
+  //     : superTextArray.map((text, index) => {
+  //         // fot this conditon return nothing in the array
+  //         return (
+  //           index < 4 && (
+  //             <li
+  //               className="first-letter:uppercase font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white"
+  //               key={index}
+  //             >
+  //               {text}
+  //             </li>
+  //           )
+  //         );
+  //       });
 
   useEffect(() => {
     if (isUserSpeaking) {
-
       setMessage(messages[msgIndex]);
       setMsgIndex(msgIndex + 1);
     }
@@ -124,30 +115,29 @@ function Interaction() {
   async function sendTextToBackend(text) {
     try {
       let response = await fetch(
-        // "http://192.168.1.9:8502/api/interactivedemos/process",
+        // "http://192.168.1.9:8701/api/interactivedemos/process",
         "https://shalimar.interactivedemos.io/api/interactivedemos/process",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
+          body: JSON.stringify({ 
             data: text,
             language: language.toLocaleLowerCase(),
             session_id: uuId,
+            quiz:quizData
           }),
         }
       );
       let data = await response.json();
-
-      console.log("Response from backend:", data);
       playAudio(data?.audio);
       setCurrentSubtitle("");
       setSentence(data.answer);
-      data?.video_link && displayVideo(data?.video_link)
-      setSuperText(data?.key_word?data?.key_word:"")
+      data?.video_link && displayVideo(data?.video_link);
+      setSuperText(data.answer);
+      // setSuperText(data?.key_word?data?.key_word:"")
       setConvoNumber(data?.audio ? convoNumber + 1 : convoNumber);
-
     } catch (error) {
       console.error("Error:", error);
     }
@@ -194,27 +184,32 @@ function Interaction() {
     startSpeechRecognition();
     setIsVideoRendering(false);
     setIsUserSpeaking(true);
-    setIsStopImgVisible(true)
-    setSuperText("")
+    setIsStopImgVisible(true);
+    setSuperText("");
   }
 
   if (hasRecognitionEnded) {
     setTimeout(() => {
       setIsUserSpeaking(false);
-    }, 1* 1000);
+    }, 1 * 1000);
 
     enter();
   }
 
   useEffect(() => {
-    if (language) {
-      handleClick()
+    if (questionId === 11) {
+      handleClick();
     }
-  }, [language]);
+  }, [questionId]);
 
-  if(!language){
-    return  <SelectLanguage language={language} setLanguage={setLanguage}/>
+  if (!language) {
+    return <SelectLanguage language={language} setLanguage={setLanguage} />;
   }
+
+  if (language && questionId <= 10) {
+    return <Survey quizData={quizData} setQuizData={setQuizData} selectedOption={selectedOption} setSelectedOption={setSelectedOption} questionId={questionId} setQuestionId={setQuestionId} language={language} />;
+  }
+
 
   return (
     <div
@@ -279,7 +274,11 @@ function Interaction() {
               </p>
             )}
 
-            {superText && convoNumber === 1 ? (
+            {superText && !isVideoRendering && (
+              <SmoothTextReveal text={superText} />
+            )}
+
+            {/* {superText && convoNumber === 1 ? (
               <h2 className="font-Poppins min-h-56  mx-auto flex items-center  text-white text-2xl leading-[28.8px] font-semibold text-left">
                 {superText}
               </h2>
@@ -289,9 +288,10 @@ function Interaction() {
                   {displaySuperTextBullets}
                 </ul>
               )
-            )}
+            )} */}
 
-            {!isUserSpeaking && superText && convoNumber !== 1 && (
+            {/* {!isUserSpeaking && superText && convoNumber !== 1 && ( */}
+            {!isUserSpeaking && !isVideoRendering && superText && (
               <div className="flex flex-col items-center justify-center gap-8">
                 {/* <img  className="w-16 h-16" src= alt="stop image" /> */}
 
@@ -362,10 +362,10 @@ function Interaction() {
             )}
 
             <div className="flex flex-col gap-y-6">
-              {!isUserSpeaking &&  (
+              {!isUserSpeaking && (
                 <img
                   className={`
-                    ${superText && (convoNumber !== 1) === true ? "hidden" : ""}
+                    ${!isUserSpeaking && !isVideoRendering && superText ? "hidden" : ""}
                    max-w-[294px] w-[87%] mx-auto`}
                   src="/images/paint-box-collage.png"
                   alt=""

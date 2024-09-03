@@ -4,7 +4,11 @@ function HivocoPowered() {
       <span className="mx-auto text-white font-Inter text-[13px] leading-[16px] font-normal ">
         Powered by
       </span>
-      <img src="/images/hivoco-logo.png" alt="hivoco-logo" />
+      <img
+        className="h-7 self-center"
+        src="/images/hivoco-logo.png"
+        alt="hivoco-logo powered"
+      />
     </div>
   );
 }

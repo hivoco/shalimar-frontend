@@ -6,7 +6,7 @@ import Layout from "./components/Layout";
 import Interaction from "./pages/Interaction";
 import NoPage from "./components/NoPage";
 
-import Test from "./pages/Test";
+import Test from "./pages/Survey";
 import Splash from "./pages/Splash";
 import Location from "./pages/Location";
 import DelearDetails from "./pages/DelearDetails";
@@ -15,6 +15,9 @@ import PainterDetails from "./pages/PainterDetails";
 import Quiz from "./pages/Quiz";
 import SignUp from "./components/SignUp";
 import { useEffect, useState } from "react";
+import TextReveal from "./components/TextReveal";
+import SmoothTextReveal from "./components/TextReveal";
+import Survey from "./pages/Survey";
 
 function App() {
   const [lastUuId,setLastUuId]=useState(null)
@@ -64,21 +67,15 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/interaction" element={<Interaction />} />
-
           <Route path="/explore-your-experience" element={<Splash />} />
           <Route path="/enter-your-location" element={<Location />} />
           <Route path="/get-your-nearest-dealers" element={<DelearDetails />} />
-
-          <Route path="/test" element={<Test/>}/>
-
-
+          <Route path="/servey" element={< Survey/>}/>
           <Route path="/sign-up" element={<SignUp />} />
-
           <Route
             path="/get-painter-using-location"
             element={<PainterLocation />}
           />
-
           <Route
             path="/get-your-nearest-painters"
             element={<PainterDetails />}
