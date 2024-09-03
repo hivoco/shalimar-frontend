@@ -1,9 +1,15 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelectedOption, quizData,setQuizData }) => {
   const [data, setData] = useState("");
   const navigate = useNavigate();
+
+  // const [progress,setProgress] =useState(10)
+
+  // useEffect(()=>{
+  //   setProgress(questionId/10 *100)
+  // },questionId)
 
   useLayoutEffect(() => {
     const fetchData = async () => {
@@ -129,8 +135,11 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
     <div className="relative w-full h-svh py-11 flex flex-col justify- gap-6 select-none  px-8">
       <div className="flex flex-col items-center gap-y-7">
         <div className="flex w-full items-center justify-between">
+          <Link to={"/explore-your-experience"}>
           <img src="/svgs/back.svg" alt="Back button" />
-          <img className="" src="/svgs/cross.svg" alt="Close button" />
+
+          </Link>
+          {/* <img className="" src="/svgs/cross.svg" alt="Close button" /> */}
         </div>
 
         <div className="flex flex-col items-center gap-y-7  w-full ***">
@@ -138,7 +147,7 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
             className="appearance-none h-2 text-[#1BAB29]   mx-auto w-full  rounded-2xl bg-white "
             id="file"
             max="100"
-            value={20}
+            value={10}
           ></progress>
 
           <span className=" h-6   px-3 py-0.5  text-white rounded-[26px] bg-white/30  font-poppins text-sm font-medium leading-[19.6px]">
