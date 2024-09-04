@@ -166,7 +166,10 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
             {data?.options?.map((option, index) => {
               return (
                 <span
-                  onClick={() => setSelectedOption(option)}
+                  onClick={() => {
+                    setSelectedOption(option);
+                    handlePostRequest();
+                  }}
                   key={index}
                   className="flex text-nowrap items-center justify-center hover:border-2 hover:border-white  text-center hover:bg-[#494949]/50 hover:shadow-[0px_1.66px_4.97px_0px_#0000001A]  font-Poppins text-base font-medium leading-[22.4px]  text-white
                 bg-white/40 shadow-[0px_1.66px_4.97px_0px_#0000001A]  w-full max-h-16 h-16  rounded-lg px-20"
@@ -177,7 +180,7 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
             })}
           </div>
 
-          <button
+          {/* <button
             disabled={!selectedOption ? true : false}
             onClick={() => {
               handlePostRequest();
@@ -185,7 +188,7 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
             className="fixed bottom-12 w-4/5 py-3 disabled:opacity-70  mx-auto rounded-[104px]  bg-white border-2 border-[#F7F7F7]/50 font-Poppins text-lg font-semibold leading-[24.5px] text-center text-[#1E1E1E]"
           >
             Continue
-          </button>
+          </button> */}
         </div>
       </div>
       <audio className="invisible" ref={audioRef} />
