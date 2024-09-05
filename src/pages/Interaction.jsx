@@ -157,7 +157,7 @@ function Interaction() {
     console.log(videoSrc);
     if (videoRef.current) {
       videoRef.current.src = videoSrc;
-      videoRef.current.play();
+      videoRef.current.play()
     }
   };
 
@@ -197,7 +197,7 @@ function Interaction() {
   }
 
   useEffect(() => {
-    if (questionId === 11) {
+    if (questionId === 7) {// no of question + 1
       handleClick();
     }
   }, [questionId]);
@@ -206,7 +206,7 @@ function Interaction() {
     return <SelectLanguage language={language} setLanguage={setLanguage} />;
   }
 
-  if (language && questionId <= 10) {
+  if (language && questionId <= 6) {
     return <Survey quizData={quizData} setQuizData={setQuizData} selectedOption={selectedOption} setSelectedOption={setSelectedOption} questionId={questionId} setQuestionId={setQuestionId} language={language} />;
   }
 
@@ -232,8 +232,11 @@ function Interaction() {
             : "opacity-0 hidden pointer-events-none"
         }  object-cover    inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
         // onEnded={}
-        ref={videoRef}
         loop
+        muted
+        playsInline
+        autoPlay
+        ref={videoRef}
       >
         Your browser does not support the video tag.
       </video>

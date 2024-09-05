@@ -28,11 +28,6 @@ const Splash = () => {
       path: "/interaction",
     },
     {
-      title: "Play to Win",
-      icon: "/svgs/parcel.svg",
-      path: "/quiz",
-    },
-    {
       title: "Find nearest Dealer",
       icon: "/svgs/delear.svg",
       path: "/enter-your-location",
@@ -41,6 +36,12 @@ const Splash = () => {
       title: "Find Trusted Painter",
       icon: "/svgs/paint.svg",
       path: "/get-painter-using-location",
+    },
+
+    {
+      title: "Download Brochure PDF",
+      icon: "/svgs/download.svg",
+      path: "/download",
     },
   ];
 
@@ -72,7 +73,7 @@ const Splash = () => {
 
             key={index}
             className={`${
-              ["Find Trusted Painter", "Play to Win"].includes(e.title)
+              ["Find Trusted Painter"].includes(e.title)
                 ? "bg-[#D6D6D6] border-[#D6D6D6] cursor-not-allowed"
                 : "bg-white border-[#F7F7F7]/50"
             } group rounded-[9rem] w-full max-h-  font-Poppins text-xl font-semibold text-center py-3 px-3 border-2 mb-3  flex items-center cursor-pointer hover:shadow-xl ${
@@ -84,7 +85,7 @@ const Splash = () => {
             <div className="flex flex-1 gap-2 items-center">
               <img src={e.icon} alt="" />
               <div className="flex flex-col items-start">
-                <strong className={`${ (index ===1 || index===3) && "text-[#969696]"}  text-left  font-Poppins text-base font-semibold`}>
+                <strong className={`${ (index ===2) && "text-[#969696]"}  text-left  font-Poppins text-base font-semibold`}>
                   {e.title}
                 </strong>
                 {["Find Trusted Painter", "Play to Win"].includes(e.title) && (
@@ -95,7 +96,7 @@ const Splash = () => {
               </div>
             </div>
             <img
-              className={`group-hover:animate-bounceLR ${ (index ===1 || index===3) && "opacity-50"}`}
+              className={`group-hover:animate-bounceLR ${ (index ===2) && "opacity-50"}`}
               src="/svgs/arrow.svg"
               alt="arrow"
             />

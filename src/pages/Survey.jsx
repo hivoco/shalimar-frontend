@@ -1,22 +1,25 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import ProgressBar from "./ProgressBar";
 
-const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelectedOption, quizData,setQuizData }) => {
+const Survey = ({
+  questionId,
+  setQuestionId,
+  language,
+  selectedOption,
+  setSelectedOption,
+  quizData,
+  setQuizData,
+}) => {
   const [data, setData] = useState("");
   const navigate = useNavigate();
-
-  // const [progress,setProgress] =useState(10)
-
-  // useEffect(()=>{
-  //   setProgress(questionId/10 *100)
-  // },questionId)
 
   useLayoutEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://shalimar.interactivedemos.io/api/first_question",
-          // "http://192.168.1.9:8701/api/
+          "https://shalimar.interactivedemos.io/api/first_question"
+          // "http://192.168.1.9:8701/api/first_question"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -26,7 +29,7 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
         setData(result);
       } catch (error) {
         console.log(error);
-      } 
+      }
     };
 
     fetchData();
@@ -34,124 +37,129 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
 
   const audioRef = useRef(null);
 
-  const playAudio = (src="english") => {
+  const playAudio = (src = "english") => {
     if (audioRef.current) {
-      audioRef.current.src=src
+      audioRef.current.src = src;
       audioRef.current.play();
     }
   };
-  
 
-  const playAudioBasedOnLanguage = (language)=>{
-   
-    let src = ""
+  const playAudioBasedOnLanguage = (language) => {
+    let src = "";
     switch (language) {
       case "English":
-       
-        src="/audios/eng_inital.mp3"
+        src = "/audios/eng_inital.mp3";
         break;
       case "Hindi":
-        src="/audios/hindi_in.mp3"
-        
+        src = "/audios/hindi_in.mp3";
+
         break;
       case "Bengali":
-        src="/audios/bangla.mp3"
-        
+        src = "/audios/bangla.mp3";
+
         break;
       case "Telugu":
-        src="/audios/telugu.mp3"
-        
+        src = "/audios/telugu.mp3";
+
         break;
       case "Marathi":
-        src="/audios/marathi_init.mp3"
-        
+        src = "/audios/marathi_init.mp3";
+
         break;
       case "Malayalam":
-        src="/audios/malyalm.mp3"
-        
+        src = "/audios/malyalm.mp3";
+
         break;
       case "Kannada":
-        src="/audios/kannda.mp3"
-        
+        src = "/audios/kannda.mp3";
+
         break;
       case "Tamil":
-        src="/audios/tamil_int.mp3"
-        
+        src = "/audios/tamil_int.mp3";
+
         break;
-      
+
       default:
-      
         break;
     }
-    playAudio(src)
-    
-  }
+    playAudio(src);
+  };
 
   useEffect(() => {
-    playAudioBasedOnLanguage(language)
+    playAudioBasedOnLanguage(language);
   }, []);
 
-  const handlePostRequest = async () => {
-    console.log("object", questionId)
-    
-    if (questionId === 1 && selectedOption === "No") {
-      setQuestionId(11);
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    handlePostRequest(option); // Pass the option directly
+  };
+
+  const handlePostRequest = async (option) => {
+    if (questionId === 1 && option === "No") {
+      setQuestionId(7);
       return;
     }
-    setQuizData([...quizData,{...data, selectedOption}])
+    setQuizData([...quizData, { ...data, selectedOption: option }]);
 
-    if (questionId === 10) {
+    if (questionId === 6) {// no of questions
       setQuestionId(questionId + 1);
       return;
     }
+
     try {
       const res = await fetch(
-        // "http://192.168.1.9:8701/api/next_question"
-        "https://shalimar.interactivedemos.io/api/next_question"
-        , {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question_id: questionId,
-          answer: selectedOption,
-        }),
-      });
+        "https://shalimar.interactivedemos.io/api/next_question",
+        // "http://192.168.1.9:8701/api/next_question",
+
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            question_id: questionId,
+            answer: option, // Use the passed option
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
 
       const data = await res.json();
       setData(data);
       setQuestionId(questionId + 1);
       console.log(data);
-
-      // setResponse(JSON.stringify(data, null, 2));
     } catch (error) {
       console.error("Error:", error);
+      // Consider showing user feedback here
     }
-  };
 
+    setSelectedOption('')
+  };
 
   return (
     <div className="relative w-full h-svh py-11 flex flex-col justify- gap-6 select-none  px-8">
       <div className="flex flex-col items-center gap-y-7">
         <div className="flex w-full items-center justify-between">
           <Link to={"/explore-your-experience"}>
-          <img src="/svgs/back.svg" alt="Back button" />
-
+            <img src="/svgs/back.svg" alt="Back button" />
           </Link>
           {/* <img className="" src="/svgs/cross.svg" alt="Close button" /> */}
         </div>
 
-        <div className="flex flex-col items-center gap-y-7  w-full ***">
-          <progress
+        <div className="flex flex-col items-center gap-y-7  w-full ">
+          <ProgressBar progress={(questionId / 6) * 100} />
+          {/* <progress
             className="appearance-none h-2 text-[#1BAB29]   mx-auto w-full  rounded-2xl bg-white "
             id="file"
             max="100"
             value={10}
-          ></progress>
+          ></progress> */}
 
           <span className=" h-6   px-3 py-0.5  text-white rounded-[26px] bg-white/30  font-poppins text-sm font-medium leading-[19.6px]">
-            {questionId} of 10
+            {questionId >6?6:questionId} of 6
           </span>
         </div>
       </div>
@@ -166,13 +174,12 @@ const Survey = ({ questionId, setQuestionId, language,selectedOption,setSelected
             {data?.options?.map((option, index) => {
               return (
                 <span
-                  onClick={() => {
-                    setSelectedOption(option);
-                    handlePostRequest();
-                  }}
+                  onClick={() => handleOptionClick(option)}
                   key={index}
-                  className="flex text-nowrap items-center justify-center hover:border-2 hover:border-white  text-center hover:bg-[#494949]/50 hover:shadow-[0px_1.66px_4.97px_0px_#0000001A]  font-Poppins text-base font-medium leading-[22.4px]  text-white
-                bg-white/40 shadow-[0px_1.66px_4.97px_0px_#0000001A]  w-full max-h-16 h-16  rounded-lg px-20"
+                  className={`flex text-nowrap items-center justify-center   text-center   font-Poppins text-base font-medium leading-[22.4px]  text-white
+              bg-white/40   w-full max-h-16 h-16  rounded-lg px-20 ${
+                option === selectedOption && "bg-[#494949]/50 shadow-[0px_1.66px_4.97px_0px_#0000001A] border-white "
+              } `}
                 >
                   {option}
                 </span>
