@@ -37,3 +37,39 @@ body {
   /* bottom: 0; */
   transform: translate(-50%, -50%);
 }
+
+img {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  touch-action: none;
+  background-color: transparent;
+}
+.select-none {
+  user-select: none;
+}
+
+.touch-none {
+  touch-action: none;
+}
+
+ @keyframes rotateGradient {
+   0% {
+     background-position: 0% 50%;
+   }
+
+   50% {
+     background-position: 100% 50%;
+   }
+
+   100% {
+     background-position: 0% 50%;
+   }
+ }
+
+ .rotating-gradient {
+   background: linear-gradient(270deg, #fbbf24, #f87171, #9f7aea);
+   background-size: 400% 400%;
+   animation: rotateGradient 5s ease infinite;
+ }
+

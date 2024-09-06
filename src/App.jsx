@@ -3,9 +3,8 @@ import Home from "./pages/Home";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-import Interaction from "./pages/Interaction";
-import NoPage from "./components/NoPage";
 
+import NoPage from "./components/NoPage";
 import Test from "./pages/ProgressBar";
 import Splash from "./pages/Splash";
 import Location from "./pages/Location";
@@ -15,16 +14,14 @@ import PainterDetails from "./pages/PainterDetails";
 import Quiz from "./pages/Quiz";
 import SignUp from "./components/SignUp";
 import { useEffect, useState } from "react";
-import TextReveal from "./components/TextReveal";
-import SmoothTextReveal from "./components/TextReveal";
 import Survey from "./pages/Survey";
 import DisplayPdf from "./pages/DisplayPdf";
+import PlateformWisePages from "./pages/PlateformWisePages";
 
 function App() {
-  const [lastUuId,setLastUuId]=useState(null)
-  
-  const postData = async (uuId="empty uuid") => {
-    console.log("sending backend", uuId);
+  const [lastUuId, setLastUuId] = useState(null);
+
+  const postData = async (uuId = "empty uuid") => {
     try {
       const res = await fetch(
         "https://shalimar.interactivedemos.io/api/interactivedemos/save_date",
@@ -37,7 +34,7 @@ function App() {
           body: JSON.stringify({ session_id: uuId }),
         }
       );
-      
+
       console.log(res);
     } catch (err) {
       console.log(err);
@@ -49,7 +46,7 @@ function App() {
       const uuId = sessionStorage.getItem("uuId");
       if (uuId && uuId !== lastUuId) {
         postData(uuId);
-        setLastUuId(uuId)
+        setLastUuId(uuId);
       }
       event.preventDefault();
       event.returnValue = "";
@@ -67,7 +64,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="/interaction" element={<Interaction />} />
+          <Route path="/interaction" element={<PlateformWisePages />} />
           <Route path="/explore-your-experience" element={<Splash />} />
           <Route path="/enter-your-location" element={<Location />} />
           <Route path="/get-your-nearest-dealers" element={<DelearDetails />} />
@@ -82,7 +79,7 @@ function App() {
             element={<PainterDetails />}
           />
           <Route path="/quiz" element={<Quiz />} />
-          <Route path="/download" element={<DisplayPdf/>} />
+          <Route path="/download" element={<DisplayPdf />} />
 
           <Route path="*" element={<NoPage />} />
 

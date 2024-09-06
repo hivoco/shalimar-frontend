@@ -2,23 +2,31 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useSpeechRecognition from "../hooks/useSpeechRecognition";
 import HivocoPowered from "../components/HivocoPowered";
 import { useLocation, useNavigate } from "react-router-dom";
-import PopUp from "../components/PopUp";
+
 import SelectLanguage from "../components/SelectLanguage";
 import SmoothTextReveal from "../components/TextReveal";
 import Survey from "./Survey";
+import useVoiceRecorder from "../hooks/useVoiceRecorder";
+import blobToBase64 from "../js/blobToBase.js";
 
-function Interaction({ platform }) {
+function IOSInteraction({ platform }) {
   const {
-    startSpeechRecognition,
-    stopSpeechRecognition,
-    setRecognitionState,
-    speechText,
-    hasRecognitionEnded,
-    setHasRecognitionEnded,
-    setSpeechText,
-  } = useSpeechRecognition();
-
+    startRecordingButtonRef,
+    stopRecordingButtonRef,
+    startRecording,
+    stopRecording,
+    togglePauseResume,
+    recordingBlob,
+    isRecording,
+    isPaused,
+    recordingTime,
+    mediaRecorder,
+    InVisible,
+  } = useVoiceRecorder();
   const navigate = useNavigate();
+  const [speechText, setSpeechText] = useState(
+    "don't introduce yourself , from the previous information, user selected certain options , keeping in mind those initiate a conversation without rephrasing the data"
+  );
   const [language, setLanguage] = useState("");
   const [questionId, setQuestionId] = useState(1);
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
@@ -53,8 +61,6 @@ function Interaction({ platform }) {
   const [msgIndex, setMsgIndex] = useState(0);
   const [superText, setSuperText] = useState("");
   const [convoNumber, setConvoNumber] = useState(0);
-
-  // const superTextArray= superText.split(",")
 
   // const displaySuperTextBullets =
   //   convoNumber === 0 || convoNumber === 1
@@ -108,8 +114,26 @@ function Interaction({ platform }) {
     return () => clearTimeout(timeoutId); // Cleanup function to clear timeout
   }, [sentence]);
 
-  // const [userText, setUserText]  = useState("start interactivedemos")
-  // console.log(language);
+  const handleRecordingComplete = async () => {
+    stopRecording();
+    if (recordingBlob) {
+      blobToBase64(recordingBlob)
+        .then((res) => {
+          sendTextToBackend(res);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    stopRecording();
+    handleRecordingComplete();
+  }, [recordingBlob]);
+
+  const handleClick = () => {
+    // setStartClicked(true);
+    // enter();
+  };
 
   async function sendTextToBackend(text) {
     try {
@@ -161,42 +185,19 @@ function Interaction({ platform }) {
     }
   };
 
-  const enter = async () => {
-    let value = speechText.trim();
-
-    if (value) {
-      console.log("send text to backend");
-      sendTextToBackend(value);
+  const triggerVibration = () => {
+    if (navigator.vibrate) {
+      navigator.vibrate(200); // Vibrate for 200ms
     }
-    setHasRecognitionEnded(false);
-    setSpeechText("");
   };
 
-  const handleClick = () => {
-    setStartClicked(true);
-    enter();
+  const preventDefault = (e) => {
+    e.preventDefault(); // Prevent the default context menu on long press
   };
-
-  function handleAudioEnd() {
-    startSpeechRecognition();
-    setIsVideoRendering(false);
-    setIsUserSpeaking(true);
-    setIsStopImgVisible(true);
-    setSuperText("");
-  }
-
-  if (hasRecognitionEnded) {
-    setTimeout(() => {
-      setIsUserSpeaking(false);
-    }, 1 * 1000);
-
-    enter();
-  }
 
   useEffect(() => {
     if (questionId === 7) {
-      // no of question + 1
-      handleClick();
+      sendTextToBackend(speechText);
     }
   }, [questionId]);
 
@@ -230,7 +231,17 @@ function Interaction({ platform }) {
         </PopUp>
       )} */}
 
-      <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
+      <audio
+        ref={audioRef}
+        onEnded={() => {
+          setSuperText("");
+          setIsVideoRendering(false);
+          setIsUserSpeaking(false);
+
+          setSuperText("");
+        }}
+        className="hidden"
+      ></audio>
 
       <video
         className={`${
@@ -310,7 +321,8 @@ function Interaction({ platform }) {
                     setIsStopImgVisible(false);
                     audioRef.current && audioRef.current.pause();
                     setTimeout(() => {
-                      !isUserSpeaking && handleAudioEnd();
+                      setIsUserSpeaking(false);
+                      setSuperText("");
                     }, 500);
                   }}
                   className="h-[84px]"
@@ -358,12 +370,48 @@ function Interaction({ platform }) {
             ) : (
               !superText && (
                 <div className="w-full flex flex-col gap-y-12 items-center">
-                  <img
-                    onClick={() => !isUserSpeaking && handleAudioEnd()}
-                    className="max-h-[7.5rem]"
+                  {/* <div class="w-80 h-80 bg-gradient-to-r from-yellow-400 via-red-400 to-purple-600 g rounded-full animate-spin"></div> */}
+
+                  <div
+                    className={`w-36 h-36 rotating-gradient  rounded-full flex justify-center items-center shadow-lg ${
+                      isRecording &&
+                      "scale-110 delay-100 duration-100 transition-all ease-in-out"
+                    }`}
+                  >
+                    <img
+                      onTouchStart={(e) => {
+                        preventDefault(e);
+                        triggerVibration();
+
+                        startRecording();
+                      }}
+                      onTouchEnd={(e) => {
+                        preventDefault(e);
+                        handleRecordingComplete();
+                      }}
+                      onContextMenu={preventDefault}
+                      className="max-h-[7.5rem] select-none touch-none bg-none bg-transparent"
+                      src="/svgs/mic-i.svg"
+                      alt="mic gif"
+                    />
+                  </div>
+
+                  {/* <img
+                    onTouchStart={(e) => {
+                      preventDefault(e);
+                      triggerVibration();
+
+                      startRecording();
+                    }}
+                    onTouchEnd={(e) => {
+                      preventDefault(e);
+                      handleRecordingComplete();
+                    }}
+                    onContextMenu={preventDefault}
+                    className="max-h-[7.5rem] select-none touch-none"
                     src="/gif/mic icon.gif"
                     alt="mic gif"
-                  />
+                  /> */}
                   <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
                     Tap on mic to interact
                   </p>
@@ -395,4 +443,4 @@ function Interaction({ platform }) {
   );
 }
 
-export default Interaction;
+export default IOSInteraction;
