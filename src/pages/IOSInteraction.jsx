@@ -8,6 +8,7 @@ import SmoothTextReveal from "../components/TextReveal";
 import Survey from "./Survey";
 import useVoiceRecorder from "../hooks/useVoiceRecorder";
 import blobToBase64 from "../js/blobToBase.js";
+import debounce from "../js/debounce.js";
 
 function IOSInteraction({ platform }) {
   const {
@@ -116,7 +117,7 @@ function IOSInteraction({ platform }) {
 
   const handleRecordingComplete = async () => {
     stopRecording();
-    if (recordingBlob) {
+    if (recordingBlob && !isRecording) {
       blobToBase64(recordingBlob)
         .then((res) => {
           sendTextToBackend(res);
@@ -135,7 +136,7 @@ function IOSInteraction({ platform }) {
     // enter();
   };
 
-  async function sendTextToBackend(text) {
+  const sendTextToBackend = debounce(async (text) => {
     try {
       let response = await fetch(
         // "http://192.168.1.9:8701/api/interactivedemos/process",
@@ -165,7 +166,7 @@ function IOSInteraction({ platform }) {
     } catch (error) {
       console.error("Error:", error);
     }
-  }
+  }, 200);
 
   const playAudio = (audioBase64) => {
     const audioSrc = `data:audio/mp3;base64,${audioBase64}`;
@@ -373,12 +374,28 @@ function IOSInteraction({ platform }) {
                   {/* <div class="w-80 h-80 bg-gradient-to-r from-yellow-400 via-red-400 to-purple-600 g rounded-full animate-spin"></div> */}
 
                   <div
-                    className={`w-36 h-36 rotating-gradient  rounded-full flex justify-center items-center shadow-lg ${
+                    className={`w-36 h-36 rotating-gradient  rounded-full flex justify-center items-center shadow-lg delay-100 duration-100 transition-all ease-in-out ${
                       isRecording &&
-                      "scale-110 delay-100 duration-100 transition-all ease-in-out"
+                      "scale-125 delay-100 duration-100 transition-all ease-in-out"
                     }`}
                   >
-                    <img
+                    <i
+                      onTouchStart={(e) => {
+                        preventDefault(e);
+                        triggerVibration();
+
+                        startRecording();
+                      }}
+                      onTouchEnd={(e) => {
+                        preventDefault(e);
+                        handleRecordingComplete();
+                      }}
+                      onContextMenu={preventDefault}
+                      className="max-h-[7.5rem] select-none touch-none bg-none bg-transparent fa fa-microphone"
+                      // class="fa fa-microphone"
+                      style={{ fontSize: "48px", color: "white" }}
+                    ></i>
+                    {/* <img
                       onTouchStart={(e) => {
                         preventDefault(e);
                         triggerVibration();
@@ -393,7 +410,7 @@ function IOSInteraction({ platform }) {
                       className="max-h-[7.5rem] select-none touch-none bg-none bg-transparent"
                       src="/svgs/mic-i.svg"
                       alt="mic gif"
-                    />
+                    /> */}
                   </div>
 
                   {/* <img
@@ -413,7 +430,7 @@ function IOSInteraction({ platform }) {
                     alt="mic gif"
                   /> */}
                   <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
-                    Tap on mic to interact
+                    Press and hold the mic to interact.
                   </p>
                 </div>
               )
