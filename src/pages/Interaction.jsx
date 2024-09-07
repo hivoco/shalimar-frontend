@@ -6,6 +6,7 @@ import PopUp from "../components/PopUp";
 import SelectLanguage from "../components/SelectLanguage";
 import SmoothTextReveal from "../components/TextReveal";
 import Survey from "./Survey";
+import Interrupt from "../components/Interrupt";
 
 function Interaction() {
   const {
@@ -26,7 +27,7 @@ function Interaction() {
   const [isStopImgVisible, setIsStopImgVisible] = useState(true);
   const [startClicked, setStartClicked] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
-  const [quizData,setQuizData] = useState([])
+  const [quizData, setQuizData] = useState([]);
   const audioRef = useRef(null);
   const videoRef = useRef(null);
   const [uuId, setUuId] = useState(null);
@@ -53,26 +54,6 @@ function Interaction() {
   const [msgIndex, setMsgIndex] = useState(0);
   const [superText, setSuperText] = useState("");
   const [convoNumber, setConvoNumber] = useState(0);
-  
-
-  // const superTextArray= superText.split(",")
-
-  // const displaySuperTextBullets =
-  //   convoNumber === 0 || convoNumber === 1
-  //     ? []
-  //     : superTextArray.map((text, index) => {
-  //         // fot this conditon return nothing in the array
-  //         return (
-  //           index < 4 && (
-  //             <li
-  //               className="first-letter:uppercase font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white"
-  //               key={index}
-  //             >
-  //               {text}
-  //             </li>
-  //           )
-  //         );
-  //       });
 
   useEffect(() => {
     if (isUserSpeaking) {
@@ -122,11 +103,11 @@ function Interaction() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             data: text,
             language: language.toLocaleLowerCase(),
             session_id: uuId,
-            quiz:quizData
+            quiz: quizData,
           }),
         }
       );
@@ -134,7 +115,10 @@ function Interaction() {
       playAudio(data?.audio);
       setCurrentSubtitle("");
       setSentence(data.answer);
-      data?.video_link && displayVideo(data?.video_link);
+      // data?.video_link && displayVideo(data?.video_link);
+      displayVideo(
+        "https://videoforinteractivedemons.s3.ap-south-1.amazonaws.com/shalimar_hero/fungus.mp4"
+      );
       setSuperText(data.answer);
       // setSuperText(data?.key_word?data?.key_word:"")
       setConvoNumber(data?.audio ? convoNumber + 1 : convoNumber);
@@ -157,12 +141,12 @@ function Interaction() {
     console.log(videoSrc);
     if (videoRef.current) {
       videoRef.current.src = videoSrc;
-      videoRef.current.play()
+      videoRef.current.play();
     }
   };
 
   const enter = async () => {
-    let value = speechText.trim();
+    const value = speechText.trim();
     console.log("value", value);
 
     // stopSpeechRecognition();
@@ -197,7 +181,8 @@ function Interaction() {
   }
 
   useEffect(() => {
-    if (questionId === 7) {// no of question + 1
+    if (questionId === 7) {
+      // no of question + 1
       handleClick();
     }
   }, [questionId]);
@@ -207,30 +192,35 @@ function Interaction() {
   }
 
   if (language && questionId <= 6) {
-    return <Survey quizData={quizData} setQuizData={setQuizData} selectedOption={selectedOption} setSelectedOption={setSelectedOption} questionId={questionId} setQuestionId={setQuestionId} language={language} />;
+    return (
+      <Survey
+        quizData={quizData}
+        setQuizData={setQuizData}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        questionId={questionId}
+        setQuestionId={setQuestionId}
+        language={language}
+      />
+    );
   }
-
 
   return (
     <div
       className={`${
-        isVideoRendering ? "h-screen flex items-center" : ""
+        isVideoRendering
+          ? "parent h-screen flex flex-col  items-center gap-20 py-20"
+          : ""
       } w-full `}
     >
-      {/* {!language && (
-        <PopUp bg={"transparent"}>
-          <SelectLanguage language={language} setLanguage={setLanguage} />
-        </PopUp>
-      )} */}
-
       <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
 
       <video
         className={`${
           isVideoRendering
-            ? "h-full md:h-auto w-full opacity-100"
+            ? "h-full md:h-auto w-full opacity-100 child"
             : "opacity-0 hidden pointer-events-none"
-        }  object-cover    inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
+        }  object-cover aspect-video inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
         // onEnded={}
         loop
         muted
@@ -241,23 +231,41 @@ function Interaction() {
         Your browser does not support the video tag.
       </video>
 
-      {isVideoRendering && currentSubtitle.length > 0 && (
-        <div className="subtitle w-full md:w-80">{currentSubtitle}</div>
-      )}
+      <div className="flex flex-col items-center gap-10 child">
+          {isVideoRendering && currentSubtitle.length > 0 && (
+            <div className="subtitle w-screen md:w-80">{currentSubtitle}</div>
+          )}
+
+          {isVideoRendering && (
+            <Interrupt
+            className={`child`}
+              isVideoRendering={isVideoRendering}
+              setIsStopImgVisible={setIsStopImgVisible}
+              audioRef={audioRef}
+              isUserSpeaking={isUserSpeaking}
+              handleAudioEnd={handleAudioEnd}
+              isStopImgVisible={isStopImgVisible}
+            />
+          )}
+      </div>
 
       {/* major ui starts here  */}
       <div
-        className={`w-full h-svh md:h-auto pt-5 pb-[4.375rem]   inset-0 transition-opacity duration-500 ${
-          isVideoRendering ? "opacity-0 pointer-events-none" : "opacity-100"
-        } `}
+        className={`w-full h-svh md:h-auto pt-5 pb-[4.375rem]   inset-0 transition-opacity duration-500 
+                   ${
+                     isVideoRendering
+                       ? "opacity-0 pointer-events-none"
+                       : "opacity-100"
+                   }
+           `}
       >
         <div
-          className={`parent  w-full flex flex-col   ${
+          className={`  w-full flex flex-col   ${
             isUserSpeaking ? "md:m-0 gap-20" : " md:mt-3 gap-y-12"
           }`}
         >
-          <div className=" flex flex-col gap-10 px-9 md:w-full md:mt-8">
-            <div className="flex items-center justify-center ">
+          <div className={`flex flex-col gap-10 px-9 md:w-full md:mt-8 `}>
+            <div className={` flex items-center justify-center  `}>
               <img
                 className="h-auto  max-h-[5.63rem] md:max-h-16 w-auto object-contain"
                 src="/svgs/logo.svg"
@@ -281,51 +289,47 @@ function Interaction() {
               <SmoothTextReveal text={superText} />
             )}
 
-            {/* {superText && convoNumber === 1 ? (
-              <h2 className="font-Poppins min-h-56  mx-auto flex items-center  text-white text-2xl leading-[28.8px] font-semibold text-left">
-                {superText}
-              </h2>
-            ) : (
-              superText && (
-                <ul className="min-h-56 font-Poppins flex flex-col gap-6 px-10 list-disc">
-                  {displaySuperTextBullets}
-                </ul>
-              )
-            )} */}
+            {!isUserSpeaking && superText && (
+              <Interrupt
+                isVideoRendering={isVideoRendering}
+                setIsStopImgVisible={setIsStopImgVisible}
+                audioRef={audioRef}
+                isUserSpeaking={isUserSpeaking}
+                handleAudioEnd={handleAudioEnd}
+                isStopImgVisible={isStopImgVisible}
+              />
 
-            {/* {!isUserSpeaking && superText && convoNumber !== 1 && ( */}
-            {!isUserSpeaking && !isVideoRendering && superText && (
-              <div className="flex flex-col items-center justify-center gap-8">
-                {/* <img  className="w-16 h-16" src= alt="stop image" /> */}
+              // <div
+              //   className={`interrupt flex flex-col items-center justify-center gap-8 ${ !isVideoRendering ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+              // >
+              //   <img
+              //     onClick={() => {
+              //       setIsStopImgVisible(false);
+              //       audioRef.current && audioRef.current.pause();
+              //       setTimeout(() => {
+              //         !isUserSpeaking && handleAudioEnd();
+              //       }, 500);
+              //     }}
+              //     className="h-[84px]"
+              //     src={
+              //       isStopImgVisible ? "/images/stop.png" : "/images/mic.png"
+              //     }
+              //     alt="mic image"
+              //   />
 
-                <img
-                  onClick={() => {
-                    setIsStopImgVisible(false);
-                    audioRef.current && audioRef.current.pause();
-                    setTimeout(() => {
-                      !isUserSpeaking && handleAudioEnd();
-                    }, 500);
-                  }}
-                  className="h-[84px]"
-                  src={
-                    isStopImgVisible ? "/images/stop.png" : "/images/mic.png"
-                  }
-                  alt="mic image"
-                />
-
-                <img
-                  onClick={() => navigate("/explore-your-experience")}
-                  className="h-11"
-                  src="/svgs/close.svg"
-                  alt="close image"
-                />
-              </div>
+              //   <img
+              //     onClick={() => navigate("/explore-your-experience")}
+              //     className="h-11"
+              //     src="/svgs/close.svg"
+              //     alt="close image"
+              //   />
+              // </div>
             )}
           </div>
+
           <div
-            className={`flex flex-col ${
-              isUserSpeaking ? "gap-y-28" : "gap-y-4"
-            }`}
+            className={`flex flex-col
+              ${isUserSpeaking ? "gap-y-28" : "gap-y-4"}`}
           >
             {isUserSpeaking ? (
               <div className="botIsListening flex flex-col gap-y-8">
@@ -350,7 +354,10 @@ function Interaction() {
               </div>
             ) : (
               !superText && (
-                <div className="w-full flex flex-col gap-y-12 items-center">
+                <div
+                  className={` w-full flex flex-col gap-y-12 items-center 
+                 `}
+                >
                   <img
                     onClick={() => !isUserSpeaking && handleAudioEnd()}
                     className="max-h-[7.5rem]"
@@ -368,7 +375,11 @@ function Interaction() {
               {!isUserSpeaking && (
                 <img
                   className={`
-                    ${!isUserSpeaking && !isVideoRendering && superText ? "hidden" : ""}
+                    ${
+                      !isUserSpeaking && !isVideoRendering && superText
+                        ? "hidden"
+                        : ""
+                    }
                    max-w-[294px] w-[87%] mx-auto`}
                   src="/images/paint-box-collage.png"
                   alt=""

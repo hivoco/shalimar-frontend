@@ -45,6 +45,8 @@ const useSpeechRecognition = () => {
 
     recognition1.maxAlternatives = 20; // Corrected typo here
     recognition1.lang = "en-IN";
+    // recognition1.lang = "hi-IN";
+
     setRecognition(recognition1);
 
     recognition1.addEventListener("result", handleSpeechResult);

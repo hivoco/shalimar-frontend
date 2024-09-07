@@ -6,7 +6,7 @@ import Layout from "./components/Layout";
 import Interaction from "./pages/Interaction";
 import NoPage from "./components/NoPage";
 
-import Test from "./pages/ProgressBar";
+import Test from "./components/Test";
 import Splash from "./pages/Splash";
 import Location from "./pages/Location";
 import DelearDetails from "./pages/DelearDetails";
