@@ -8,7 +8,7 @@ import SmoothTextReveal from "../components/TextReveal";
 import Survey from "./Survey";
 import Interrupt from "../components/Interrupt";
 
-function Interaction() {
+function Interaction({ platform }) {
   const {
     startSpeechRecognition,
     stopSpeechRecognition,
@@ -38,7 +38,7 @@ function Interaction() {
   }, []);
 
   const messages = [
-    "Hey, I’m Shalimar AI. Let me know how I can help.",
+    "Hey, I'm Shalimar AI. Let me know how I can help.",
     "Hope I was able to assist you. How can I help you further?",
     "Yeah, you are doing good! You can ask me anything.",
     "Go ahead with your questions, I'm all tuned in.",
@@ -108,6 +108,7 @@ function Interaction() {
             language: language.toLocaleLowerCase(),
             session_id: uuId,
             quiz: quizData,
+            platform,
           }),
         }
       );
@@ -115,12 +116,11 @@ function Interaction() {
       playAudio(data?.audio);
       setCurrentSubtitle("");
       setSentence(data.answer);
-      // data?.video_link && displayVideo(data?.video_link);
-      displayVideo(
-        "https://videoforinteractivedemons.s3.ap-south-1.amazonaws.com/shalimar_hero/fungus.mp4"
-      );
+      data?.video_link && displayVideo(data?.video_link);
+      // displayVideo(
+      //   "https://videoforinteractivedemons.s3.ap-south-1.amazonaws.com/shalimar_hero/antiviral.mp4"
+      // );
       setSuperText(data.answer);
-      // setSuperText(data?.key_word?data?.key_word:"")
       setConvoNumber(data?.audio ? convoNumber + 1 : convoNumber);
     } catch (error) {
       console.error("Error:", error);
@@ -146,11 +146,9 @@ function Interaction() {
   };
 
   const enter = async () => {
-    const value = speechText.trim();
+    let value = speechText.trim();
     console.log("value", value);
-
     // stopSpeechRecognition();
-
     if (value) {
       console.log("send text to backend");
       sendTextToBackend(value);
@@ -209,36 +207,36 @@ function Interaction() {
     <div
       className={`${
         isVideoRendering
-          ? "parent h-screen flex flex-col  items-center gap-20 py-20"
+          ? "parent h-screen flex flex-col  items-center justify-center gap-16"
           : ""
       } w-full `}
     >
       <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
 
-      <video
-        className={`${
-          isVideoRendering
-            ? "h-full md:h-auto w-full opacity-100 child"
-            : "opacity-0 hidden pointer-events-none"
-        }  object-cover aspect-video inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
-        // onEnded={}
-        loop
-        muted
-        playsInline
-        autoPlay
-        ref={videoRef}
-      >
-        Your browser does not support the video tag.
-      </video>
+        <video
+          className={`${
+            isVideoRendering
+              ? " md:h-auto w-full opacity-100 child"
+              : "opacity-0 hidden pointer-events-none"
+          }  object-cover self-center aspect-video inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
+          // onEnded={}
+          loop
+          muted
+          playsInline
+          autoPlay
+          ref={videoRef}
+        >
+          Your browser does not support the video tag.
+        </video>
 
-      <div className="flex flex-col items-center gap-10 child">
+        <div className="flex flex-col items-center gap-11 child">
           {isVideoRendering && currentSubtitle.length > 0 && (
-            <div className="subtitle w-screen md:w-80">{currentSubtitle}</div>
+            <div className="subtitle w-screen md:w-80 h-16 max-h-[70px] flex justify-center">{currentSubtitle}</div>
           )}
 
           {isVideoRendering && (
             <Interrupt
-            className={`child`}
+              className={`child`}
               isVideoRendering={isVideoRendering}
               setIsStopImgVisible={setIsStopImgVisible}
               audioRef={audioRef}
@@ -247,20 +245,20 @@ function Interaction() {
               isStopImgVisible={isStopImgVisible}
             />
           )}
-      </div>
+        </div>
 
       {/* major ui starts here  */}
       <div
         className={`w-full h-svh md:h-auto pt-5 pb-[4.375rem]   inset-0 transition-opacity duration-500 
                    ${
                      isVideoRendering
-                       ? "opacity-0 pointer-events-none"
+                       ? "opacity-0 pointer-events-none hidden"
                        : "opacity-100"
                    }
            `}
       >
         <div
-          className={`  w-full flex flex-col   ${
+          className={`  w-full flex flex-col ${isVideoRendering?"hidden":""}   ${
             isUserSpeaking ? "md:m-0 gap-20" : " md:mt-3 gap-y-12"
           }`}
         >

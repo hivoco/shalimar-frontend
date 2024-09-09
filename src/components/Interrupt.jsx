@@ -11,7 +11,7 @@ const Interrupt = ({
 }) => {
   return (
     <div
-      className={`interrupt flex flex-col items-center justify-center gap-8 ${className}`}
+      className={`interrupt flex flex-col items-center justify-center  ${isVideoRendering?"gap-4":"gap-8"} ${className}`}
     >
       <img
         onClick={() => {
@@ -26,11 +26,11 @@ const Interrupt = ({
         alt="mic image"
       />
 
-      {!isVideoRendering && (
+      {/* {!isVideoRendering && ( */}
         <Link to={"/explore-your-experience"}>
-          <img className="h-11" src="/svgs/close.svg" alt="close image" />
+          <img className={`${isVideoRendering?"h-10":"h-11"}`} src="/svgs/close.svg" alt="close image" />
         </Link>
-      )}
+      {/* )} */}
     </div>
   );
 };

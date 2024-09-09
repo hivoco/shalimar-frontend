@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { useNavigate } from "react-router-dom";
+import getPlatform from "../js/plateforn";
 
 const Splash = () => {
   const [isAnimating, setIsAnimating] = useState(true);
+  const [platform, setPlatform] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -12,10 +15,14 @@ const Splash = () => {
     console.log(sessionStorage.getItem("uuId"));
   }, []);
 
-  
+  useEffect(() => {
+    const platformName = getPlatform();
+    setPlatform(platformName);
+  }, []);
+
   const handleClick = (path) => {
-    if (path === "/interaction") {
-      navigate(path);
+    if (path === `/interaction`) {
+      navigate(`${path}/?platform=${platform}`);
     } else {
       navigate(path);
     }
@@ -68,9 +75,9 @@ const Splash = () => {
           <div
             onClick={() =>
               ["Find Trusted Painter", "Play to Win"].includes(e.title)
-                ? {}: handleClick(e.path)
+                ? {}
+                : handleClick(e.path)
             }
-
             key={index}
             className={`${
               ["Find Trusted Painter"].includes(e.title)
@@ -85,7 +92,11 @@ const Splash = () => {
             <div className="flex flex-1 gap-2 items-center">
               <img src={e.icon} alt="" />
               <div className="flex flex-col items-start">
-                <strong className={`${ (index ===2) && "text-[#969696]"}  text-left  font-Poppins text-base font-semibold`}>
+                <strong
+                  className={`${
+                    index === 2 && "text-[#969696]"
+                  }  text-left  font-Poppins text-base font-semibold`}
+                >
                   {e.title}
                 </strong>
                 {["Find Trusted Painter", "Play to Win"].includes(e.title) && (
@@ -96,7 +107,9 @@ const Splash = () => {
               </div>
             </div>
             <img
-              className={`group-hover:animate-bounceLR ${ (index ===2) && "opacity-50"}`}
+              className={`group-hover:animate-bounceLR ${
+                index === 2 && "opacity-50"
+              }`}
               src="/svgs/arrow.svg"
               alt="arrow"
             />
