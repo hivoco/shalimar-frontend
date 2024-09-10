@@ -213,39 +213,41 @@ function Interaction({ platform }) {
     >
       <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
 
-        <video
-          className={`${
-            isVideoRendering
-              ? " md:h-auto w-full opacity-100 child"
-              : "opacity-0 hidden pointer-events-none"
-          }  object-cover self-center aspect-video inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
-          // onEnded={}
-          loop
-          muted
-          playsInline
-          autoPlay
-          ref={videoRef}
-        >
-          Your browser does not support the video tag.
-        </video>
+      <video
+        className={`${
+          isVideoRendering
+            ? " md:h-auto w-full opacity-100 child"
+            : "opacity-0 hidden pointer-events-none"
+        }  object-cover self-center aspect-video inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
+        // onEnded={}
+        loop
+        muted
+        playsInline
+        autoPlay
+        ref={videoRef}
+      >
+        Your browser does not support the video tag.
+      </video>
 
-        <div className="flex flex-col items-center gap-11 child">
-          {isVideoRendering && currentSubtitle.length > 0 && (
-            <div className="subtitle w-screen md:w-80 h-16 max-h-[70px] flex justify-center">{currentSubtitle}</div>
-          )}
+      <div className="flex flex-col items-center gap-11 child">
+        {isVideoRendering && currentSubtitle.length > 0 && (
+          <div className="subtitle w-screen md:w-80 h-16 max-h-[80px] flex justify-center">
+            {currentSubtitle}
+          </div>
+        )}
 
-          {isVideoRendering && (
-            <Interrupt
-              className={`child`}
-              isVideoRendering={isVideoRendering}
-              setIsStopImgVisible={setIsStopImgVisible}
-              audioRef={audioRef}
-              isUserSpeaking={isUserSpeaking}
-              handleAudioEnd={handleAudioEnd}
-              isStopImgVisible={isStopImgVisible}
-            />
-          )}
-        </div>
+        {isVideoRendering && (
+          <Interrupt
+            className={`child`}
+            isVideoRendering={isVideoRendering}
+            setIsStopImgVisible={setIsStopImgVisible}
+            audioRef={audioRef}
+            isUserSpeaking={isUserSpeaking}
+            handleAudioEnd={handleAudioEnd}
+            isStopImgVisible={isStopImgVisible}
+          />
+        )}
+      </div>
 
       {/* major ui starts here  */}
       <div
@@ -258,9 +260,9 @@ function Interaction({ platform }) {
            `}
       >
         <div
-          className={`  w-full flex flex-col ${isVideoRendering?"hidden":""}   ${
-            isUserSpeaking ? "md:m-0 gap-20" : " md:mt-3 gap-y-12"
-          }`}
+          className={`  w-full flex flex-col ${
+            isVideoRendering ? "hidden" : ""
+          }   ${isUserSpeaking ? "md:m-0 gap-20" : " md:mt-3 gap-y-12"}`}
         >
           <div className={`flex flex-col gap-10 px-9 md:w-full md:mt-8 `}>
             <div className={` flex items-center justify-center  `}>
@@ -296,32 +298,6 @@ function Interaction({ platform }) {
                 handleAudioEnd={handleAudioEnd}
                 isStopImgVisible={isStopImgVisible}
               />
-
-              // <div
-              //   className={`interrupt flex flex-col items-center justify-center gap-8 ${ !isVideoRendering ? "opacity-0 pointer-events-none" : "opacity-100"}`}
-              // >
-              //   <img
-              //     onClick={() => {
-              //       setIsStopImgVisible(false);
-              //       audioRef.current && audioRef.current.pause();
-              //       setTimeout(() => {
-              //         !isUserSpeaking && handleAudioEnd();
-              //       }, 500);
-              //     }}
-              //     className="h-[84px]"
-              //     src={
-              //       isStopImgVisible ? "/images/stop.png" : "/images/mic.png"
-              //     }
-              //     alt="mic image"
-              //   />
-
-              //   <img
-              //     onClick={() => navigate("/explore-your-experience")}
-              //     className="h-11"
-              //     src="/svgs/close.svg"
-              //     alt="close image"
-              //   />
-              // </div>
             )}
           </div>
 
