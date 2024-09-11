@@ -6,14 +6,14 @@ function Header({ isarrow, isexit }) {
   return (
     <div className="w-full  flex items-center">
       <div className="flex flex-1 gap-2">
-        {isarrow && (
+        {/* {isarrow && (
           <img
             onClick={() => navigate(-1)}
             src="/svgs/arrow-back.svg"
             alt="arrow"
             srcSet=""
           />
-        )}
+        )} */}
         <img
           onClick={() => navigate("/")}
           className="h-[48px] object-contain"

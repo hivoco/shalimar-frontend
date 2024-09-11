@@ -52,7 +52,7 @@ body {
   right: 0;
   bottom: 0;
   background: inherit;
-  backdrop-filter: blur(30px);
+  /* backdrop-filter: blur(30px); */
   z-index: 1;
 }
 

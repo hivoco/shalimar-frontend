@@ -36,12 +36,12 @@ function SelectLanguage({ setLanguage, language }) {
   });
 
   return (
-    <div className="flex flex-col gap-11 md:gap-3 py-8 h-svh justify-center transition-all duration-500 opacity-100 ease-in-out">
-      <h1 className="font-Poppins text-[28.1px] font-semibold leading-[38.2px] text-center text-white select-none">
+    <div className="flex flex-col gap-11  py-8  h-svh justify-center transition-all duration-500 opacity-100 ease-in-out">
+      <h1 className="  font-Poppins text-[28.1px] md:text-2xl  font-semibold leading-[38.2px]  text-center text-white select-none">
         Choose Language
       </h1>
 
-      <div className="flex flex-wrap gap-5 md:gap-2 items-center justify-center">
+      <div className="flex flex-wrap gap-5 md:gap-5 items-center justify-center">
         {languagesUI}
       </div>
     </div>

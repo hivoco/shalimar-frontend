@@ -207,7 +207,7 @@ function Interaction({ platform }) {
     <div
       className={`${
         isVideoRendering
-          ? "parent h-screen flex flex-col  items-center justify-center gap-16"
+          ? "parent before:backdrop-blur-xl md:before:backdrop-blur-none h-screen flex flex-col  items-center justify-center gap-16"
           : ""
       } w-full `}
     >
@@ -229,7 +229,7 @@ function Interaction({ platform }) {
           Your browser does not support the video tag.
         </video>
 
-        <div className="flex flex-col items-center gap-11 child">
+        <div className="flex flex-col items-center gap-11 child md:">
           {isVideoRendering && currentSubtitle.length > 0 && (
             <div className="subtitle w-screen md:w-80 h-16 max-h-[70px] flex justify-center">{currentSubtitle}</div>
           )}
@@ -259,27 +259,27 @@ function Interaction({ platform }) {
       >
         <div
           className={`  w-full flex flex-col ${isVideoRendering?"hidden":""}   ${
-            isUserSpeaking ? "md:m-0 gap-20" : " md:mt-3 gap-y-12"
+            isUserSpeaking ? "md:m-0 gap-20" : " md:-mt-9 gap-y-12 md:gap-y-6"
           }`}
         >
-          <div className={`flex flex-col gap-10 px-9 md:w-full md:mt-8 `}>
+          <div className={`flex flex-col gap-10 px-9 md:w-full md:mt-20 `}>
             <div className={` flex items-center justify-center  `}>
               <img
-                className="h-auto  max-h-[5.63rem] md:max-h-16 w-auto object-contain"
+                className="h-auto  max-h-[5.63rem] md:max-h-20 w-auto object-contain"
                 src="/svgs/logo.svg"
                 alt="logo"
               />
 
               <img
-                className="h-auto w-auto  max-h-[4.5rem] md:max-h-14 object-contain"
+                className="h-auto w-auto  max-h-[4.5rem] md:max-h-16 object-contain"
                 src="/images/logo-text.png"
                 alt="logo-text"
               />
             </div>
 
             {!isUserSpeaking && !superText && (
-              <p className="text-white  font-Poppins text-base font-semibold text-center md:w-full">
-                Find answers to your questions <br /> with our Voice AI model...{" "}
+              <p className="text-white  font-Poppins text-base font-semibold text-center md:w-full md:text-nowrap">
+                Find answers to your questions <br /> with our Voice AI model...
               </p>
             )}
 
@@ -353,15 +353,16 @@ function Interaction({ platform }) {
             ) : (
               !superText && (
                 <div
-                  className={` w-full flex flex-col gap-y-12 items-center 
+                  className={` w-full flex flex-col gap-y-12 md:gap-y-6 items-center 
                  `}
                 >
                   <img
                     onClick={() => !isUserSpeaking && handleAudioEnd()}
-                    className="max-h-[7.5rem]"
+                    className="max-h-[7.5rem] md:max-h-28"
                     src="/gif/mic icon.gif"
                     alt="mic gif"
                   />
+                  
                   <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
                     Tap on mic to interact
                   </p>
@@ -378,7 +379,7 @@ function Interaction({ platform }) {
                         ? "hidden"
                         : ""
                     }
-                   max-w-[294px] w-[87%] mx-auto`}
+                   max-w-[294px] md:max-w-56 mx-auto`}
                   src="/images/paint-box-collage.png"
                   alt=""
                 />

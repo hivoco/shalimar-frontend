@@ -6,22 +6,18 @@ function DelearDetails() {
   const data = location.state.result.data;
 
   console.log(location);
-  
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   // console.log(location);
 
-  
-
-  if (!data || data.length===0) {
-    
+  if (!data || data.length === 0) {
     return (
-      <div className="flex h-full flex-col justify-center items-center gap-2">
-        <h3 className="text-xl font-medium text-white"> Delaler not found </h3>;
+      <div className="relative flex h-svh md:h-full flex-col justify-center items-center gap-2">
+        <h3 className="text-xl font-medium text-white"> No Dealer Found</h3>;
         <button
           onClick={() => navigate(-1)}
-          className="rounded-[1rem] px-5  mx-6 bg-white font-Poppins text-xl font-semibold text-center py-4  border-2 border-[#F7F7F7]/50  mb-16 hover:shadow-md"
+          className="absolute text-nowrap bottom-16 w-64 max-h-16 p-[19px_16px_19px_12px]  rounded-[120px]  border-solid border-[#F7F7F780] bg-white text-[#1E1E1E]  text-center font-poppins text-[20px] font-semibold leading-[28px]"
         >
           Go Back
         </button>
@@ -32,12 +28,17 @@ function DelearDetails() {
   return (
     <div className=" pt-6 w-full h-full self-start">
       <div className="px-6">
-        <Header isarrow={true} />
+        <Header
+        // isarrow={true}
+        />
       </div>
+
       <section className=" text-white px-6 mt-4 mb-5 ">
         <div className="flex items-center border-b-[0.5px] border-[#FFFFFF80] pb-2">
           <img src="/svgs/location-pin.svg" alt="Location-Pin" />
-          <h6 className="font-Montserrat text-base font-medium">{location?.state?.postcode || location?.state?.pinCode ||""}</h6>
+          <h6 className="font-Poppins text-base font-medium">
+            {location?.state?.postcode || location?.state?.pinCode || ""}
+          </h6>
         </div>
       </section>
       <section className="px-6">
@@ -45,43 +46,40 @@ function DelearDetails() {
           return (
             <div
               key={index}
-              className="p-[10px] bg-white flex items-center rounded-lg mb-2"
+              className="p-[10px] max-w-80 pb-1  bg-white flex flex-col items-center  gap-1 rounded-lg mb-2"
             >
-              <div className="flex flex-1 gap-1">
+              <div className="flex  flex-1 gap-2">
                 <img
                   className="rounded-full w-14 h-14"
                   src="/images/Haier Onam (9) 2.png"
                   alt="Haier Onam"
                   srcSet=""
                 />
+
                 <div className="flex flex-col gap-1">
-                  <small className="text-sm font-semibold font-Montserrat">
+                  <small className="text-sm font-semibold font-Poppins text-[#1E1E1E]">
                     {dealer.name}
                   </small>
-                  <small className="text-xs font-semibold ">location</small>
-                  <p className="text-xs font-normal ">
+                  {/* <small className="text-xs font-semibold ">location</small> */}
+                  <p className="text-xs font-normal text-[#595959] capitalize">
                     {dealer?.location}
-                    {/* Address: A-35, First Floor, Karol Bagh, New Delhi - 110011 */}
                   </p>
-                  <small className="text-xs font-normal">
-                    {/* <a href={"tel:+91"+ dealer?.contact}>Contact: {dealer?.contact} </a> */}
-
-                    {dealer?.contact}
-
-
-                    {/* Contact: {dealer?.contact} */}
+                  <small className="text-xs font-normal text-[#595959]">
+                    +91-{dealer?.contact}
                   </small>
                 </div>
               </div>
-              <Link to={"tel:+91"+ dealer.contact}>
-                <strong className="underline font-normal font-Montserrat  text-base">
+              <Link
+                className="w-full p-2 text-center border-t text-[#595959]"
+                to={"tel:+91" + dealer.contact}
+              >
+                <strong className="font-Poppins text-sm font-medium text-[#161616]">
                   Connect
                 </strong>
               </Link>
             </div>
           );
         })}
-
       </section>
     </div>
   );

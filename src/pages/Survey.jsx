@@ -140,8 +140,8 @@ const Survey = ({
   };
 
   return (
-    <div className="relative w-full h-svh py-11 flex flex-col justify- gap-6 select-none  px-8">
-      <div className="flex flex-col items-center gap-y-7">
+    <div className="relative w-full md:max-w-64   h-svh py-11 flex flex-col  gap-6 select-none  px-8 md:px-0  ">
+      <div className="flex flex-col items-center gap-y-7 w-full  mx-auto">
         <div className="flex w-full items-center justify-between">
           <Link to={"/explore-your-experience"}>
             <img src="/svgs/back.svg" alt="Back button" />
@@ -164,13 +164,13 @@ const Survey = ({
         </div>
       </div>
 
-      <div className=" flex flex-col gap-7 items-center">
-        <h2 className="font-Poppins text-lg font-medium leading-[25.2px] text-center text-white">
+      <div className=" flex flex-col gap-7  items-center w-full">
+        <h2 className="font-Poppins text-lg font-medium leading-[25.2px] text-center text-white ">
           {data?.question}
         </h2>
 
         <div className="flex flex-col gap-8 w-full">
-          <div className=" flex flex-col gap-y-3 w-full ">
+          <div className=" flex flex-col gap-y-3 w-full   mx-auto">
             {data?.options?.map((option, index) => {
               return (
                 <span
@@ -198,6 +198,7 @@ const Survey = ({
           </button> */}
         </div>
       </div>
+
       <audio className="invisible" ref={audioRef} />
     </div>
   );
