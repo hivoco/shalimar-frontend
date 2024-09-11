@@ -149,7 +149,7 @@ function Location() {
 
             <button
               onClick={handleClick}
-              disabled={ !(pinCode || currectaddress) ? true : false}
+              disabled={ !(pinCode?.length===6 || currectaddress) ? true : false}
               className="font-Poppins disabled:opacity-70    opacity-100  transition-opacity text-[#1E1E1E] text-base font-medium leading-5  flex justify-center  px-4 py-3 border-2 border-[#E6F3FF]/50  max-h-12 max-w-[182px] bg-white  rounded-[52px]   my-10 mx-auto text-center"
             >
               Get Dealer Details

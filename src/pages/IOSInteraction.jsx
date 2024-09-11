@@ -9,6 +9,7 @@ import Survey from "./Survey";
 import useVoiceRecorder from "../hooks/useVoiceRecorder";
 import blobToBase64 from "../js/blobToBase.js";
 import debounce from "../js/debounce.js";
+import Interrupt from "../components/Interrupt.jsx";
 
 function IOSInteraction({ platform }) {
   const {
@@ -223,7 +224,9 @@ function IOSInteraction({ platform }) {
   return (
     <div
       className={`${
-        isVideoRendering ? "h-screen flex items-center" : ""
+        isVideoRendering
+          ? "parent h-screen flex flex-col  items-center justify-center gap-16 "
+          : ""
       } w-full `}
     >
       {/* {!language && (
@@ -244,7 +247,7 @@ function IOSInteraction({ platform }) {
         className="hidden"
       ></audio>
 
-      <video
+      {/* <video
         className={`${
           isVideoRendering
             ? "h-full md:h-auto w-full opacity-100"
@@ -262,13 +265,62 @@ function IOSInteraction({ platform }) {
 
       {isVideoRendering && currentSubtitle.length > 0 && (
         <div className="subtitle w-full md:w-80">{currentSubtitle}</div>
-      )}
+      )} */}
+
+      <video
+        className={`${
+          isVideoRendering
+            ? " md:h-auto w-full opacity-100 child"
+            : "opacity-0 hidden pointer-events-none"
+        }  object-cover self-center aspect-video inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
+        // onEnded={}
+        loop
+        muted
+        playsInline
+        autoPlay
+        ref={videoRef}
+      >
+        Your browser does not support the video tag.
+      </video>
+
+      <div className="flex flex-col items-center gap-11 child">
+        {isVideoRendering && currentSubtitle.length > 0 && (
+          <div className="subtitle w-screen md:w-80 h-16 max-h-[80px] flex justify-center">
+            {currentSubtitle}
+          </div>
+        )}
+
+        {isVideoRendering && (
+          <Interrupt
+            className={`child`}
+            isVideoRendering={isVideoRendering}
+            setIsStopImgVisible={setIsStopImgVisible}
+            audioRef={audioRef}
+            // isUserSpeaking={isUserSpeaking}
+            handleAudioEnd={() => {
+              setIsStopImgVisible(false);
+              audioRef.current && audioRef.current.pause();
+              setTimeout(() => {
+                setIsUserSpeaking(false);
+                setIsVideoRendering(false);
+                setSuperText("");
+              }, 500);
+            }}
+            // isStopImgVisible={isStopImgVisible}
+          />
+        )}
+      </div>
 
       {/* major ui starts here  */}
       <div
-        className={`w-full h-svh md:h-auto pt-5 pb-[4.375rem]   inset-0 transition-opacity duration-500 ${
-          isVideoRendering ? "opacity-0 pointer-events-none" : "opacity-100"
-        } `}
+        v
+        className={`w-full h-svh md:h-auto pt-5 pb-[4.375rem]   inset-0 transition-opacity duration-500 
+                   ${
+                     isVideoRendering
+                       ? "opacity-0 pointer-events-none hidden"
+                       : "opacity-100"
+                   }
+           `}
       >
         <div
           className={`  w-full flex flex-col   ${
@@ -300,19 +352,6 @@ function IOSInteraction({ platform }) {
               <SmoothTextReveal text={superText} />
             )}
 
-            {/* {superText && convoNumber === 1 ? (
-              <h2 className="font-Poppins min-h-56  mx-auto flex items-center  text-white text-2xl leading-[28.8px] font-semibold text-left">
-                {superText}
-              </h2>
-            ) : (
-              superText && (
-                <ul className="min-h-56 font-Poppins flex flex-col gap-6 px-10 list-disc">
-                  {displaySuperTextBullets}
-                </ul>
-              )
-            )} */}
-
-            {/* {!isUserSpeaking && superText && convoNumber !== 1 && ( */}
             {!isUserSpeaking && !isVideoRendering && superText && (
               <div className="flex flex-col items-center justify-center gap-8">
                 {/* <img  className="w-16 h-16" src= alt="stop image" /> */}
@@ -374,22 +413,23 @@ function IOSInteraction({ platform }) {
                   {/* <div class="w-80 h-80 bg-gradient-to-r from-yellow-400 via-red-400 to-purple-600 g rounded-full animate-spin"></div> */}
 
                   <div
+                    onTouchStart={(e) => {
+                      preventDefault(e);
+                      triggerVibration();
+
+                      startRecording();
+                    }}
+                    onTouchEnd={(e) => {
+                      preventDefault(e);
+                      handleRecordingComplete();
+                    }}
+                    onContextMenu={preventDefault}
                     className={`w-36 h-36 rotating-gradient  rounded-full flex justify-center items-center shadow-lg delay-100 duration-100 transition-all ease-in-out ${
                       isRecording &&
                       "scale-125 delay-100 duration-100 transition-all ease-in-out"
                     }`}
                   >
                     <i
-                      onTouchStart={(e) => {
-                        preventDefault(e);
-                        triggerVibration();
-
-                        startRecording();
-                      }}
-                      onTouchEnd={(e) => {
-                        preventDefault(e);
-                        handleRecordingComplete();
-                      }}
                       onContextMenu={preventDefault}
                       className="max-h-[7.5rem] select-none touch-none bg-none bg-transparent fa fa-microphone"
                       // class="fa fa-microphone"
