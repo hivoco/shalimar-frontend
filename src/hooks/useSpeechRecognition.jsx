@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const useSpeechRecognition = () => {
   const [recognition, setRecognition] = useState(null);
   const [speechText, setSpeechText] = useState(
-    "don't introduce yourself , from the previous information, user selected certain options , keeping in mind those initiate a conversation without rephrasing the data , please provide the answer in 40 words"
+    "don't introduce yourself , from the previous information, user selected certain options , keeping in mind those initiate a conversation without rephrasing the data "
   );
 
   const [hasRecognitionEnded, setHasRecognitionEnded] = useState(false);
