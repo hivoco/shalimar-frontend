@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import useSpeechRecognition from "../hooks/useSpeechRecognition";
 import HivocoPowered from "../components/HivocoPowered";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import SelectLanguage from "../components/SelectLanguage";
 import SmoothTextReveal from "../components/TextReveal";
@@ -12,19 +11,8 @@ import debounce from "../js/debounce.js";
 import Interrupt from "../components/Interrupt.jsx";
 
 function IOSInteraction({ platform }) {
-  const {
-    startRecordingButtonRef,
-    stopRecordingButtonRef,
-    startRecording,
-    stopRecording,
-    togglePauseResume,
-    recordingBlob,
-    isRecording,
-    isPaused,
-    recordingTime,
-    mediaRecorder,
-    InVisible,
-  } = useVoiceRecorder();
+  const { startRecording, stopRecording, recordingBlob, isRecording } =
+    useVoiceRecorder();
   const navigate = useNavigate();
   const [speechText, setSpeechText] = useState(
     "don't introduce yourself , from the previous information, user selected certain options , keeping in mind those initiate a conversation without rephrasing the data"
@@ -35,6 +23,7 @@ function IOSInteraction({ platform }) {
   const [isVideoRendering, setIsVideoRendering] = useState(false);
   const [isStopImgVisible, setIsStopImgVisible] = useState(true);
   const [startClicked, setStartClicked] = useState(false);
+  const [isFirstAPICall, setIsFirstAPICall] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
   const [quizData, setQuizData] = useState([]);
   const audioRef = useRef(null);
@@ -140,7 +129,7 @@ function IOSInteraction({ platform }) {
   const sendTextToBackend = debounce(async (text) => {
     try {
       let response = await fetch(
-        // "http://192.168.1.9:8701/api/interactivedemos/process",
+        // "http://192.168.186.175:8701/api/interactivedemos/process",
         "https://shalimar.interactivedemos.io/api/interactivedemos/process",
         {
           method: "POST",
@@ -153,6 +142,7 @@ function IOSInteraction({ platform }) {
             session_id: uuId,
             quiz: quizData,
             platform,
+            isFirstAPICall,
           }),
         }
       );
@@ -163,8 +153,11 @@ function IOSInteraction({ platform }) {
       data?.video_link && displayVideo(data?.video_link);
       setSuperText(data.answer);
       // setSuperText(data?.key_word?data?.key_word:"")
+      setIsFirstAPICall(false);
       setConvoNumber(data?.audio ? convoNumber + 1 : convoNumber);
     } catch (error) {
+      setIsFirstAPICall(false);
+
       console.error("Error:", error);
     }
   }, 200);

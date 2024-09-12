@@ -26,6 +26,8 @@ function Interaction({ platform }) {
   const [isVideoRendering, setIsVideoRendering] = useState(false);
   const [isStopImgVisible, setIsStopImgVisible] = useState(true);
   const [startClicked, setStartClicked] = useState(false);
+  const [isFirstAPICall, setIsFirstAPICall] = useState(true);
+
   const [selectedOption, setSelectedOption] = useState("");
   const [quizData, setQuizData] = useState([]);
   const audioRef = useRef(null);
@@ -96,7 +98,7 @@ function Interaction({ platform }) {
   async function sendTextToBackend(text) {
     try {
       let response = await fetch(
-        // "http://192.168.1.9:8701/api/interactivedemos/process",
+        // "http://192.168.186.175:8701/api/interactivedemos/process",
         "https://shalimar.interactivedemos.io/api/interactivedemos/process",
         {
           method: "POST",
@@ -109,6 +111,7 @@ function Interaction({ platform }) {
             session_id: uuId,
             quiz: quizData,
             platform,
+            isFirstAPICall,
           }),
         }
       );
@@ -122,7 +125,10 @@ function Interaction({ platform }) {
       // );
       setSuperText(data.answer);
       setConvoNumber(data?.audio ? convoNumber + 1 : convoNumber);
+      setIsFirstAPICall(false);
     } catch (error) {
+      setIsFirstAPICall(false);
+
       console.error("Error:", error);
     }
   }
