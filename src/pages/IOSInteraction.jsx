@@ -11,8 +11,13 @@ import debounce from "../js/debounce.js";
 import Interrupt from "../components/Interrupt.jsx";
 
 function IOSInteraction({ platform }) {
-  const { startRecording, stopRecording, recordingBlob, isRecording } =
-    useVoiceRecorder();
+  const {
+    startRecording,
+    stopRecording,
+    recordingBlob,
+    isRecording,
+    recordingTime,
+  } = useVoiceRecorder();
   const navigate = useNavigate();
   const [speechText, setSpeechText] = useState(
     "don't introduce yourself , from the previous information, user selected certain options , keeping in mind those initiate a conversation without rephrasing the data"
@@ -22,7 +27,7 @@ function IOSInteraction({ platform }) {
   const [isUserSpeaking, setIsUserSpeaking] = useState(false);
   const [isVideoRendering, setIsVideoRendering] = useState(false);
   const [isStopImgVisible, setIsStopImgVisible] = useState(true);
-  const [startClicked, setStartClicked] = useState(false);
+  const [isAPIStillCalling, setIsAPIStillCalling] = useState(false);
   const [isFirstAPICall, setIsFirstAPICall] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
   const [quizData, setQuizData] = useState([]);
@@ -52,23 +57,6 @@ function IOSInteraction({ platform }) {
   const [msgIndex, setMsgIndex] = useState(0);
   const [superText, setSuperText] = useState("");
   const [convoNumber, setConvoNumber] = useState(0);
-
-  // const displaySuperTextBullets =
-  //   convoNumber === 0 || convoNumber === 1
-  //     ? []
-  //     : superTextArray.map((text, index) => {
-  //         // fot this conditon return nothing in the array
-  //         return (
-  //           index < 4 && (
-  //             <li
-  //               className="first-letter:uppercase font-Poppins text-2xl leading-[28.8px] text-left font-bold text-white"
-  //               key={index}
-  //             >
-  //               {text}
-  //             </li>
-  //           )
-  //         );
-  //       });
 
   useEffect(() => {
     if (isUserSpeaking) {
@@ -106,8 +94,7 @@ function IOSInteraction({ platform }) {
   }, [sentence]);
 
   const handleRecordingComplete = async () => {
-    stopRecording();
-    if (recordingBlob && !isRecording) {
+    if (recordingBlob) {
       blobToBase64(recordingBlob)
         .then((res) => {
           sendTextToBackend(res);
@@ -117,9 +104,12 @@ function IOSInteraction({ platform }) {
   };
 
   useEffect(() => {
-    stopRecording();
-    handleRecordingComplete();
-  }, [recordingBlob]);
+    if (recordingTime > 4) {
+      stopRecording();
+      setIsUserSpeaking(false);
+      handleRecordingComplete();
+    }
+  }, [recordingTime]);
 
   const handleClick = () => {
     // setStartClicked(true);
@@ -127,6 +117,7 @@ function IOSInteraction({ platform }) {
   };
 
   const sendTextToBackend = debounce(async (text) => {
+    setIsAPIStillCalling(true);
     try {
       let response = await fetch(
         // "http://192.168.186.175:8701/api/interactivedemos/process",
@@ -155,8 +146,10 @@ function IOSInteraction({ platform }) {
       // setSuperText(data?.key_word?data?.key_word:"")
       setIsFirstAPICall(false);
       setConvoNumber(data?.audio ? convoNumber + 1 : convoNumber);
+      setIsAPIStillCalling(false);
     } catch (error) {
       setIsFirstAPICall(false);
+      setIsAPIStillCalling(false);
 
       console.error("Error:", error);
     }
@@ -233,8 +226,8 @@ function IOSInteraction({ platform }) {
         onEnded={() => {
           setSuperText("");
           setIsVideoRendering(false);
-          setIsUserSpeaking(false);
-
+          setIsUserSpeaking(true);
+          startRecording();
           setSuperText("");
         }}
         className="hidden"
@@ -405,65 +398,17 @@ function IOSInteraction({ platform }) {
                 <div className="w-full flex flex-col gap-y-12 items-center">
                   {/* <div class="w-80 h-80 bg-gradient-to-r from-yellow-400 via-red-400 to-purple-600 g rounded-full animate-spin"></div> */}
 
-                  <div
-                    onTouchStart={(e) => {
-                      preventDefault(e);
-                      triggerVibration();
-
-                      startRecording();
+                  <img
+                    onClick={() => {
+                     !isAPIStillCalling && startRecording();
                     }}
-                    onTouchEnd={(e) => {
-                      preventDefault(e);
-                      handleRecordingComplete();
-                    }}
-                    onContextMenu={preventDefault}
-                    className={`w-36 h-36 rotating-gradient  rounded-full flex justify-center items-center shadow-lg delay-100 duration-100 transition-all ease-in-out ${
-                      isRecording &&
-                      "scale-125 delay-100 duration-100 transition-all ease-in-out"
-                    }`}
-                  >
-                    <i
-                      onContextMenu={preventDefault}
-                      className="max-h-[7.5rem] select-none touch-none bg-none bg-transparent fa fa-microphone"
-                      // class="fa fa-microphone"
-                      style={{ fontSize: "48px", color: "white" }}
-                    ></i>
-                    {/* <img
-                      onTouchStart={(e) => {
-                        preventDefault(e);
-                        triggerVibration();
-
-                        startRecording();
-                      }}
-                      onTouchEnd={(e) => {
-                        preventDefault(e);
-                        handleRecordingComplete();
-                      }}
-                      onContextMenu={preventDefault}
-                      className="max-h-[7.5rem] select-none touch-none bg-none bg-transparent"
-                      src="/svgs/mic-i.svg"
-                      alt="mic gif"
-                    /> */}
-                  </div>
-
-                  {/* <img
-                    onTouchStart={(e) => {
-                      preventDefault(e);
-                      triggerVibration();
-
-                      startRecording();
-                    }}
-                    onTouchEnd={(e) => {
-                      preventDefault(e);
-                      handleRecordingComplete();
-                    }}
-                    onContextMenu={preventDefault}
-                    className="max-h-[7.5rem] select-none touch-none"
+                    className="max-h-[7.5rem] md:max-h-28"
                     src="/gif/mic icon.gif"
                     alt="mic gif"
-                  /> */}
+                  />
+
                   <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
-                    Press and hold the mic to interact.
+                    Tap on mic to interact
                   </p>
                 </div>
               )
