@@ -215,12 +215,6 @@ function IOSInteraction({ platform }) {
           : ""
       } w-full `}
     >
-      {/* {!language && (
-        <PopUp bg={"transparent"}>
-          <SelectLanguage language={language} setLanguage={setLanguage} />
-        </PopUp>
-      )} */}
-
       <audio
         ref={audioRef}
         onEnded={() => {
@@ -232,26 +226,6 @@ function IOSInteraction({ platform }) {
         }}
         className="hidden"
       ></audio>
-
-      {/* <video
-        className={`${
-          isVideoRendering
-            ? "h-full md:h-auto w-full opacity-100"
-            : "opacity-0 hidden pointer-events-none"
-        }  object-cover    inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
-        // onEnded={}
-        loop
-        muted
-        playsInline
-        autoPlay
-        ref={videoRef}
-      >
-        Your browser does not support the video tag.
-      </video>
-
-      {isVideoRendering && currentSubtitle.length > 0 && (
-        <div className="subtitle w-full md:w-80">{currentSubtitle}</div>
-      )} */}
 
       <video
         className={`${
@@ -379,13 +353,27 @@ function IOSInteraction({ platform }) {
                     " Hey, I'm Shalimar AI Let me know how I can help"}
                 </h1>
 
-                <div className="flex flex-col gap-8 w-full">
-                  <div className="w-full mx-auto   h-36 flex  items-center  ">
-                    <img
-                      className="w-full "
-                      src="/gif/waves.gif"
-                      alt="bot listening wave"
-                    />
+                <div className="flex flex-col items-center gap-8 w-full ">
+                  <div className="w-full  h-36 flex  items-center justify-center  ">
+                    <div
+                      onClick={() => {
+                        !isAPIStillCalling && setIsUserSpeaking(true);
+                        startRecording();
+                      }}
+                      className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
+
+                      <div className="absolute inset-0 flex justify-center items-center">
+                        <p className="text-white text-2xl font-bold">
+                          <img
+                            className="w-full "
+                            src="/gif/Sound waves white.gif"
+                            alt="bot listening wave"
+                          />
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
                   <h2 className="font-Poppins text-[19px] font-semibold leading-[26.6px] text-center text-white">
@@ -396,16 +384,24 @@ function IOSInteraction({ platform }) {
             ) : (
               !superText && (
                 <div className="w-full flex flex-col gap-y-12 items-center">
-                  {/* <div class="w-80 h-80 bg-gradient-to-r from-yellow-400 via-red-400 to-purple-600 g rounded-full animate-spin"></div> */}
-
-                  <img
+                  <div
                     onClick={() => {
-                     !isAPIStillCalling && startRecording();
+                      !isAPIStillCalling && setIsUserSpeaking(true);
+                      startRecording();
                     }}
-                    className="max-h-[7.5rem] md:max-h-28"
-                    src="/gif/mic icon.gif"
-                    alt="mic gif"
-                  />
+                    className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
+
+                    <div className="absolute inset-0 flex justify-center items-center">
+                      <p className="text-white text-2xl font-bold">
+                        <i
+                          className="fa fa-microphone"
+                          style={{ fontSize: "35px", color: "white" }}
+                        ></i>
+                      </p>
+                    </div>
+                  </div>
 
                   <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
                     Tap on mic to interact
