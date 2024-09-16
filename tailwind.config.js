@@ -19,12 +19,16 @@ export default {
       fontFamily: {
         Barlow: ["Barlow", "sans-serif"],
         RiftSoft: ["Rift Soft", "sans-serif"],
-        Montserrat:["Montserrat","sans-serif"],
-        Inter:["Inter","sans-serif"],
-        Eczar:["Eczar","sans-serif"],
-        Poppins:["Poppins","sans-serif"]
+        Montserrat: ["Montserrat", "sans-serif"],
+        Inter: ["Inter", "sans-serif"],
+        Eczar: ["Eczar", "sans-serif"],
+        Poppins: ["Poppins", "sans-serif"],
       },
       keyframes: {
+        scalePulse: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.2)" },
+        },
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -47,6 +51,7 @@ export default {
         bounceLR: "bounceLR 1s infinite",
         centerToPosition: "centerToPosition 0.5s forwards",
         positionToCenter: "positionToCenter 0.5s forwards",
+        scale: "scalePulse 2s ease-in-out infinite",
       },
     },
   },

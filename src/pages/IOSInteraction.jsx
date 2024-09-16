@@ -396,10 +396,11 @@ function IOSInteraction({ platform }) {
 
                     <div className="absolute inset-0 flex justify-center items-center">
                       <p className="text-white text-2xl font-bold">
-                        <i
-                          className="fa fa-microphone"
-                          style={{ fontSize: "35px", color: "white" }}
-                        ></i>
+                        <img
+                          className="h-11 object-contain animate-scale"
+                          src="/images/VectorMIC.png"
+                          alt="mic gif"
+                        />
                       </p>
                     </div>
                   </div>
