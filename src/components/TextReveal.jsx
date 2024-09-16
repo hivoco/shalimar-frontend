@@ -31,7 +31,12 @@ const SmoothTextReveal = ({ text = "hello, how are you" }) => {
       className={`scrollbar-hide font-Poppins  overflow-y-scroll h-56  mx-auto flex items-center  text-white text-2xl leading-[28.8px] font-semibold text-left`}
     >
       {displayedText}
-      <span ref={endRef} />
+      <span
+      className="invisible"
+      ref={endRef}
+      >
+|
+      </span>
     </p>
   );
 };

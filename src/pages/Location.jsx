@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Header from "../components/Header";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getFullAddress } from "../js/location";
 
 function Location() {
@@ -76,88 +76,110 @@ function Location() {
   }
 
   return (
-    <div className=" pt-6 px-6 w-full h-full">
-      <div className="">
-        <Header isarrow={false} isexit={false} />
+    <div className="flex flex-col gap-y-4 pt-6 pb-2 px-6 w-full h-full">
+      <div className="flex flex-1 flex-col gap-y-4">
+        <Link to={"/"} className="block w-fit">
+          <img
+            className="h-14 object-contain"
+            src="/images/logo-col.png"
+            alt="logo"
+          />
+        </Link>
+
+        <section className=" text-white">
+          <div className="flex flex-1 flex-col gap-y-2">
+            <div className="flex flex-1 flex-col gap-3">
+              <h6 className="font-Poppins text-base leading-[20.8px] font-semibold">
+                Find your Nearest Dealer with <br /> HiVoco’s AI
+              </h6>
+
+              <div
+                className={`${
+                  pinCode ? "bg-white text-[#1E1E1E]" : "bg-transparent"
+                }  border-2 w-full max-h-12 border-[#F7F7F7]/50 rounded-[10.5px] py-3 px-[10.5px] flex items-center`}
+              >
+                <input
+                  value={pinCode}
+                  onChange={(e) =>
+                    setPinCode(!isNaN(e.target.value) ? e.target.value : "")
+                  }
+                  maxLength={6}
+                  inputMode="numeric"
+                  className="w-full  bg-transparent placeholder:text-white outline-none font-Poppins text-sm leading-[19.5px] font-semibold appearance-none "
+                  // className={`  flex  w-full flex-1 bg-transparent placeholder:text-white outline-none font-Poppins text-base leading-5 font-semibold appearance-none `}
+                  placeholder="Enter Pincode"
+                />
+
+                <img
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setPinCode(pinCode && "");
+                  }}
+                  className="h-5"
+                  src={`${pinCode ? "/svgs/cross.svg" : " /svgs/mic.svg"}`}
+                  alt="svg icon"
+                  srcSet=""
+                />
+              </div>
+            </div>
+
+            <small className="font-Poppins text-[11px] leading-[15.4px] font-normal">
+              *Tap on mic to speak your full address.
+            </small>
+          </div>
+
+          <div className="flex flex-1 flex-col gap-y-5 md:gap-y-4">
+            <small className="uppercase font-Poppins text-xs font-normal  block text-center pt-2">
+              or
+            </small>
+
+            <div
+              onClick={() => getAddress()}
+              className={`${
+                currectaddress ? "bg-white text-[#1E1E1E]" : "bg-transparent"
+              }  border-2 w-full max-h-12 border-[#F7F7F7]/50 rounded-[10.5px] py-3 px-[10.5px] flex items-center`}
+            >
+              {/* <div
+                    onClick={() => getAddress()}
+                    className={`border-2 max-h-12 border-[#E6F3FF]/50 rounded-xl  p-3 flex flex-row items-center gap-[10px] ${
+                      currectaddress ? "bg-white text-black" : "bg-transparent"
+                    }`}
+
+                  > */}
+              <input
+                readOnly
+                className=" overflow-x-scroll w-full  bg-transparent placeholder:text-white outline-none font-Poppins text-sm leading-[19.5px] font-semibold appearance-none "
+                // className={` overflow-x-scroll flex flex-1 bg-transparent placeholder:text-white outline-none font-Poppins text-base leading-5 font-semibold ${currectaddress}`}
+                placeholder="Your Current Location"
+                value={currectaddress}
+              />
+
+              <img
+                onClick={(e) => {
+                  currectaddress && e.stopPropagation();
+                  setCurrectaddress(currectaddress && "");
+                }}
+                className="h-5"
+                src={`${
+                  currectaddress ? "/svgs/cross.svg" : " /svgs/location.svg"
+                }`}
+                alt="svg icon"
+              />
+            </div>
+          </div>
+        </section>
+
+        <button
+          onClick={handleClick}
+          disabled={!(pinCode?.length === 6 || currectaddress) ? true : false}
+          className="font-Poppins disabled:opacity-70    opacity-100  transition-opacity text-[#1E1E1E] text-[14.2px] font-medium leading-5  flex justify-center items-center  px-4 py-3 border-2 border-[#E6F3FF]/50  max- h-14 md:h-10 max-w-[182px] bg-white  rounded-[52px] mx-auto text-center"
+        >
+          Get Dealer Details
+        </button>
       </div>
 
-      <section className=" text-white py-9  pb-0">
-        <h6 className="font-Poppins text-xl leading-6 font-semibold">
-          Find your Nearest Dealer with <br /> HiVoco’s AI
-        </h6>
-        <div
-          className={`${
-            pinCode ? "bg-white text-[#1E1E1E]" : "bg-transparent"
-          }  border-2 w-full max-h-12 border-[#F7F7F7]/50 rounded-xl p-3   flex  items-center mt-4 `}
-        >
-          <input
-            value={pinCode}
-            onChange={(e) =>
-              setPinCode(!isNaN(e.target.value) ? e.target.value : "")
-            }
-            maxLength={6}
-            inputMode="numeric"
-            className={`  flex  w-full flex-1 bg-transparent placeholder:text-white outline-none font-Poppins text-base leading-5 font-semibold appearance-none `}
-            placeholder="Enter Pincode"
-          />
-
-          <img
-            onClick={(e) => {
-              e.stopPropagation();
-              setPinCode(pinCode && "");
-            }}
-            className=""
-            src={`${pinCode ? "/svgs/cross.svg" : " /svgs/mic.svg"}`}
-            alt="svg icon"
-            srcSet=""
-          />
-        </div>
-        <small className="font-Poppins text-xs font-normal">
-          *Tap on mic to speak your full address.
-        </small>
-        <small className="uppercase font-Poppins text-xs font-normal py-4 block text-center">
-          or
-        </small>
-
-        <div
-          onClick={() => getAddress()}
-          className={`border-2 max-h-12 border-[#E6F3FF]/50 rounded-xl  p-3 flex flex-row items-center gap-[10px] ${
-            currectaddress ? "bg-white text-black" : "bg-transparent"
-          }`}
-        >
-          <input
-            readOnly
-            className={` overflow-x-scroll flex flex-1 bg-transparent placeholder:text-white outline-none font-Poppins text-base leading-5 font-semibold ${currectaddress}`}
-            placeholder="Your Current Location"
-            value={currectaddress}
-          />
-
-          <img
-            onClick={(e) => {
-              currectaddress && e.stopPropagation();
-              setCurrectaddress(currectaddress && "");
-            }}
-            className=""
-            src={`${
-              currectaddress ? "/svgs/cross.svg" : " /svgs/location.svg"
-            }`}
-            alt="svg icon"
-            srcSet=""
-          />
-        </div>
-
-
-            <button
-              onClick={handleClick}
-              disabled={ !(pinCode?.length===6 || currectaddress) ? true : false}
-              className="font-Poppins disabled:opacity-70    opacity-100  transition-opacity text-[#1E1E1E] text-base font-medium leading-5  flex justify-center  px-4 py-3 border-2 border-[#E6F3FF]/50  max-h-12 max-w-[182px] bg-white  rounded-[52px]   my-10 mx-auto text-center"
-            >
-              Get Dealer Details
-            </button>
-
-      </section>
       <img
-        className="mx-auto max-w-full max-h-full h-48"
+        className="mx-auto w-[300px] md:w-56 self-center"
         src="/images/paint-box-collage.png"
         alt="paint-box-collage"
       />
