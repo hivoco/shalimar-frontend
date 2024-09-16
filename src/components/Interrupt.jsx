@@ -24,7 +24,7 @@ const Interrupt = ({
           }, 500);
         }}
         className={`${isVideoRendering ? "h-16" : "h-[84px]"} `}
-        src={isStopImgVisible ? "/images/stop.png" : "/images/mic.png"}
+        src="/images/stop.png"
         alt="mic image"
       />
 

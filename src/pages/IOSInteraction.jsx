@@ -261,9 +261,10 @@ function IOSInteraction({ platform }) {
               setIsStopImgVisible(false);
               audioRef.current && audioRef.current.pause();
               setTimeout(() => {
-                setIsUserSpeaking(false);
+                setIsUserSpeaking(true);
                 setIsVideoRendering(false);
                 setSuperText("");
+                startRecording();
               }, 500);
             }}
             // isStopImgVisible={isStopImgVisible}
@@ -321,14 +322,14 @@ function IOSInteraction({ platform }) {
                     setIsStopImgVisible(false);
                     audioRef.current && audioRef.current.pause();
                     setTimeout(() => {
-                      setIsUserSpeaking(false);
+                      setIsUserSpeaking(true);
+                      // setIsVideoRendering(false);
                       setSuperText("");
+                      startRecording();
                     }, 500);
                   }}
                   className="h-[84px]"
-                  src={
-                    isStopImgVisible ? "/images/stop.png" : "/images/mic.png"
-                  }
+                  src="/images/stop.png"
                   alt="mic image"
                 />
 
