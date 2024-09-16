@@ -330,10 +330,10 @@ function Interaction({ platform }) {
                   </div> */}
                   <div className="w-full  h-36 flex  items-center justify-center  ">
                     <div
-                      onClick={() => {
-                        !isAPIStillCalling && setIsUserSpeaking(true);
-                        startRecording();
-                      }}
+                      // onClick={() => {
+                      //   !isAPIStillCalling && setIsUserSpeaking(true);
+                      //   startRecording();
+                      // }}
                       className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full"
                     >
                       <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
