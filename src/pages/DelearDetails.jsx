@@ -26,27 +26,33 @@ function DelearDetails() {
   }
 
   return (
-    <div className=" pt-6 w-full h-full self-start">
-      <div className="px-6">
-        <Header
-        // isarrow={true}
-        />
-      </div>
+    <div className="px-6 flex flex-col gap-y-4 pt-6 w-full h-full self-start  md:pb-6  pb-10">
+      <div className="flex flex-col gap-y-5">
+        <Link className="block w-fit" to="/">
+          <img
+            className="h-14 object-contain self-start"
+            src="/images/logo-col.png"
+            alt="logo"
+          />
+        </Link>
 
-      <section className=" text-white px-6 mt-4 mb-5 ">
         <div className="flex items-center border-b-[0.5px] border-[#FFFFFF80] pb-2">
           <img src="/svgs/location-pin.svg" alt="Location-Pin" />
-          <h6 className="font-Poppins text-base font-medium">
+          <h6 className="font-Poppins text-base font-medium text-white">
             {location?.state?.postcode || location?.state?.pinCode || ""}
           </h6>
         </div>
-      </section>
-      <section className="px-6">
+      </div>
+
+      <section 
+      className="mx-auto w-full  flex flex-col gap-y-1  overflow-y-scroll scroll-smooth md:scrollbar-hide rounded-b-lg"
+      >
         {data?.map((dealer, index) => {
           return (
             <div
               key={index}
-              className="p-[10px] max-w-80 pb-1  bg-white flex flex-col items-center  gap-1 rounded-lg mb-2"
+              className="p-2 max-w-80   bg-white flex flex-col items-center  gap-y-2 rounded-lg"
+              // className="p-[10px] max-w-80 pb-1  bg-white flex flex-col items-center  gap-1 rounded-lg mb-2"
             >
               <div className="flex  flex-1 gap-2">
                 <img
@@ -81,6 +87,7 @@ function DelearDetails() {
           );
         })}
       </section>
+
     </div>
   );
 }

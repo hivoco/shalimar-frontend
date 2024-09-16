@@ -106,7 +106,6 @@ function Location() {
                   maxLength={6}
                   inputMode="numeric"
                   className="w-full  bg-transparent placeholder:text-white outline-none font-Poppins text-sm leading-[19.5px] font-semibold appearance-none "
-                  // className={`  flex  w-full flex-1 bg-transparent placeholder:text-white outline-none font-Poppins text-base leading-5 font-semibold appearance-none `}
                   placeholder="Enter Pincode"
                 />
 
@@ -139,17 +138,9 @@ function Location() {
                 currectaddress ? "bg-white text-[#1E1E1E]" : "bg-transparent"
               }  border-2 w-full max-h-12 border-[#F7F7F7]/50 rounded-[10.5px] py-3 px-[10.5px] flex items-center`}
             >
-              {/* <div
-                    onClick={() => getAddress()}
-                    className={`border-2 max-h-12 border-[#E6F3FF]/50 rounded-xl  p-3 flex flex-row items-center gap-[10px] ${
-                      currectaddress ? "bg-white text-black" : "bg-transparent"
-                    }`}
-
-                  > */}
               <input
                 readOnly
                 className=" overflow-x-scroll w-full  bg-transparent placeholder:text-white outline-none font-Poppins text-sm leading-[19.5px] font-semibold appearance-none "
-                // className={` overflow-x-scroll flex flex-1 bg-transparent placeholder:text-white outline-none font-Poppins text-base leading-5 font-semibold ${currectaddress}`}
                 placeholder="Your Current Location"
                 value={currectaddress}
               />
