@@ -93,21 +93,39 @@ function IOSInteraction({ platform }) {
     return () => clearTimeout(timeoutId); // Cleanup function to clear timeout
   }, [sentence]);
 
+  // const handleRecordingComplete = async () => {
+  //   if (recordingBlob) {
+  //     blobToBase64(recordingBlob)
+  //       .then((res) => {
+  //         sendTextToBackend(res);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // };
+
+  useEffect(() => {
+    if (recordingBlob) {
+      handleRecordingComplete();
+    }
+  }, [recordingBlob]);
+
+  // Ensure handleRecordingComplete is called directly
   const handleRecordingComplete = async () => {
     if (recordingBlob) {
-      blobToBase64(recordingBlob)
-        .then((res) => {
-          sendTextToBackend(res);
-        })
-        .catch((err) => console.log(err));
+      try {
+        const base64Audio = await blobToBase64(recordingBlob); // Convert blob to base64
+        sendTextToBackend(base64Audio); // Send the base64 audio to the backend
+      } catch (err) {
+        console.error("Error processing the recording blob", err);
+      }
     }
   };
 
+  // Inside the stopRecording part
   useEffect(() => {
     if (recordingTime > 4) {
-      stopRecording();
-      setIsUserSpeaking(false);
-      handleRecordingComplete();
+      stopRecording(); // Stop recording after 4 seconds
+      setIsUserSpeaking(false); // Reset speaking state
     }
   }, [recordingTime]);
 
