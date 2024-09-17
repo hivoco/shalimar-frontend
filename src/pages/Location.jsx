@@ -4,76 +4,73 @@ import { useNavigate } from "react-router-dom";
 import { getFullAddress } from "../js/location";
 
 function Location() {
-  const [latAndLan,setLatAndLan]=useState('')
+  const [latAndLan, setLatAndLan] = useState("");
   const [currectaddress, setCurrectaddress] = useState("");
 
-  const [response,setResponse]=useState(null)
+  const [response, setResponse] = useState(null);
 
-  const [postcode,setPostcode]=useState(null)
+  const [postcode, setPostcode] = useState(null);
   // const [currentAddress, setCurrentAddress] = useState("");
 
   // console.log(latAndLan);
-
 
   const [pinCode, setPinCode] = useState(null);
   const navigate = useNavigate();
   const getAddress = async () => {
     const info = await getFullAddress();
-    setPostcode(info.postcode)
+    setPostcode(info.postcode);
 
     setLatAndLan({ latitude: info?.lat, longitude: info?.lon });
     // {"latitude" : 1122 , "longitude" : 1233}
     setCurrectaddress(info.address_line2);
   };
 
-
-
-
-
-   const sendLocationToBackend = async (url, data) => {
+  const sendLocationToBackend = async (url, data) => {
     //  console.log(!isNaN(data)); // shows true on pincode
 
-     console.log(JSON.stringify(data));
+    console.log(JSON.stringify(data));
 
-     try {
-       const response = await fetch(url, {
-         method: "POST",
-         headers: {
-           "Content-Type": "application/json",
-         },
-         body: JSON.stringify(data),
-       });
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-       if (!response.ok) {
-         throw new Error(`HTTP error! status: ${response.status}`);
-       }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-       const result = await response.json();
-       console.log("object>>", result)
-       goToNearestDealersPage(result)
+      const result = await response.json();
+      console.log("object>>", result);
+      goToNearestDealersPage(result);
 
-       console.log("Location sent successfully:", result);
-     } catch (error) {
-       console.error("Error :", error);
-     }
-   };
-
-  const goToNearestDealersPage = (result) => {
-    navigate("/get-your-nearest-dealers", { state: { result,postcode,pinCode } });
+      console.log("Location sent successfully:", result);
+    } catch (error) {
+      console.error("Error :", error);
+    }
   };
 
-  const handleClick=()=>{
-    if(pinCode){
-      const pinCoordinate="https://shalimar.interactivedemos.io/api/location/pin_get_coordinate"
-      // {"pincode" : 263641}
-      sendLocationToBackend(pinCoordinate,{"pincode" : pinCode})
-    }
+  const goToNearestDealersPage = (result) => {
+    navigate("/get-your-nearest-dealers", {
+      state: { result, postcode, pinCode },
+    });
+  };
 
-    else if(currectaddress){
-      const urlCoordinate='https://shalimar.interactivedemos.io/api/location/get_coordinate'
-      sendLocationToBackend(urlCoordinate,latAndLan)
+  const handleClick = () => {
+    if (pinCode) {
+      const pinCoordinate =
+        "https://hongs-hindi.interactivedemos.io/api/location/pin_get_coordinate";
+      // {"pincode" : 263641}
+      sendLocationToBackend(pinCoordinate, { pincode: pinCode });
+    } else if (currectaddress) {
+      const urlCoordinate =
+        "https://hongs-hindi.interactivedemos.io/api/location/get_coordinate";
+      sendLocationToBackend(urlCoordinate, latAndLan);
     }
-  }
+  };
 
   return (
     <div className=" pt-6 px-6 w-full h-full">
@@ -146,15 +143,13 @@ function Location() {
           />
         </div>
 
-
-            <button
-              onClick={handleClick}
-              disabled={ !(pinCode?.length===6 || currectaddress) ? true : false}
-              className="font-Poppins disabled:opacity-70    opacity-100  transition-opacity text-[#1E1E1E] text-base font-medium leading-5  flex justify-center  px-4 py-3 border-2 border-[#E6F3FF]/50  max-h-12 max-w-[182px] bg-white  rounded-[52px]   my-10 mx-auto text-center"
-            >
-              Get Dealer Details
-            </button>
-
+        <button
+          onClick={handleClick}
+          disabled={!(pinCode?.length === 6 || currectaddress) ? true : false}
+          className="font-Poppins disabled:opacity-70    opacity-100  transition-opacity text-[#1E1E1E] text-base font-medium leading-5  flex justify-center  px-4 py-3 border-2 border-[#E6F3FF]/50  max-h-12 max-w-[182px] bg-white  rounded-[52px]   my-10 mx-auto text-center"
+        >
+          Get Dealer Details
+        </button>
       </section>
       <img
         className="mx-auto max-w-full max-h-full h-48"

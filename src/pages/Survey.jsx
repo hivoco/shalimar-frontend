@@ -18,7 +18,7 @@ const Survey = ({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://shalimar.interactivedemos.io/api/first_question"
+          "https://hongs-hindi.interactivedemos.io/api/first_question"
           // "http://192.168.1.9:8701/api/first_question"
         );
         if (!response.ok) {
@@ -101,14 +101,15 @@ const Survey = ({
     }
     setQuizData([...quizData, { ...data, selectedOption: option }]);
 
-    if (questionId === 6) {// no of questions
+    if (questionId === 6) {
+      // no of questions
       setQuestionId(questionId + 1);
       return;
     }
 
     try {
       const res = await fetch(
-        "https://shalimar.interactivedemos.io/api/next_question",
+        "https://hongs-hindi.interactivedemos.io/api/next_question",
         // "http://192.168.1.9:8701/api/next_question",
 
         {
@@ -136,7 +137,7 @@ const Survey = ({
       // Consider showing user feedback here
     }
 
-    setSelectedOption('')
+    setSelectedOption("");
   };
 
   return (
@@ -159,7 +160,7 @@ const Survey = ({
           ></progress> */}
 
           <span className=" h-6   px-3 py-0.5  text-white rounded-[26px] bg-white/30  font-poppins text-sm font-medium leading-[19.6px]">
-            {questionId >6?6:questionId} of 6
+            {questionId > 6 ? 6 : questionId} of 6
           </span>
         </div>
       </div>
@@ -178,7 +179,8 @@ const Survey = ({
                   key={index}
                   className={`flex text-nowrap items-center justify-center   text-center   font-Poppins text-base font-medium leading-[22.4px]  text-white
               bg-white/40   w-full max-h-16 h-16  rounded-lg px-20 ${
-                option === selectedOption && "bg-[#494949]/50 shadow-[0px_1.66px_4.97px_0px_#0000001A] border-white "
+                option === selectedOption &&
+                "bg-[#494949]/50 shadow-[0px_1.66px_4.97px_0px_#0000001A] border-white "
               } `}
                 >
                   {option}

@@ -24,7 +24,7 @@ function App() {
   const postData = async (uuId = "empty uuid") => {
     try {
       const res = await fetch(
-        "https://shalimar.interactivedemos.io/api/interactivedemos/save_date",
+        "https://hongs-hindi.interactivedemos.io/api/interactivedemos/save_date",
         // "http://192.168.1.9:8502/api/interactivedemos/save_date",
         {
           method: "POST",
