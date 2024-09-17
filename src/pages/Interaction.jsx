@@ -7,8 +7,10 @@ import SelectLanguage from "../components/SelectLanguage";
 import SmoothTextReveal from "../components/TextReveal";
 import Survey from "./Survey";
 import Interrupt from "../components/Interrupt";
+import { useMicrophone } from "../hooks/useMicrophone";
 
 function Interaction({ platform }) {
+  const { openMic, closeMic } = useMicrophone();
   const {
     startSpeechRecognition,
     stopSpeechRecognition,
@@ -153,8 +155,7 @@ function Interaction({ platform }) {
 
   const enter = async () => {
     let value = speechText.trim();
-    console.log("value", value);
-    // stopSpeechRecognition();
+
     if (value) {
       console.log("send text to backend");
       sendTextToBackend(value);
@@ -169,6 +170,7 @@ function Interaction({ platform }) {
   };
 
   function handleAudioEnd() {
+    openMic();
     startSpeechRecognition();
     setIsVideoRendering(false);
     setIsUserSpeaking(true);
@@ -178,6 +180,7 @@ function Interaction({ platform }) {
 
   if (hasRecognitionEnded) {
     setTimeout(() => {
+      closeMic();
       setIsUserSpeaking(false);
     }, 1 * 1000);
 
@@ -329,13 +332,7 @@ function Interaction({ platform }) {
                     />
                   </div> */}
                   <div className="w-full  h-36 flex  items-center justify-center  ">
-                    <div
-                      // onClick={() => {
-                      //   !isAPIStillCalling && setIsUserSpeaking(true);
-                      //   startRecording();
-                      // }}
-                      className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full"
-                    >
+                    <div className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full ">
                       <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
 
                       <div className="absolute inset-0 flex justify-center items-center">
@@ -369,9 +366,9 @@ function Interaction({ platform }) {
                   /> */}
                   <div
                     onClick={() => !isUserSpeaking && handleAudioEnd()}
-                    className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full"
+                    className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full "
                   >
-                    <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
+                    <div className=" absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
 
                     <div className="absolute inset-0 flex justify-center items-center">
                       <p className="text-white text-2xl font-bold">
