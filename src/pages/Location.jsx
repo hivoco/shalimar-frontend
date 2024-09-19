@@ -7,6 +7,10 @@ function Location() {
   const [latAndLan,setLatAndLan]=useState('')
   const [currectaddress, setCurrectaddress] = useState("");
 
+
+  // console.log(currectaddress,'currectaddress');
+  
+
   const [response,setResponse]=useState(null)
 
   const [postcode,setPostcode]=useState(null)
@@ -19,11 +23,15 @@ function Location() {
   const navigate = useNavigate();
   const getAddress = async () => {
     const info = await getFullAddress();
+
+    console.log(info);
+    
     setPostcode(info.postcode)
 
     setLatAndLan({ latitude: info?.lat, longitude: info?.lon });
     // {"latitude" : 1122 , "longitude" : 1233}
-    setCurrectaddress(info.address_line2);
+    setCurrectaddress(info.address_line1 +" "+ info.address_line2);
+    
   };
 
 

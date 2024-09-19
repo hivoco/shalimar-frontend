@@ -12,7 +12,7 @@ const Interrupt = ({
   return (
     <div
       className={`interrupt flex flex-col items-center justify-center  ${
-        isVideoRendering ? "gap-4" : "gap-8"
+        isVideoRendering ? "gap-4" : "gap-8 md:gap-4"
       } ${className}`}
     >
       <img
@@ -23,7 +23,7 @@ const Interrupt = ({
             !isUserSpeaking && handleAudioEnd();
           }, 500);
         }}
-        className={`${isVideoRendering ? "h-16" : "h-[84px]"} `}
+        className={`${isVideoRendering ? "h-16" : "h-[84px] md:h-16"} `}
         src="/images/stop.png"
         alt="mic image"
       />

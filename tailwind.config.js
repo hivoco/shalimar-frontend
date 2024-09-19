@@ -5,9 +5,9 @@ export default {
     screens: {
       sm: "570px",
       md: "570px",
-      lg: "570px",
-      xl: "570px",
-      "2xl": "570px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1535px",
     },
     container: {
       center: true,
@@ -19,10 +19,10 @@ export default {
       fontFamily: {
         Barlow: ["Barlow", "sans-serif"],
         RiftSoft: ["Rift Soft", "sans-serif"],
-        Montserrat:["Montserrat","sans-serif"],
-        Inter:["Inter","sans-serif"],
-        Eczar:["Eczar","sans-serif"],
-        Poppins:["Poppins","sans-serif"]
+        Montserrat: ["Montserrat", "sans-serif"],
+        Inter: ["Inter", "sans-serif"],
+        Eczar: ["Eczar", "sans-serif"],
+        Poppins: ["Poppins", "sans-serif"],
       },
       keyframes: {
         fadeIn: {
