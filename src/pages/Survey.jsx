@@ -141,7 +141,7 @@ const Survey = ({
   };
 
   return (
-    <div className="relative w-full md:max-w-64   h-svh py-11 flex flex-col  gap-6 select-none  px-8 md:px-0  ">
+    <div className="relative w-full  h-full md:mx-auto md:max-w-64    py-11 flex flex-col  gap-6 select-none  px-8 md:px-0  ">
       <div className="flex flex-col items-center gap-y-7 w-full  mx-auto">
         <div className="flex w-full items-center justify-between">
           <Link to={"/explore-your-experience"}>
@@ -152,12 +152,6 @@ const Survey = ({
 
         <div className="flex flex-col items-center gap-y-7  w-full ">
           <ProgressBar progress={(questionId / 6) * 100} />
-          {/* <progress
-            className="appearance-none h-2 text-[#1BAB29]   mx-auto w-full  rounded-2xl bg-white "
-            id="file"
-            max="100"
-            value={10}
-          ></progress> */}
 
           <span className=" h-6   px-3 py-0.5  text-white rounded-[26px] bg-white/30  font-poppins text-sm font-medium leading-[19.6px]">
             {questionId > 6 ? 6 : questionId} of 6
@@ -171,14 +165,22 @@ const Survey = ({
         </h2>
 
         <div className="flex flex-col gap-8 w-full">
-          <div className=" flex flex-col gap-y-3 w-full   mx-auto">
+          <div className=" flex flex-col gap-y-3 md:gap-y-2 w-full mx-auto">
             {data?.options?.map((option, index) => {
               return (
                 <span
                   onClick={() => handleOptionClick(option)}
                   key={index}
+<<<<<<< HEAD
                   className={`flex text-nowrap items-center justify-center   text-center   font-Poppins text-base font-medium leading-[22.4px]  text-white
               bg-white/40   w-full max-h-16 h-16  rounded-lg px-20 ${
+=======
+                  className={`
+                    flex text-nowrap items-center justify-center   text-center   font-Poppins text-base font-medium leading-[22.4px]  text-white
+              bg-white/40   w-full max-h-16 h-16 md:max-h-12 md:h-12  rounded-lg px-20
+              
+              ${
+>>>>>>> dd29920973cdaca4434ddeabc1a2d8626095b76c
                 option === selectedOption &&
                 "bg-[#494949]/50 shadow-[0px_1.66px_4.97px_0px_#0000001A] border-white "
               } `}

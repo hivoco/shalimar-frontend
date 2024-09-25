@@ -26,27 +26,36 @@ function DelearDetails() {
   }
 
   return (
-    <div className=" pt-6 w-full h-full self-start">
-      <div className="px-6">
-        <Header
-        // isarrow={true}
-        />
-      </div>
+    <div className="px-6 flex flex-col gap-y-4 pt-6 w-full h-full self-start  md:pb-6  pb-10">
+      <div className="flex flex-col gap-y-5">
+        <Link className="block w-fit" to="/">
+          <img
+            className="h-14 object-contain self-start"
+            src="/images/logo-col.png"
+            alt="logo"
+          />
+        </Link>
 
-      <section className=" text-white px-6 mt-4 mb-5 ">
         <div className="flex items-center border-b-[0.5px] border-[#FFFFFF80] pb-2">
           <img src="/svgs/location-pin.svg" alt="Location-Pin" />
-          <h6 className="font-Poppins text-base font-medium">
+          <h6 className="font-Poppins text-base font-medium text-white">
             {location?.state?.postcode || location?.state?.pinCode || ""}
           </h6>
         </div>
-      </section>
-      <section className="px-6">
+      </div>
+
+      <section 
+      className="mx-auto w-full  flex flex-col gap-y-1  overflow-y-scroll scroll-smooth md:scrollbar-hide rounded-b-lg"
+      >
         {data?.map((dealer, index) => {
+          const text = dealer?.location
+            .replace(/\r?\n|\r/g, ", ")
+            .toLowerCase();
           return (
             <div
               key={index}
-              className="p-[10px] max-w-80 pb-1  bg-white flex flex-col items-center  gap-1 rounded-lg mb-2"
+              className="p-2 max-w-80   bg-white flex flex-col items-center  gap-y-2 rounded-lg"
+              // className="p-[10px] max-w-80 pb-1  bg-white flex flex-col items-center  gap-1 rounded-lg mb-2"
             >
               <div className="flex  flex-1 gap-2">
                 <img
@@ -57,23 +66,37 @@ function DelearDetails() {
                 />
 
                 <div className="flex flex-col gap-1">
-                  <small className="text-sm font-semibold font-Poppins text-[#1E1E1E]">
+                  <small
+                    className="text-[11.5px] leading-4  font-semibold font-Poppins text-[#1E1E1E]"
+                    // className="text-sm font-semibold font-Poppins text-[#1E1E1E]"
+                  >
                     {dealer.name}
                   </small>
                   {/* <small className="text-xs font-semibold ">location</small> */}
-                  <p className="text-xs font-normal text-[#595959] capitalize">
-                    {dealer?.location}
+                  <p
+                    className="font-Poppins text-[10px] text-left leading-[13.8px] font-normal text-[#595959] first-letter:capitalize capitalize"
+                    // className="text-xs font-normal text-[#595959] capitalize"
+                  >
+                    {text}
+                    {/* {dealer?.location} */}
                   </p>
-                  <small className="text-xs font-normal text-[#595959]">
+                  <small
+                    className="text-[10px] leading-[14px]  font-normal text-[#595959]"
+                    // className="text-xs font-normal text-[#595959]"
+                  >
                     +91-{dealer?.contact}
                   </small>
                 </div>
               </div>
+
               <Link
-                className="w-full p-2 text-center border-t text-[#595959]"
+                className="w-full p-1 text-center border-t text-[#595959]"
                 to={"tel:+91" + dealer.contact}
               >
-                <strong className="font-Poppins text-sm font-medium text-[#161616]">
+                <strong
+                className="font-Poppins text-[12.2px] leading-[17px] font-medium text-[#161616]"
+                // className="font-Poppins text-sm font-medium text-[#161616]"
+                >
                   Connect
                 </strong>
               </Link>
@@ -81,6 +104,7 @@ function DelearDetails() {
           );
         })}
       </section>
+
     </div>
   );
 }

@@ -61,16 +61,27 @@ const Splash = () => {
   }, []);
 
   return (
-    <div className="relative h-svh w-full text-center px-8 py-12 md:p-6">
+    <div
+      // className="relative h-svh w-full text-center px-8 py-12 md:p-6"
+      className="relative  h-full w-full flex-1 flex flex-col gap-y-[70px] md:gap-y-12  text-center  px-8 py-16  py12 md:p-9"
+    >
+      {/* // mt-20 md:mt-[1rem] mx-auto max-h-24  */}
+
       <img
-        className={`mt-20 md:mt-[1rem] mx-auto max-h-24 ${
-          isAnimating ? "animate-positionToCenter" : "animate-centerToPosition"
-        }`}
+        className={`md:mt-[rem] mx-auto max-h-[110x]  w-full max-w-72 md:max-w-48             
+          ${
+            isAnimating
+              ? "animate-positionToCenter"
+              : "animate-centerToPosition"
+          }`}
         src="/images/logo-col.png"
         alt="Powered"
       />
 
-      <div className={`mt-24 md:mt:[2rem] `}>
+      <div
+      // className={`mt-24 md:mt:[2rem] `}
+      className="mt24 md:mt:[2rem] md:w-64  flex-1  flex flex-col items-center justify-center gap-[10px] md:gap-2 w-72  mx-auto "
+      >
         {items?.map((e, index) => (
           <div
             onClick={() =>
@@ -79,26 +90,40 @@ const Splash = () => {
                 : handleClick(e.path)
             }
             key={index}
+
+
+            
+
+
             className={`${
               ["Find Trusted Painter"].includes(e.title)
                 ? "bg-[#D6D6D6] border-[#D6D6D6] cursor-not-allowed"
                 : "bg-white border-[#F7F7F7]/50"
-            } group rounded-[9rem] w-full max-h-  font-Poppins text-xl font-semibold text-center py-3 px-3 border-2 mb-3  flex items-center cursor-pointer hover:shadow-xl ${
+            } group 
+            
+            md:max-h-14  group rounded-[6rem] w-full mx-auto max-h-  font-Poppins text-xl font-semibold text-center py-3 px-3 border-2 flex-1 flex items-center cursor-pointer hover:shadow-xl
+            
+            ${
               !isAnimating
                 ? "opacity-100 scale-100 transition-all duration-700 delay-200"
                 : "opacity-0 scale-50"
             }`}
           >
-            <div className="flex flex-1 gap-2 items-center">
-              <img src={e.icon} alt="" />
+            <div 
+            className="flex flex-1 gap-1 items-center"
+            >
+              <img className={`h-8 ${index===2 && "opacity-30" }`} src={e.icon} alt="option icon" />
               <div className="flex flex-col items-start">
+                
                 <strong
                   className={`${
                     index === 2 && "text-[#969696]"
-                  }  text-left  font-Poppins text-base font-semibold`}
+                  }
+                   text-left  font-Poppins text-[13.23px] leading-[18.5px]  font-semibold`}
                 >
                   {e.title}
                 </strong>
+
                 {["Find Trusted Painter", "Play to Win"].includes(e.title) && (
                   <span className="font-Poppins text-xs font-semibold ">
                     Coming Soon...{" "}
@@ -118,7 +143,7 @@ const Splash = () => {
       </div>
 
       <img
-        className=" pb-[] mx-auto mt-12  h-12"
+        className="mx-auto h-12 md:h-8"
         src="/images/powered.png"
         alt="Powered"
       />

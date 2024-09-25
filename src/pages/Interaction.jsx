@@ -216,12 +216,14 @@ function Interaction({ platform }) {
     <div
       className={`${
         isVideoRendering
-          ? "parent before:backdrop-blur-xl md:before:backdrop-blur-none h-screen flex flex-col  items-center justify-center gap-16"
+          ? "parent before:backdrop-blur-xl md:before:backdrop-blur-none h-screen flex flex-col items-center justify-center gap-16 md:gap-5"
           : ""
-      } w-full `}
+      } w-full h-svh md:h-[98vh] flex flex-col overflow-hidden`}
     >
-      <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
 
+    <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
+
+      {/* video ui elements */}
       <video
         className={`${
           isVideoRendering
@@ -238,9 +240,11 @@ function Interaction({ platform }) {
         Your browser does not support the video tag.
       </video>
 
-      <div className="flex flex-col items-center gap-11 child md:">
+      <div className="flex flex-col items-center gap-11 md:gap-6 child">
         {isVideoRendering && currentSubtitle.length > 0 && (
-          <div className="subtitle w-screen md:w-80 h-16 max-h-[70px] flex justify-center">
+   
+          
+          <div className="text-center text-xl bg-black/50 text-white  md:text-base w-screen md:w-80 p-[10px] flex justify-center">
             {currentSubtitle}
           </div>
         )}
@@ -260,7 +264,7 @@ function Interaction({ platform }) {
 
       {/* major ui starts here  */}
       <div
-        className={`w-full h-svh md:h-auto pt-5 pb-[4.375rem]   inset-0 transition-opacity duration-500 
+        className={`flex-1 w-full h-full md:h-auto py-5 inset-0 transition-opacity duration-500 
                    ${
                      isVideoRendering
                        ? "opacity-0 pointer-events-none hidden"
@@ -269,14 +273,16 @@ function Interaction({ platform }) {
            `}
       >
         <div
-          className={`  w-full flex flex-col ${
+          className={`  w-full h-full flex flex-col ${
             isVideoRendering ? "hidden" : ""
           }   ${
-            isUserSpeaking ? "md:m-0 gap-20" : " md:-mt-9 gap-y-12 md:gap-y-6"
+            isUserSpeaking ? "md:m-0 gap-20 md:gap-4 xl:gap-20" : "gap-y-8 md:gap-y-5 2xl:gap-12"
           }`}
         >
-          <div className={`flex flex-col gap-10 px-9 md:w-full md:mt-20 `}>
-            <div className={` flex items-center justify-center  `}>
+          <div
+            className={`flex flex- flex-col gap-y-10 md:gap-y-2 xl:gap-y-8 2xl:gap-y-12 px-9 md:w-full  ${superText && !isVideoRendering && "2xl:gap-y-16"} `}
+          >
+            <div className={` flex flex1 items-center justify-center  `}>
               <img
                 className="h-auto  max-h-[5.63rem] md:max-h-20 w-auto object-contain"
                 src="/svgs/logo.svg"
@@ -291,14 +297,17 @@ function Interaction({ platform }) {
             </div>
 
             {!isUserSpeaking && !superText && (
-              <p className="text-white  font-Poppins text-base font-semibold text-center md:w-full md:text-nowrap">
+              <p className="text-white flex-  font-Poppins text-base font-semibold text-center md:w-full md:text-nowrap">
                 Find answers to your questions <br /> with our Voice AI model...
               </p>
             )}
 
+            {/* ui3 */}
             {superText && !isVideoRendering && (
               <SmoothTextReveal text={superText} />
             )}
+
+            {/* ui3 */}
 
             {!isUserSpeaking && superText && (
               <Interrupt
@@ -310,20 +319,22 @@ function Interaction({ platform }) {
                 isStopImgVisible={isStopImgVisible}
               />
             )}
+
           </div>
 
+          {/* move bucket downward */}
           <div
-            className={`flex flex-col
-              ${isUserSpeaking ? "gap-y-28" : "gap-y-4"}`}
+            className={`flex flex-1 flex-col
+              ${isUserSpeaking ? "gap-y-12 2xl:gap-y-12 " : "gap-y-4 2xl:gap-0"}`}x
           >
             {isUserSpeaking ? (
-              <div className="botIsListening flex flex-col gap-y-8">
-                <h1 className="px-6 font-Poppins text-[19px] font-semibold leading-[22.8px] text-center text-white">
+              <div className=" botIsListening flex flex-1 flex-col gap-y-8 md:gap-12">
+                <h1 className="px-6 font-Poppins text-[19px] font-semibold leading-[22.8px] md:text-base text-center text-white">
                   {message ||
                     " Hey, I'm Shalimar AI Let me know how I can help"}
                 </h1>
 
-                <div className="flex flex-col gap-8 w-full">
+                <div className="flex flex-col gap-8 xl:gap-12 w-full">
                   {/* <div className="w-full mx-auto   h-36 flex  items-center  ">
                     <img
                       className="w-full "
@@ -332,7 +343,17 @@ function Interaction({ platform }) {
                     />
                   </div> */}
                   <div className="w-full  h-36 flex  items-center justify-center  ">
+<<<<<<< HEAD
                     <div className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full ">
+=======
+                    <div
+                      // onClick={() => {
+                      //   !isAPIStillCalling && setIsUserSpeaking(true);
+                      //   startRecording();
+                      // }}
+                      className="relative w-28 h-28 2xl:w-[120px] 2xl:h-[120px] overflow-hidden border-4 border-white rounded-full"
+                    >
+>>>>>>> dd29920973cdaca4434ddeabc1a2d8626095b76c
                       <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
 
                       <div className="absolute inset-0 flex justify-center items-center">
@@ -355,7 +376,7 @@ function Interaction({ platform }) {
             ) : (
               !superText && (
                 <div
-                  className={` w-full flex flex-col gap-y-12 md:gap-y-8 items-center 
+                  className={` w-full flex flex-1 flex-col gap-y-5 md:gap-y-4  2xl:gap-6 items-center 
                  `}
                 >
                   {/* <img
@@ -366,7 +387,11 @@ function Interaction({ platform }) {
                   /> */}
                   <div
                     onClick={() => !isUserSpeaking && handleAudioEnd()}
+<<<<<<< HEAD
                     className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full "
+=======
+                    className="relative w-[100px] h-[100px]  md:w-[90px] md:h-[90px] md:aspect-square overflow-hidden border-4 border-white rounded-full"
+>>>>>>> dd29920973cdaca4434ddeabc1a2d8626095b76c
                   >
                     <div className=" absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
 
@@ -388,22 +413,33 @@ function Interaction({ platform }) {
               )
             )}
 
-            <div className="flex flex-col gap-y-6">
+            <div className="flex flex-1 flex-col gap-y-4 ">
               {!isUserSpeaking && (
-                <img
-                  className={`
+                <div className="flex-1 ">
+                  <img
+                    className={`
                     ${
                       !isUserSpeaking && !isVideoRendering && superText
                         ? "hidden"
                         : ""
                     }
-                   max-w-[294px] md:max-w-56 mx-auto`}
-                  src="/images/paint-box-collage.png"
-                  alt=""
-                />
+                   max-w-[272px] object-cover h-auto  md:max-w-56 mx-auto`}
+                    src="/images/paint-box-collage.png"
+                    alt="bucket image"
+                  />
+                </div>
               )}
 
-              {<HivocoPowered />}
+              <div className="flex flex-1  flex-col justify-center items-center">
+                <span className="mx-auto  text-white font-Inter text-[13px] leading-[16px] font-normal ">
+                  Powered by
+                </span>
+                <img
+                  className="h-7 2xl:h-6  self-center"
+                  src="/images/hivoco-logo.png"
+                  alt="hivoco-logo powered"
+                />
+              </div>
             </div>
           </div>
         </div>

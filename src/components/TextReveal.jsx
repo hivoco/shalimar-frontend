@@ -1,19 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 
-const SmoothTextReveal = ({ text = "hello, how are you" }) => {
+const SmoothTextReveal = ({ text = "hello, how are you " }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-
-
 
   const endRef = useRef(null);
 
   useEffect(() => {
     if (endRef.current) {
-      endRef.current.scrollIntoView({ behavior: 'smooth' });
+      endRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [displayedText]);
-
 
   useEffect(() => {
     if (currentIndex < text.length) {
@@ -28,10 +25,12 @@ const SmoothTextReveal = ({ text = "hello, how are you" }) => {
 
   return (
     <p
-      className={`scrollbar-hide font-Poppins  overflow-y-scroll h-56  mx-auto flex items-center  text-white text-2xl leading-[28.8px] font-semibold text-left`}
+      className={`scrollbar-hide font-Poppins  overflow-y-scroll h-56 md:h-44 2xl:h-60 mx-auto md:mx-0 flex flex-col items-center  text-white text-2xl leading-[28.8px] md:text-lg  md:leading-6 font-semibold text-left`}
     >
       {displayedText}
-      <span ref={endRef} />
+      <span className="invisible" ref={endRef}>
+        |
+      </span>
     </p>
   );
 };
