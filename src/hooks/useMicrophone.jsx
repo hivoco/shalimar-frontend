@@ -5,8 +5,8 @@ export const useMicrophone = () => {
   const micOpenSound = useRef(new Audio("/sounds/startmic.wav")); // Replace with correct path
   const micOffSound = useRef(new Audio("/sounds/endmic.wav")); // Replace with correct path
   const mediaStreamRef = useRef(null);
-  micOpenSound.current.volume = 0.05;
-  micOffSound.current.volume = 0.05;
+  micOpenSound.current.volume = 0.01;
+  micOffSound.current.volume = 0.01;
 
   // Function to open the microphone
   const openMic = async () => {
