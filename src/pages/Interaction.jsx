@@ -7,10 +7,8 @@ import SelectLanguage from "../components/SelectLanguage";
 import SmoothTextReveal from "../components/TextReveal";
 import Survey from "./Survey";
 import Interrupt from "../components/Interrupt";
-import { useMicrophone } from "../hooks/useMicrophone";
 
 function Interaction({ platform }) {
-  const { openMic, closeMic } = useMicrophone();
   const {
     startSpeechRecognition,
     stopSpeechRecognition,
@@ -155,7 +153,8 @@ function Interaction({ platform }) {
 
   const enter = async () => {
     let value = speechText.trim();
-
+    console.log("value", value);
+    // stopSpeechRecognition();
     if (value) {
       console.log("send text to backend");
       sendTextToBackend(value);
@@ -170,7 +169,6 @@ function Interaction({ platform }) {
   };
 
   function handleAudioEnd() {
-    openMic();
     startSpeechRecognition();
     setIsVideoRendering(false);
     setIsUserSpeaking(true);
@@ -180,7 +178,6 @@ function Interaction({ platform }) {
 
   if (hasRecognitionEnded) {
     setTimeout(() => {
-      closeMic();
       setIsUserSpeaking(false);
     }, 1 * 1000);
 
@@ -216,9 +213,9 @@ function Interaction({ platform }) {
     <div
       className={`${
         isVideoRendering
-          ? "parent before:backdrop-blur-xl md:before:backdrop-blur-none h-screen flex flex-col items-center justify-center gap-16 md:gap-5 "
+          ? "parent before:backdrop-blur-xl md:before:backdrop-blur-none h-screen flex flex-col items-center justify-center gap-16 md:gap-5"
           : ""
-      } w-full h-svh md:h-[98vh] flex flex-col overflow-hidden `}
+      } w-full h-svh md:h-[98vh] flex flex-col overflow-hidden`}
     >
       <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
 
@@ -346,7 +343,13 @@ function Interaction({ platform }) {
                     />
                   </div> */}
                   <div className="w-full  h-36 flex  items-center justify-center  ">
-                    <div className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full ">
+                    <div
+                      // onClick={() => {
+                      //   !isAPIStillCalling && setIsUserSpeaking(true);
+                      //   startRecording();
+                      // }}
+                      className="relative w-28 h-28 2xl:w-[120px] 2xl:h-[120px] overflow-hidden border-4 border-white rounded-full"
+                    >
                       <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
 
                       <div className="absolute inset-0 flex justify-center items-center">
@@ -380,17 +383,16 @@ function Interaction({ platform }) {
                   /> */}
                   <div
                     onClick={() => !isUserSpeaking && handleAudioEnd()}
-                    className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full "
+                    className="relative w-[100px] h-[100px]  md:w-[90px] md:h-[90px] md:aspect-square overflow-hidden border-4 border-white rounded-full"
                   >
-                    <div className=" absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
 
                     <div className="absolute inset-0 flex justify-center items-center">
                       <p className="text-white text-2xl font-bold">
-                        <img
-                          className="h-11 object-contain animate-scale"
-                          src="/images/VectorMIC.png"
-                          alt="mic gif"
-                        />
+                        <i
+                          className="fa fa-microphone"
+                          style={{ fontSize: "35px", color: "white" }}
+                        ></i>
                       </p>
                     </div>
                   </div>
