@@ -124,7 +124,7 @@ function IOSInteraction({ platform }) {
   };
 
   useEffect(() => {
-    if (recordingTime > 4) {
+    if (recordingTime > 6) {
       closeMic();
       stopRecording(); // Stop recording after 4 seconds
       setIsUserSpeaking(false); // Reset speaking state
