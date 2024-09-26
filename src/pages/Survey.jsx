@@ -171,16 +171,11 @@ const Survey = ({
                 <span
                   onClick={() => handleOptionClick(option)}
                   key={index}
-<<<<<<< HEAD
-                  className={`flex text-nowrap items-center justify-center   text-center   font-Poppins text-base font-medium leading-[22.4px]  text-white
-              bg-white/40   w-full max-h-16 h-16  rounded-lg px-20 ${
-=======
                   className={`
                     flex text-nowrap items-center justify-center   text-center   font-Poppins text-base font-medium leading-[22.4px]  text-white
               bg-white/40   w-full max-h-16 h-16 md:max-h-12 md:h-12  rounded-lg px-20
               
               ${
->>>>>>> dd29920973cdaca4434ddeabc1a2d8626095b76c
                 option === selectedOption &&
                 "bg-[#494949]/50 shadow-[0px_1.66px_4.97px_0px_#0000001A] border-white "
               } `}

@@ -6,8 +6,8 @@ import SelectLanguage from "../components/SelectLanguage";
 import SmoothTextReveal from "../components/TextReveal";
 import Survey from "./Survey";
 import useVoiceRecorder from "../hooks/useVoiceRecorder";
-import blobToBase64 from "../js/blobToBase.js";
-import debounce from "../js/debounce.js";
+import blobToBase64 from "../js/blobToBase.jsx";
+import debounce from "../js/debounce.jsx";
 import Interrupt from "../components/Interrupt.jsx";
 import { useMicrophone } from "../hooks/useMicrophone.jsx";
 

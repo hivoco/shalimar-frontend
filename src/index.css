@@ -27,20 +27,20 @@ body {
 
 
 .parent{
-  background: #877F7F15;
+  background: black;
 }
 
-.parent::before {
+/* .parent::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: inherit;
+  background: inherit; */
   /* backdrop-filter: blur(30px); */
-  z-index: 1;
-}
+  /* z-index: 1;
+} */
 
 .child {
   position: relative;

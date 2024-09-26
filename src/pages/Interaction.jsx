@@ -216,12 +216,11 @@ function Interaction({ platform }) {
     <div
       className={`${
         isVideoRendering
-          ? "parent before:backdrop-blur-xl md:before:backdrop-blur-none h-screen flex flex-col items-center justify-center gap-16 md:gap-5"
+          ? "parent before:backdrop-blur-xl md:before:backdrop-blur-none h-screen flex flex-col items-center justify-center gap-16 md:gap-5 "
           : ""
-      } w-full h-svh md:h-[98vh] flex flex-col overflow-hidden`}
+      } w-full h-svh md:h-[98vh] flex flex-col overflow-hidden `}
     >
-
-    <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
+      <audio ref={audioRef} onEnded={handleAudioEnd} className="hidden"></audio>
 
       {/* video ui elements */}
       <video
@@ -229,7 +228,7 @@ function Interaction({ platform }) {
           isVideoRendering
             ? " md:h-auto w-full opacity-100 child"
             : "opacity-0 hidden pointer-events-none"
-        }  object-cover self-center aspect-video inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
+        }  object-cover self-center  inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
         // onEnded={}
         loop
         muted
@@ -242,8 +241,6 @@ function Interaction({ platform }) {
 
       <div className="flex flex-col items-center gap-11 md:gap-6 child">
         {isVideoRendering && currentSubtitle.length > 0 && (
-   
-          
           <div className="text-center text-xl bg-black/50 text-white  md:text-base w-screen md:w-80 p-[10px] flex justify-center">
             {currentSubtitle}
           </div>
@@ -276,11 +273,15 @@ function Interaction({ platform }) {
           className={`  w-full h-full flex flex-col ${
             isVideoRendering ? "hidden" : ""
           }   ${
-            isUserSpeaking ? "md:m-0 gap-20 md:gap-4 xl:gap-20" : "gap-y-8 md:gap-y-5 2xl:gap-12"
+            isUserSpeaking
+              ? "md:m-0 gap-20 md:gap-4 xl:gap-20"
+              : "gap-y-8 md:gap-y-5 2xl:gap-12"
           }`}
         >
           <div
-            className={`flex flex- flex-col gap-y-10 md:gap-y-2 xl:gap-y-8 2xl:gap-y-12 px-9 md:w-full  ${superText && !isVideoRendering && "2xl:gap-y-16"} `}
+            className={`flex flex- flex-col gap-y-10 md:gap-y-2 xl:gap-y-8 2xl:gap-y-12 px-9 md:w-full  ${
+              superText && !isVideoRendering && "2xl:gap-y-16"
+            } `}
           >
             <div className={` flex flex1 items-center justify-center  `}>
               <img
@@ -319,13 +320,15 @@ function Interaction({ platform }) {
                 isStopImgVisible={isStopImgVisible}
               />
             )}
-
           </div>
 
           {/* move bucket downward */}
           <div
             className={`flex flex-1 flex-col
-              ${isUserSpeaking ? "gap-y-12 2xl:gap-y-12 " : "gap-y-4 2xl:gap-0"}`}x
+              ${
+                isUserSpeaking ? "gap-y-12 2xl:gap-y-12 " : "gap-y-4 2xl:gap-0"
+              }`}
+            x
           >
             {isUserSpeaking ? (
               <div className=" botIsListening flex flex-1 flex-col gap-y-8 md:gap-12">
@@ -343,17 +346,7 @@ function Interaction({ platform }) {
                     />
                   </div> */}
                   <div className="w-full  h-36 flex  items-center justify-center  ">
-<<<<<<< HEAD
                     <div className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full ">
-=======
-                    <div
-                      // onClick={() => {
-                      //   !isAPIStillCalling && setIsUserSpeaking(true);
-                      //   startRecording();
-                      // }}
-                      className="relative w-28 h-28 2xl:w-[120px] 2xl:h-[120px] overflow-hidden border-4 border-white rounded-full"
-                    >
->>>>>>> dd29920973cdaca4434ddeabc1a2d8626095b76c
                       <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
 
                       <div className="absolute inset-0 flex justify-center items-center">
@@ -387,11 +380,7 @@ function Interaction({ platform }) {
                   /> */}
                   <div
                     onClick={() => !isUserSpeaking && handleAudioEnd()}
-<<<<<<< HEAD
                     className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full "
-=======
-                    className="relative w-[100px] h-[100px]  md:w-[90px] md:h-[90px] md:aspect-square overflow-hidden border-4 border-white rounded-full"
->>>>>>> dd29920973cdaca4434ddeabc1a2d8626095b76c
                   >
                     <div className=" absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
 
