@@ -99,7 +99,7 @@ function Interaction({ platform }) {
     try {
       let response = await fetch(
         // "http://192.168.186.175:8701/api/interactivedemos/process",
-        "https://hongs-hindi.interactivedemos.io/api/interactivedemos/process",
+        "https://shalimar.interactivedemos.io/api/interactivedemos/process",
         {
           method: "POST",
           headers: {
