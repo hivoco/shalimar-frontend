@@ -123,15 +123,13 @@ function IOSInteraction({ platform }) {
     }
   };
 
-
   useEffect(() => {
     if (recordingTime > 4) {
-      closeMic()
+      closeMic();
       stopRecording(); // Stop recording after 4 seconds
       setIsUserSpeaking(false); // Reset speaking state
     }
   }, [recordingTime]);
-
 
   const sendTextToBackend = debounce(async (text) => {
     setIsAPIStillCalling(true);
@@ -238,7 +236,7 @@ function IOSInteraction({ platform }) {
           setSuperText("");
           setIsVideoRendering(false);
           setIsUserSpeaking(true);
-          openMic()
+          openMic();
           startRecording();
           setSuperText("");
         }}
@@ -250,7 +248,7 @@ function IOSInteraction({ platform }) {
           isVideoRendering
             ? " md:h-auto w-full opacity-100 child"
             : "opacity-0 hidden pointer-events-none"
-        }  object-cover self-center aspect-video inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
+        }  object-cover self-center  inset-0 transition-opacity duration-[2000ms] ease-in-out opacity-100`}
         // onEnded={}
         loop
         muted
@@ -282,7 +280,7 @@ function IOSInteraction({ platform }) {
                 setIsUserSpeaking(true);
                 setIsVideoRendering(false);
                 setSuperText("");
-                openMic()
+                openMic();
                 startRecording();
               }, 500);
             }}
@@ -343,7 +341,7 @@ function IOSInteraction({ platform }) {
                       setIsUserSpeaking(true);
                       // setIsVideoRendering(false);
                       setSuperText("");
-                      openMic()
+                      openMic();
                       startRecording();
                     }, 500);
                   }}
@@ -378,7 +376,7 @@ function IOSInteraction({ platform }) {
                     <div
                       onClick={() => {
                         !isAPIStillCalling && setIsUserSpeaking(true);
-                        openMic()
+                        openMic();
                         startRecording();
                       }}
                       className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full"
@@ -408,7 +406,7 @@ function IOSInteraction({ platform }) {
                   <div
                     onClick={() => {
                       !isAPIStillCalling && setIsUserSpeaking(true);
-                      openMic()
+                      openMic();
                       startRecording();
                     }}
                     className="relative w-28 h-28 overflow-hidden border-4 border-white rounded-full"
