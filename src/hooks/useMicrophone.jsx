@@ -1,12 +1,18 @@
 // useMicrophone.js
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 export const useMicrophone = () => {
   const micOpenSound = useRef(new Audio("/sounds/startmic.wav")); // Replace with correct path
   const micOffSound = useRef(new Audio("/sounds/endmic.wav")); // Replace with correct path
   const mediaStreamRef = useRef(null);
-  micOpenSound.current.volume = 0.01;
-  micOffSound.current.volume = 0.01;
+
+  // Set volume when component mounts
+  useEffect(() => {
+    if (micOpenSound.current && micOffSound.current) {
+      micOpenSound.current.volume = 0.1;
+      micOffSound.current.volume = 0.1;
+    }
+  }, []); // Empty dependency array means this runs once when component mounts
 
   // Function to open the microphone
   const openMic = async () => {
