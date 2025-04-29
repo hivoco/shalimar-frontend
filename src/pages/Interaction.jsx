@@ -119,7 +119,7 @@ function Interaction({ platform }) {
       playAudio(data?.audio);
       setCurrentSubtitle("");
       setSentence(data.answer);
-      displayVideo("/panda_sample.mp4");
+      // displayVideo("/panda_sample.mp4");
       // displayVideo(
       //   "https://videoforinteractivedemons.s3.ap-south-1.amazonaws.com/shalimar_hero/antiviral.mp4"
       // );
