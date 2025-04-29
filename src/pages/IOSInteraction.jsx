@@ -136,7 +136,7 @@ function IOSInteraction({ platform }) {
     try {
       let response = await fetch(
         // "http://192.168.186.175:8701/api/interactivedemos/process",
-        "https://hongs-hindi.interactivedemos.io/api/interactivedemos/process",
+        "https://cruncha.querease.ai/api/interactivedemos/process",
         {
           method: "POST",
           headers: {
@@ -156,7 +156,7 @@ function IOSInteraction({ platform }) {
       playAudio(data?.audio);
       setCurrentSubtitle("");
       setSentence(data.answer);
-      data?.video_link && displayVideo(data?.video_link);
+      displayVideo("/panda_sample.mp4");
       setSuperText(data.answer);
       // setSuperText(data?.key_word?data?.key_word:"")
       setIsFirstAPICall(false);

@@ -62,12 +62,12 @@ function Location() {
   const handleClick = () => {
     if (pinCode) {
       const pinCoordinate =
-        "https://hongs-hindi.interactivedemos.io/api/location/pin_get_coordinate";
+        "https://cruncha.querease.ai/api/location/pin_get_coordinate";
       // {"pincode" : 263641}
       sendLocationToBackend(pinCoordinate, { pincode: pinCode });
     } else if (currectaddress) {
       const urlCoordinate =
-        "https://hongs-hindi.interactivedemos.io/api/location/get_coordinate";
+        "https://cruncha.querease.ai/api/location/get_coordinate";
       sendLocationToBackend(urlCoordinate, latAndLan);
     }
   };

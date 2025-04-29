@@ -99,7 +99,7 @@ function Interaction({ platform }) {
     try {
       let response = await fetch(
         // "http://192.168.186.175:8701/api/interactivedemos/process",
-        "https://hongs-hindi.interactivedemos.io/api/interactivedemos/process",
+        "https://cruncha.querease.ai/api/interactivedemos/process",
         {
           method: "POST",
           headers: {
@@ -119,7 +119,7 @@ function Interaction({ platform }) {
       playAudio(data?.audio);
       setCurrentSubtitle("");
       setSentence(data.answer);
-      data?.video_link && displayVideo(data?.video_link);
+      displayVideo("/panda_sample.mp4");
       // displayVideo(
       //   "https://videoforinteractivedemons.s3.ap-south-1.amazonaws.com/shalimar_hero/antiviral.mp4"
       // );
@@ -393,36 +393,6 @@ function Interaction({ platform }) {
                     Tap on mic to interact
                   </p>
                 </div>
-                // <div
-                //   className={` w-full flex flex-1 flex-col gap-y-5 md:gap-y-4  2xl:gap-6 items-center
-                //  `}
-                // >
-                //   {/* <img
-                //     onClick={() => !isUserSpeaking && handleAudioEnd()}
-                //     className="max-h-[7.5rem] md:max-h-28"
-                //     src="/gif/mic icon.gif"
-                //     alt="mic gif"
-                //   /> */}
-                //   <div
-                //     onClick={() => !isUserSpeaking && handleAudioEnd()}
-                //     className="relative w-[100px] h-[100px]  md:w-[90px] md:h-[90px] md:aspect-square overflow-hidden border-4 border-white rounded-full"
-                //   >
-                //     <div className="absolute inset-0 bg-gradient-to-tr from-yellow-400 via-red-400 to-purple-500 animate-gradient-rotate "></div>
-
-                //     <div className="absolute inset-0 flex justify-center items-center">
-                //       <p className="text-white text-2xl font-bold">
-                //         <i
-                //           className="fa fa-microphone"
-                //           style={{ fontSize: "35px", color: "white" }}
-                //         ></i>
-                //       </p>
-                //     </div>
-                //   </div>
-
-                //   <p className="font-Poppins text-base leading-[22.4px] text-center text-white">
-                //     Tap on mic to interact
-                //   </p>
-                // </div>
               )
             )}
 

@@ -18,7 +18,7 @@ const Survey = ({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://hongs-hindi.interactivedemos.io/api/first_question"
+          "https://cruncha.querease.ai/api/first_question"
           // "http://192.168.1.9:8701/api/first_question"
         );
         if (!response.ok) {
@@ -109,7 +109,7 @@ const Survey = ({
 
     try {
       const res = await fetch(
-        "https://hongs-hindi.interactivedemos.io/api/next_question",
+        "https://cruncha.querease.ai/api/next_question",
         // "http://192.168.1.9:8701/api/next_question",
 
         {
