@@ -156,7 +156,9 @@ function IOSInteraction({ platform }) {
       playAudio(data?.audio);
       setCurrentSubtitle("");
       setSentence(data.answer);
-      displayVideo(data.video_link);
+      if(data.video_link){
+        displayVideo(data.video_link);
+      }
       setSuperText(data.answer);
       // setSuperText(data?.key_word?data?.key_word:"")
       setIsFirstAPICall(false);

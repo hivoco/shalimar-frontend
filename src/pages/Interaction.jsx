@@ -119,10 +119,9 @@ function Interaction({ platform }) {
       playAudio(data?.audio);
       setCurrentSubtitle("");
       setSentence(data.answer);
-      // displayVideo("/panda_sample.mp4");
-      // displayVideo(
-      //   "https://videoforinteractivedemons.s3.ap-south-1.amazonaws.com/shalimar_hero/antiviral.mp4"
-      // );
+      if (data.video_link) {
+        displayVideo(data.video_link);
+      }
       setSuperText(data.answer);
       setConvoNumber(data?.audio ? convoNumber + 1 : convoNumber);
       setIsFirstAPICall(false);
